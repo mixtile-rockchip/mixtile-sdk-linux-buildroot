@@ -35,8 +35,8 @@ define TRIGGERHAPPY_INSTALL_TARGET_CMDS
 endef
 
 define TRIGGERHAPPY_INSTALL_INIT_SYSV
-	$(INSTALL) -m 0755 -D package/triggerhappy/S10triggerhappy \
-		$(TARGET_DIR)/etc/init.d/S10triggerhappy
+	$(INSTALL) -m 0755 -D package/triggerhappy/S99triggerhappy \
+		$(TARGET_DIR)/etc/init.d/S99triggerhappy
 endef
 
 define TRIGGERHAPPY_INSTALL_INIT_SYSTEMD
