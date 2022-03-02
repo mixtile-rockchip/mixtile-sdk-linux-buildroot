@@ -30,6 +30,14 @@ BLUEZ5_UTILS_CONF_OPTS = \
 	--disable-lsan \
 	--disable-ubsan \
 	--disable-pie \
+	--disable-bap\
+	--disable-mcp\
+	--disable-ccp\
+	--disable-vcp\
+	--disable-bap\
+	--disable-bass\
+	--disable-micp\
+	--disable-csip\
 	--with-dbusconfdir=/usr/share \
 	--localstatedir=/data
 
