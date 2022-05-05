@@ -730,6 +730,7 @@ SYSTEMD_TARGET_FINALIZE_HOOKS += \
 	SYSTEMD_INSTALL_NSSCONFIG_HOOK \
 	SYSTEMD_INSTALL_RESOLVCONF_HOOK
 
+ifneq ($(BR2_TARGET_SERIAL_SHELL_GETTY),)
 ifneq ($(call qstrip,$(BR2_TARGET_GENERIC_GETTY_PORT)),)
 # systemd provides multiple units to autospawn getty as needed
 # * getty@.service to start a getty on normal TTY
@@ -780,6 +781,21 @@ define SYSTEMD_INSTALL_SERVICE_TTY
 		$(SED) 's/115200/$(BR2_TARGET_GENERIC_GETTY_BAUDRATE),115200/' $(TARGET_DIR)/lib/systemd/system/container-getty@.service; \
 	fi
 endef
+endif
+else
+ifneq ($(BR2_TARGET_SERIAL_SHELL_NONE),)
+define SYSTEMD_INSTALL_SERVICE_TTY
+	$(RM) -f $(TARGET_DIR)/usr/lib/systemd/system/serial-getty@.service
+endef
+else ifneq ($(BR2_TARGET_SERIAL_SHELL_LOGIN),)
+define SYSTEMD_INSTALL_SERVICE_TTY
+	$(SED) "s~\(^ExecStart=.*\)~# \1\nExecStart=-/bin/sh -c '/bin/login </dev/%I >/dev/%I 2>\&1'~" $(TARGET_DIR)/usr/lib/systemd/system/serial-getty@.service
+endef
+else ifneq ($(BR2_TARGET_SERIAL_SHELL_SH),)
+define SYSTEMD_INSTALL_SERVICE_TTY
+	$(SED) "s~\(^ExecStart=.*\)~# \1\nExecStart=-/bin/sh -c '/bin/sh -l </dev/%I >/dev/%I 2>\&1'~" $(TARGET_DIR)/usr/lib/systemd/system/serial-getty@.service
+endef
+endif
 endif
 
 define SYSTEMD_INSTALL_PRESET
