@@ -7,7 +7,12 @@
 # Generate version string using:
 #   git describe --match 'glibc-*' --abbrev=40 origin/release/MAJOR.MINOR/master | cut -d '-' -f 2-
 # When updating the version, please also update localedef
+ifeq ($(BR2_PACKAGE_GLIBC_2_28),y)
+GLIBC_VERSION = 2.28-69-g1e5c5303a522764d7e9d2302a60e4a32cdb902f1
+else
 GLIBC_VERSION = 2.42-67-g4ebd33dd77eabe8d4c45232bed4b42a31d2f9edc
+endif
+
 GLIBC_SITE = https://sourceware.org/git/glibc.git
 GLIBC_SITE_METHOD = git
 
@@ -19,8 +24,10 @@ GLIBC_CPE_ID_VENDOR = gnu
 # allow proper matching with the CPE database.
 GLIBC_CPE_ID_VERSION = $(word 1, $(subst -,$(space),$(GLIBC_VERSION)))
 
+ifeq ($(BR2_PACKAGE_GLIBC_LATEST),y)
 # Fixed by glibc-2.41-64-g1e16d0096d80a6e12d5bfa8e0aafdd13c47efd65
 GLIBC_IGNORE_CVES += CVE-2025-8058
+endif
 
 # Fixed by glibc-2.42-49-gb0ec8fb689df862171f0f78994a3bdeb51313545
 GLIBC_IGNORE_CVES += CVE-2026-0861
@@ -175,10 +182,16 @@ define GLIBC_CONFIGURE_CMDS
 		--disable-werror \
 		--without-gd \
 		--with-headers=$(STAGING_DIR)/usr/include \
-		$(if $(BR2_aarch64)$(BR2_aarch64_be),--enable-mathvec) \
 		$(GLIBC_CONF_OPTS))
 	$(GLIBC_ADD_MISSING_STUB_H)
 endef
+
+ifeq ($(BR2_TOOLCHAIN_GCC_AT_LEAST_10),y)
+ifneq ($(BR2_PACKAGE_GLIBC_LATEST)$(BR2_x86_64),)
+GLIBC_CONF_OPTS += \
+	$(if $(BR2_aarch64)$(BR2_aarch64_be),--enable-mathvec)
+endif
+endif
 
 define GLIBC_POST_STAGING_INSTALL
 	$(INSTALL) -D -m 0755 $(@D)/build/nis/libnsl.so* \
@@ -191,10 +204,19 @@ GLIBC_POST_INSTALL_STAGING_HOOKS += GLIBC_POST_STAGING_INSTALL
 # to install the libraries, and nothing more.
 #
 
+ifeq ($(BR2_PACKAGE_GLIBC_LATEST),y)
 GLIBC_LIBS_LIB = \
 	ld*.so.* libanl.so.* libc.so.* libdl.so.* libgcc_s.so.* \
 	libnsl.so.* libm.so.* libpthread.so.* libresolv.so.* librt.so.* \
 	libutil.so.* libnss_files.so.* libnss_dns.so.* libmvec.so.*
+else
+# Drop since 2.39
+GLIBC_CONF_OPTS += --enable-crypt
+GLIBC_LIBS_LIB = \
+	ld*.so.* libanl.so.* libc.so.* libcrypt.so.* libdl.so.* libgcc_s.so.* \
+	libnsl.so.* libm.so.* libpthread.so.* libresolv.so.* librt.so.* \
+	libutil.so.* libnss_files.so.* libnss_dns.so.* libmvec.so.*
+endif
 
 ifeq ($(BR2_PACKAGE_GDB),y)
 GLIBC_LIBS_LIB += libthread_db.so.*
