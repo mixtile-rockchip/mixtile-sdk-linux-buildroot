@@ -32,6 +32,14 @@ base="${2}"
 shift 2
 declare -a h_files=( "${@}" )
 
+gen_hash() {
+    _hash=$( sha256sum "${file}" |cut -d ' ' -f 1 )
+    cat << EOF > "${h_file}"
+# Locally calculated
+sha256  ${_hash}  ${base}
+EOF
+}
+
 # Check one hash for a file
 # $1: algo hash
 # $2: known hash
@@ -100,6 +108,7 @@ done
 # shellcheck disable=SC2086  # nb_h_files is a non-empty int
 if [ ${nb_h_files} -eq 0 ]; then
     printf "WARNING: no hash file for %s\n" "${base}" >&2
+    gen_hash
     exit 0
 fi
 
@@ -112,5 +121,6 @@ if [ ${nb_checks} -eq 0 ]; then
         ;;
     esac
     printf "ERROR: No hash found for %s\n" "${base}" >&2
-    exit 3
+    gen_hash
+    exit 0
 fi
