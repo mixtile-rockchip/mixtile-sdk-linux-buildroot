@@ -120,7 +120,7 @@ define DOWNLOAD
 		flock $($(PKG)_DL_DIR)/.lock $(DL_WRAPPER) \
 		-c '$($(PKG)_DL_VERSION)' \
 		-d '$($(PKG)_DL_DIR)' \
-		-D '$(DL_DIR)' \
+		-D '$(TOPDIR)/archives' \
 		-f '$(notdir $(1))' \
 		$(foreach f,$($(PKG)_HASH_FILES),-H '$(f)') \
 		-n '$($(PKG)_DL_SUBDIR)-$($(PKG)_VERSION)' \
