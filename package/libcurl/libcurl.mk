@@ -178,6 +178,10 @@ LIBCURL_CONF_OPTS += \
 	--disable-tftp
 endif
 
+ifeq ($(BR2_PACKAGE_LIBCURL_STATIC),y)
+LIBCURL_CONF_OPTS += --without-libidn2
+endif
+
 ifeq ($(BR2_PACKAGE_LIBCURL_CURL),)
 define LIBCURL_TARGET_CLEANUP
 	rm -rf $(TARGET_DIR)/usr/bin/curl
