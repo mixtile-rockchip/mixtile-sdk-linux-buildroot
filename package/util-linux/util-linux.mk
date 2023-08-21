@@ -299,7 +299,7 @@ endif
 
 ifeq ($(BR2_PACKAGE_READLINE),y)
 UTIL_LINUX_CONF_OPTS += --with-readline
-UTIL_LINUX_LINK_LIBS += $(if $(BR2_STATIC_LIBS),-lcurses)
+UTIL_LINUX_LINK_LIBS += $(if $(BR2_STATIC_LIBS)$(BR2_PACKAGE_UTIL_LINUX_STATIC),-lcurses)
 UTIL_LINUX_DEPENDENCIES += readline
 else
 UTIL_LINUX_CONF_OPTS += --without-readline
