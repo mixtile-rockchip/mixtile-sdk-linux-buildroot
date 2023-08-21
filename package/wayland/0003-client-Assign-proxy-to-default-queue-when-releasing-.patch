@@ -1,0 +1,78 @@
+From 47a924eb299a7dfbedd6eb0fa376778cfd82798c Mon Sep 17 00:00:00 2001
+From: Jeffy Chen <jeffy.chen@rock-chips.com>
+Date: Mon, 21 Aug 2023 18:19:40 +0800
+Subject: [PATCH 3/3] client: Assign proxy to default queue when releasing the
+ attached one
+
+It's a bug to release a queue with proxies attached, but it doesn't
+deserve to die.
+
+Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
+---
+ src/wayland-client.c | 36 +++++++++++++++++++-----------------
+ 1 file changed, 19 insertions(+), 17 deletions(-)
+
+diff --git a/src/wayland-client.c b/src/wayland-client.c
+index ea6f849..414da89 100644
+--- a/src/wayland-client.c
++++ b/src/wayland-client.c
+@@ -304,6 +304,23 @@ destroy_queued_closure(struct wl_closure *closure)
+ 	wl_closure_destroy(closure);
+ }
+ 
++static void
++proxy_set_queue(struct wl_proxy *proxy, struct wl_event_queue *queue)
++{
++	wl_list_remove(&proxy->queue_link);
++
++	if (queue) {
++		if (!(proxy->display == queue->display))
++			wl_abort("Proxy and queue point to different "
++				 "wl_displays");
++		proxy->queue = queue;
++	} else {
++		proxy->queue = &proxy->display->default_queue;
++	}
++
++	wl_list_insert(&proxy->queue->proxy_list, &proxy->queue_link);
++}
++
+ static void
+ wl_event_queue_release(struct wl_event_queue *queue)
+ {
+@@ -331,9 +348,7 @@ wl_event_queue_release(struct wl_event_queue *queue)
+ 				       proxy->object.interface->name,
+ 				       proxy->object.id);
+ 			}
+-			proxy->queue = NULL;
+-			wl_list_remove(&proxy->queue_link);
+-			wl_list_init(&proxy->queue_link);
++			proxy_set_queue(proxy, NULL);
+ 		}
+ 	}
+ 
+@@ -2602,20 +2617,7 @@ WL_EXPORT void
+ wl_proxy_set_queue(struct wl_proxy *proxy, struct wl_event_queue *queue)
+ {
+ 	pthread_mutex_lock(&proxy->display->mutex);
+-
+-	wl_list_remove(&proxy->queue_link);
+-
+-	if (queue) {
+-		if (!(proxy->display == queue->display))
+-			wl_abort("Proxy and queue point to different "
+-				 "wl_displays");
+-		proxy->queue = queue;
+-	} else {
+-		proxy->queue = &proxy->display->default_queue;
+-	}
+-
+-	wl_list_insert(&proxy->queue->proxy_list, &proxy->queue_link);
+-
++	proxy_set_queue(proxy, queue);
+ 	pthread_mutex_unlock(&proxy->display->mutex);
+ }
+ 
+-- 
+2.39.5
+
