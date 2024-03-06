@@ -19,12 +19,17 @@
 
 include $(sort $(wildcard package/linux-tools/*.mk.in))
 
+ifneq ($(BR2_LINUX_KERNEL),)
 # Prevent the kernel from being compiled in parallel with linux-tools. The
 # kernel and some linux-tools (such as perf) use fixdep to manage kconfig
 # dependencies. There is a race condition where the kernel and linux-tools try
 # to build fixdep while the other tries to use fixdep, resulting in the use of
 # fixdep failing.
 LINUX_TOOLS_DEPENDENCIES = linux
+else
+# We only need the kernel to be extracted, not actually built
+LINUX_TOOLS_PATCH_DEPENDENCIES = linux
+endif
 
 # Install Linux kernel tools in the staging directory since some tools
 # may install shared libraries and headers (e.g. cpupower).
