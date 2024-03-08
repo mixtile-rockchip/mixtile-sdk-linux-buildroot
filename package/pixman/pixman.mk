@@ -26,6 +26,17 @@ PIXMAN_CONF_OPTS = \
 	-Dlibpng=disabled \
 	-Dtests=disabled
 
+ifeq ($(BR2_PREFER_ROCKCHIP_RGA),y)
+PIXMAN_DEPENDENCIES += rockchip-rga
+define PIXMAN_INSTALL_TARGET_ENV
+	echo "export PIXMAN_USE_RGA=1" > $(@D)/pixman.sh
+	$(INSTALL) -D -m 0644 $(@D)/pixman.sh \
+		$(TARGET_DIR)/etc/profile.d/pixman.sh
+endef
+
+PIXMAN_POST_INSTALL_TARGET_HOOKS += PIXMAN_INSTALL_TARGET_ENV
+endif
+
 ifeq ($(BR2_X86_CPU_HAS_MMX),y)
 PIXMAN_CONF_OPTS += -Dmmx=enabled
 else
