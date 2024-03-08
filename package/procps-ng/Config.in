@@ -23,4 +23,8 @@ config BR2_PACKAGE_PROCPS_NG_ORIGINAL_TOP
 	  Disable modern top layout, return to original top with
 	  detailed cpu usage.
 
+config BR2_PACKAGE_PROCPS_NG_STATIC
+	bool "Enable static"
+	default y if BR2_STATIC_LIBS
+
 endif
