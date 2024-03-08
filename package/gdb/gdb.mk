@@ -167,6 +167,10 @@ ifeq ($(BR2_PACKAGE_GDB_DEBUGGER),y)
 GDB_CONF_OPTS += \
 	--with-libgmp-prefix=$(STAGING_DIR)/usr
 GDB_DEPENDENCIES += gmp
+
+ifneq ($(BR2_STATIC_LIBS)$(BR2_PACKAGE_GDB_STATIC),)
+GDB_CONF_OPTS += --with-libgmp-type=static
+endif
 endif
 
 # mpfr is needed as a dependency to build full gdb
@@ -195,7 +199,7 @@ GDB_CONF_OPTS += --disable-build-with-cxx
 endif
 
 # inprocess-agent can't be built statically
-ifeq ($(BR2_STATIC_LIBS),y)
+ifneq ($(BR2_STATIC_LIBS)$(BR2_PACKAGE_GDB_STATIC),)
 GDB_CONF_OPTS += --disable-inprocess-agent
 endif
 
@@ -228,8 +232,22 @@ ifeq ($(BR2_PACKAGE_XZ),y)
 GDB_CONF_OPTS += --with-lzma
 GDB_CONF_OPTS += --with-liblzma-prefix=$(STAGING_DIR)/usr
 GDB_DEPENDENCIES += xz
+
+ifneq ($(BR2_STATIC_LIBS)$(BR2_PACKAGE_GDB_STATIC),)
+GDB_CONF_OPTS += --with-liblzma-type=static
+endif
+
 else
 GDB_CONF_OPTS += --without-lzma
+endif
+
+ifeq ($(BR2_PACKAGE_GDB_STATIC),y)
+GDB_CONF_ENV += CFLAGS="$(TARGET_CFLAGS) -static"
+GDB_CONF_ENV += CXXFLAGS="$(TARGET_CXXFLAGS) -static"
+GDB_CONF_ENV += FCFLAGS="$(TARGET_FCFLAGS) -static"
+GDB_CONF_ENV += LDFLAGS="$(TARGET_LDFLAGS) -static"
+GDB_CONF_OPTS += --disable-shared
+GDB_CONF_OPTS += --without-expat
 endif
 
 ifeq ($(BR2_PACKAGE_GDB_PYTHON),)
