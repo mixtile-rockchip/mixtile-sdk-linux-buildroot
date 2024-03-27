@@ -1,0 +1,51 @@
+From aaa1ab3dd10dfcd34e8c26cab5b4b98687554b2f Mon Sep 17 00:00:00 2001
+From: Jeffy Chen <jeffy.chen@rock-chips.com>
+Date: Wed, 27 Mar 2024 15:45:13 +0800
+Subject: [PATCH] stress-gpu.c: Fix compile error with EGL < 1.5
+
+Stop using EGL 1.5 APIs.
+
+Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
+---
+ stress-gpu.c | 11 +++++++++--
+ 1 file changed, 9 insertions(+), 2 deletions(-)
+
+diff --git a/stress-gpu.c b/stress-gpu.c
+index 0bccd4f..285444f 100644
+--- a/stress-gpu.c
++++ b/stress-gpu.c
+@@ -419,6 +419,9 @@ static int egl_init(
+ 		EGL_NONE
+ 	};
+ 
++	PFNEGLGETPLATFORMDISPLAYEXTPROC get_platform_display;
++	PFNEGLCREATEPLATFORMWINDOWSURFACEEXTPROC create_platform_window;
++
+ 	fd = open(gpu_devnode, O_RDWR);
+ 	if (fd < 0) {
+ 		pr_inf_skip("%s: couldn't open device '%s', errno=%d (%s), skipping stressor\n",
+@@ -433,7 +436,9 @@ static int egl_init(
+ 		return EXIT_NO_RESOURCE;
+ 	}
+ 
+-	display = eglGetPlatformDisplay(EGL_PLATFORM_GBM_KHR, gbm, NULL);
++	get_platform_display = (PFNEGLGETPLATFORMDISPLAYEXTPROC)
++		eglGetProcAddress("eglGetPlatformDisplayEXT");
++	display = get_platform_display(EGL_PLATFORM_GBM_KHR, gbm, NULL);
+ 	if (display == EGL_NO_DISPLAY) {
+ 		pr_inf_skip("%s: EGL: eglGetPlatformDisplay failed with vendor, skipping stressor\n", args->name);
+ 		(void)close(fd);
+@@ -464,7 +469,9 @@ static int egl_init(
+ 		return EXIT_NO_RESOURCE;
+ 	}
+ 
+-	surface = eglCreatePlatformWindowSurface(display, config, gs, NULL);
++	create_platform_window = (PFNEGLCREATEPLATFORMWINDOWSURFACEEXTPROC)
++		eglGetProcAddress("eglCreatePlatformWindowSurfaceEXT");
++	surface = create_platform_window(display, config, gs, NULL);
+ 	if (surface == EGL_NO_SURFACE) {
+ 		pr_inf("%s: EGL: Failed to allocate surface%s\n",
+ 			args->name, stress_memory_free_get());
+-- 
+2.39.5
+
