@@ -34,7 +34,9 @@ NCURSES_CONF_OPTS = \
 	--disable-stripping \
 	--with-pkg-config-libdir="/usr/lib/pkgconfig" \
 	$(if $(BR2_PACKAGE_NCURSES_TARGET_PROGS),,--without-progs) \
-	--without-manpages
+	--without-manpages \
+	--with-default-terminfo-dir=/etc/terminfo \
+	--with-terminfo-dirs="/etc/terminfo:/lib/terminfo:/usr/share/terminfo"
 
 ifeq ($(BR2_STATIC_LIBS),y)
 NCURSES_CONF_OPTS += --without-shared --with-normal
@@ -146,10 +148,11 @@ NCURSES_POST_INSTALL_TARGET_HOOKS += NCURSES_TARGET_SYMLINK_RESET
 endif
 
 define NCURSES_TARGET_CLEANUP_TERMINFO
-	$(RM) -rf $(TARGET_DIR)/usr/share/terminfo $(TARGET_DIR)/usr/share/tabset
+	$(RM) -rf $(TARGET_DIR)/etc/terminfo $(TARGET_DIR)/usr/share/terminfo \
+		$(TARGET_DIR)/usr/share/tabset
 	$(foreach t,$(NCURSES_TERMINFO_FILES), \
-		$(INSTALL) -D -m 0644 $(STAGING_DIR)/usr/share/terminfo/$(t) \
-			$(TARGET_DIR)/usr/share/terminfo/$(t)
+		$(INSTALL) -D -m 0644 $(STAGING_DIR)/etc/terminfo/$(t) \
+			$(TARGET_DIR)/etc/terminfo/$(t)
 	)
 endef
 NCURSES_POST_INSTALL_TARGET_HOOKS += NCURSES_TARGET_CLEANUP_TERMINFO
