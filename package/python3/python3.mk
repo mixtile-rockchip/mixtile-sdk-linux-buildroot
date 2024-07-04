@@ -32,7 +32,8 @@ HOST_PYTHON3_CONF_OPTS += \
 	--disable-tk \
 	--with-expat=system \
 	--disable-test-modules \
-	--disable-idle3
+	--disable-idle3 \
+	--disable-ipv6
 
 # Make sure that LD_LIBRARY_PATH overrides -rpath.
 # This is needed because libpython may be installed at the same time that
