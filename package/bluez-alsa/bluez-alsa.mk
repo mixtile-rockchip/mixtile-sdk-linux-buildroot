@@ -8,7 +8,7 @@ BLUEZ_ALSA_VERSION = 4.3.1
 BLUEZ_ALSA_SITE = $(call github,Arkq,bluez-alsa,v$(BLUEZ_ALSA_VERSION))
 BLUEZ_ALSA_LICENSE = MIT
 BLUEZ_ALSA_LICENSE_FILES = LICENSE
-BLUEZ_ALSA_DEPENDENCIES = alsa-lib bluez5_utils libglib2 sbc host-pkgconf
+BLUEZ_ALSA_DEPENDENCIES = alsa-lib bluez5_utils libglib2 sbc host-pkgconf spandsp
 
 # git repo, no configure
 BLUEZ_ALSA_AUTORECONF = YES
@@ -18,9 +18,12 @@ BLUEZ_ALSA_CONF_OPTS = \
 	--enable-aplay \
 	--enable-cli \
 	--enable-debug \
+	--enable-msbc \
 	--disable-debug-time \
 	--with-alsaplugindir=/usr/lib/alsa-lib \
 	--with-alsaconfdir=/etc/alsa/conf.d
+
+#BROADCOM CHIPS: SCO over PCM, --enable-sco2pcm
 
 ifeq ($(BR2_PACKAGE_ALSA_PLUGINS),y)
 BLUEZ_ALSA_DEPENDENCIES += alsa-plugins
