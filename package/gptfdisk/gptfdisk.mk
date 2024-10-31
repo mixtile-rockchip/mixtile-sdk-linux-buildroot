@@ -24,18 +24,20 @@ ifeq ($(BR2_PACKAGE_GPTFDISK_CGDISK),y)
 GPTFDISK_DEPENDENCIES += ncurses
 endif
 
-ifeq ($(BR2_STATIC_LIBS),y)
+ifneq ($(BR2_STATIC_LIBS)$(BR2_PACKAGE_GPTFDISK_STATIC),)
 # gptfdisk dependencies may link against libiconv, so we need to do so
 # as well when linking statically
 ifeq ($(BR2_PACKAGE_LIBICONV),y)
 GPTFDISK_DEPENDENCIES += libiconv
 GPTFDISK_LDLIBS += -liconv
 endif
+
+GPTFDISK_CXX += $(TARGET_CXX) -static
 endif
 
 define GPTFDISK_BUILD_CMDS
 	$(TARGET_MAKE_ENV) $(MAKE) $(TARGET_CONFIGURE_OPTS) -C $(@D) \
-		LDLIBS='$(GPTFDISK_LDLIBS)' \
+		LDLIBS='$(GPTFDISK_LDLIBS)' CXX='$(GPTFDISK_CXX)' \
 		SGDISK_LDLIBS='$(GPTFDISK_SGDISK_LDLIBS)' $(GPTFDISK_TARGETS_y)
 endef
 
