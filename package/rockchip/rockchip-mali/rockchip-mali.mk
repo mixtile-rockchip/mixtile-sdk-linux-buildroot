@@ -91,6 +91,7 @@ endif
 
 ifeq ($(BR2_PACKAGE_ROCKCHIP_MALI_HAS_WAYLAND),y)
 ROCKCHIP_MALI_PLATFORM += wayland
+ROCKCHIP_MALI_CONF_OPTS += -Dwayland-egl=false
 endif
 
 ifeq ($(BR2_PACKAGE_ROCKCHIP_MALI_HAS_GBM),y)
