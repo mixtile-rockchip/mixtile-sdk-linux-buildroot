@@ -73,7 +73,7 @@ else
 # OpenCL is enabled by default for DDK newer than utgard.
 ifeq ($(findstring utgard,$(ROCKCHIP_MALI_PLATFORM)),)
 ifeq ($(BR2_PACKAGE_ROCKCHIP_MALI_HAS_OPENCL),)
-ROCKCHIP_MALI_PLATFORM += without-cl
+ROCKCHIP_MALI_PLATFORM += nocl
 endif
 endif
 
@@ -100,7 +100,7 @@ endif
 
 # Minimal library only for OpenCL.
 ifeq ($(ROCKCHIP_MALI_PLATFORM)|$(BR2_PACKAGE_ROCKCHIP_MALI_HAS_OPENCL),|y)
-ROCKCHIP_MALI_PLATFORM = only-cl
+ROCKCHIP_MALI_PLATFORM = cl
 endif
 
 endif
