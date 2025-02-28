@@ -1,4 +1,4 @@
-From 2bd6c40b642d4af85e2c3190c74e460912b841aa Mon Sep 17 00:00:00 2001
+From 07c3822b594efe50e5fe62d0e8026221e0037756 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 21 Aug 2023 18:19:40 +0800
 Subject: [PATCH 3/3] client: Assign proxy to default queue when releasing the

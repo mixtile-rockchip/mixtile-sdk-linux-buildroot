@@ -1,4 +1,4 @@
-From a9e18ea04b505c4189517f82ae29be80a6a6237f Mon Sep 17 00:00:00 2001
+From e7679a44a99bfc00727a1e38ed7fc30293a9b6f2 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 18 Jul 2023 10:33:55 +0800
 Subject: [PATCH 2/3] wayland-client: Support waiting for socket when
