@@ -22,6 +22,11 @@ export WESTON_DRM_MIN_BUFFERS=2
 # Allow using drm modifier, e.g. ARM AFBC
 # export WESTON_ALLOW_GBM_MODIFIERS=1
 
+# Enable extra bindings
+# export WESTON_MOD_BINDING=1
+# export WESTON_KEY_BINDING=1
+# export WESTON_DEBUG_BINDING=1
+
 # Enable black background for fullscreen views
 # export WESTON_FULLSCREEN_BLACK_BACKGROUND=1
 
