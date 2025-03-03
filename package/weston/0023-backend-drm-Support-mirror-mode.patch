@@ -1,7 +1,7 @@
-From a7481a0a0e303e951644440f76c717d37d8434f7 Mon Sep 17 00:00:00 2001
+From b8df3be64001e5199d0486b00b292267ff79a5a4 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 19 Nov 2020 09:41:47 +0800
-Subject: [PATCH 023/101] backend-drm: Support mirror mode
+Subject: [PATCH 023/104] backend-drm: Support mirror mode
 
 Set env "WESTON_DRM_MIRROR" to enable mirror mode, and set env
 "WESTON_DRM_KEEP_RATIO" to keep the aspect ratio.
@@ -16,11 +16,12 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  libweston/backend-drm/drm.c           | 232 ++++++++++++-
  libweston/backend-drm/fb-convert.c    | 449 ++++++++++++++++++++++++++
  libweston/backend-drm/meson.build     |   4 +-
+ libweston/backend-drm/state-helpers.c |  20 ++
  libweston/backend-drm/state-propose.c |  23 +-
  libweston/compositor.c                |  24 +-
  libweston/input.c                     |  13 +-
  meson.build                           |   5 +
- 12 files changed, 764 insertions(+), 24 deletions(-)
+ 13 files changed, 784 insertions(+), 24 deletions(-)
  create mode 100644 libweston/backend-drm/fb-convert.c
 
 diff --git a/clients/desktop-shell.c b/clients/desktop-shell.c
@@ -951,6 +952,37 @@ index 002669e61..af8812f7a 100644
  ]
  
  if get_option('renderer-gl')
+diff --git a/libweston/backend-drm/state-helpers.c b/libweston/backend-drm/state-helpers.c
+index b85fe4230..a41cb719f 100644
+--- a/libweston/backend-drm/state-helpers.c
++++ b/libweston/backend-drm/state-helpers.c
+@@ -254,6 +254,26 @@ drm_plane_state_coords_for_paint_node(struct drm_plane_state *state,
+ 	state->dest_w = box->x2 - box->x1;
+ 	state->dest_h = box->y2 - box->y1;
+ 
++	// HACK: Based on drm.c's drm_output_render()
++	sxf1 = output->plane_bounds.x1;
++	syf1 = output->plane_bounds.y1;
++	if (output->plane_bounds.x2 && output->plane_bounds.y2) {
++		sxf2 = output->plane_bounds.x2 - sxf1;
++		syf2 = output->plane_bounds.y2 - syf1;
++	} else {
++		struct drm_mode *mode = to_drm_mode(output->base.current_mode);
++		sxf2 = mode->mode_info.hdisplay;
++		syf2 = mode->mode_info.vdisplay;
++	}
++	sxf2 /= output->base.current_mode->width;
++	syf2 /= output->base.current_mode->height;
++
++	// HACK: Convert with plane bounds
++	state->dest_x = state->dest_x * sxf2 + sxf1;
++	state->dest_y = state->dest_y * syf2 + syf1;
++	state->dest_w = state->dest_w * sxf2;
++	state->dest_h = state->dest_h * syf2;
++
+ 	/* Now calculate the source rectangle, by transforming the destination
+ 	 * rectangle by the output to buffer matrix. */
+ 	corners[0] = weston_matrix_transform_coord(
 diff --git a/libweston/backend-drm/state-propose.c b/libweston/backend-drm/state-propose.c
 index 1e62e2b46..7e8b57425 100644
 --- a/libweston/backend-drm/state-propose.c
