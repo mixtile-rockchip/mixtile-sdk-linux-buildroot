@@ -1,4 +1,4 @@
-From b8df3be64001e5199d0486b00b292267ff79a5a4 Mon Sep 17 00:00:00 2001
+From 012b161834da2dfaf750b319b6bd7aa13bef5563 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 19 Nov 2020 09:41:47 +0800
 Subject: [PATCH 023/104] backend-drm: Support mirror mode
@@ -17,11 +17,11 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  libweston/backend-drm/fb-convert.c    | 449 ++++++++++++++++++++++++++
  libweston/backend-drm/meson.build     |   4 +-
  libweston/backend-drm/state-helpers.c |  20 ++
- libweston/backend-drm/state-propose.c |  23 +-
+ libweston/backend-drm/state-propose.c |  30 +-
  libweston/compositor.c                |  24 +-
  libweston/input.c                     |  13 +-
  meson.build                           |   5 +
- 13 files changed, 784 insertions(+), 24 deletions(-)
+ 13 files changed, 784 insertions(+), 31 deletions(-)
  create mode 100644 libweston/backend-drm/fb-convert.c
 
 diff --git a/clients/desktop-shell.c b/clients/desktop-shell.c
@@ -984,7 +984,7 @@ index b85fe4230..a41cb719f 100644
  	 * rectangle by the output to buffer matrix. */
  	corners[0] = weston_matrix_transform_coord(
 diff --git a/libweston/backend-drm/state-propose.c b/libweston/backend-drm/state-propose.c
-index 1e62e2b46..7e8b57425 100644
+index 1e62e2b46..fae05131d 100644
 --- a/libweston/backend-drm/state-propose.c
 +++ b/libweston/backend-drm/state-propose.c
 @@ -55,6 +55,21 @@ static const char *const drm_output_propose_state_mode_as_string[] = {
@@ -1009,7 +1009,21 @@ index 1e62e2b46..7e8b57425 100644
  static const char *
  drm_propose_state_mode_to_string(enum drm_output_propose_state_mode mode)
  {
-@@ -434,7 +449,8 @@ drm_output_find_plane_for_view(struct drm_output_state *state,
+@@ -122,13 +137,6 @@ drm_output_try_paint_node_on_plane(struct drm_plane *plane,
+ 		goto out;
+ 	}
+ 
+-	/* Should've been ensured by weston_view_matches_entire_output. */
+-	if (plane->type == WDRM_PLANE_TYPE_PRIMARY) {
+-		assert(state->dest_x == 0 && state->dest_y == 0 &&
+-		       state->dest_w == (unsigned) output->base.current_mode->width &&
+-		       state->dest_h == (unsigned) output->base.current_mode->height);
+-	}
+-
+ 	/* We hold one reference for the lifetime of this function; from
+ 	 * calling drm_fb_get_from_paint_node() in
+ 	 * drm_output_prepare_plane_view(), so, we take another reference
+@@ -434,7 +442,8 @@ drm_output_find_plane_for_view(struct drm_output_state *state,
  			FAILURE_REASONS_FB_FORMAT_INCOMPATIBLE;
  		return NULL;
  	} else if (buffer->type == WESTON_BUFFER_SHM) {
@@ -1019,7 +1033,7 @@ index 1e62e2b46..7e8b57425 100644
  			pnode->try_view_on_plane_failure_reasons |=
  				FAILURE_REASONS_FB_FORMAT_INCOMPATIBLE;
  			return NULL;
-@@ -980,7 +996,10 @@ drm_assign_planes(struct weston_output *output_base)
+@@ -980,7 +989,10 @@ drm_assign_planes(struct weston_output *output_base)
  	drm_debug(b, "\t[repaint] preparing state for output %s (%lu)\n",
  		  output_base->name, (unsigned long) output_base->id);
  

@@ -1,7 +1,7 @@
-From 623183e4f7d8c5205650b1395404aa4bd3d388e0 Mon Sep 17 00:00:00 2001
+From 05b6927aea57500556758f8a4b4f7a2abe484358 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 23 Sep 2022 17:24:12 +0800
-Subject: [PATCH 060/101] HACK: Honour cursor-size config
+Subject: [PATCH 060/104] HACK: Honour cursor-size config
 
 By scaling the cursor surface.
 
@@ -77,10 +77,10 @@ index 10d6ae5cb..87c488b3a 100644
  	if (!res) {
  		weston_log("Failed to get drmModeRes\n");
 diff --git a/libweston/backend-drm/state-propose.c b/libweston/backend-drm/state-propose.c
-index 7e8b57425..e0d6b911f 100644
+index fae05131d..c71b842fc 100644
 --- a/libweston/backend-drm/state-propose.c
 +++ b/libweston/backend-drm/state-propose.c
-@@ -222,10 +222,8 @@ drm_output_prepare_cursor_paint_node(struct drm_output_state *output_state,
+@@ -215,10 +215,8 @@ drm_output_prepare_cursor_paint_node(struct drm_output_state *output_state,
  	    plane_state->src_h > (unsigned) device->cursor_height << 16 ||
  	    plane_state->src_w != plane_state->dest_w << 16 ||
  	    plane_state->src_h != plane_state->dest_h << 16) {
@@ -93,7 +93,7 @@ index 7e8b57425..e0d6b911f 100644
  	}
  
  	drm_output_set_cursor_view(output, ev);
-@@ -239,6 +237,28 @@ drm_output_prepare_cursor_paint_node(struct drm_output_state *output_state,
+@@ -232,6 +230,28 @@ drm_output_prepare_cursor_paint_node(struct drm_output_state *output_state,
  	 */
  	plane_state->fb = drm_fb_ref(output->gbm_cursor_fb[0]);
  
@@ -122,7 +122,7 @@ index 7e8b57425..e0d6b911f 100644
  	/* The cursor API is somewhat special: in cursor_bo_update(), we upload
  	 * a buffer which is always cursor_width x cursor_height, even if the
  	 * surface we want to promote is actually smaller than this. Manually
-@@ -248,11 +268,16 @@ drm_output_prepare_cursor_paint_node(struct drm_output_state *output_state,
+@@ -241,11 +261,16 @@ drm_output_prepare_cursor_paint_node(struct drm_output_state *output_state,
  	plane_state->dest_w = device->cursor_width;
  	plane_state->dest_h = device->cursor_height;
  
