@@ -2,7 +2,7 @@ CVR_APP_SITE = $(TOPDIR)/../app/cvr
 CVR_APP_SITE_METHOD = local
 
 # add dependencies
-CVR_APP_DEPENDENCIES = rkfsmk camera-engine-rkaiq rkadk rockchip-rga lvgl-v8.2.0
+CVR_APP_DEPENDENCIES = rkfsmk camera-engine-rkaiq rkadk rockchip-rga lvgl
 
 CVR_APP_INSTALL_STAGING = YES
 

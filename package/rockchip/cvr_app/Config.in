@@ -9,6 +9,8 @@ config BR2_PACKAGE_CVR_APP
 if BR2_PACKAGE_CVR_APP
 
 config BR2_PACKAGE_CVR_USE_AIQ
+
+
         bool "camera capture with rkaiq api"
         select BR2_PACKAGE_CAMERA_ENGINE_RKAIQ
         default n
@@ -23,7 +25,7 @@ config BR2_PACKAGE_CVR_FILE_CACHE
 
 config BR2_PACKAGE_CVR_LVGL
         bool "lvgl"
-        select BR2_PACKAGE_LVGL_V8_2_0
+        select BR2_PACKAGE_LVGL
         default n
         help
                 enable lvgl
