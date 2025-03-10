@@ -1,0 +1,4 @@
+# Board-agnostic headset path switch.
+# Fire on any codec extcon HEADPHONE state change; rk-audio-switch derives
+# the actual sound card at runtime and reads the state itself.
+SUBSYSTEM=="extcon", ACTION=="change", ENV{STATE}=="*HEADPHONE=*", RUN+="/usr/bin/rk-audio-switch"
