@@ -111,3 +111,15 @@ rm -rfv $TARGET/usr/bin/rknn_common_test
 rm -rfv $TARGET/usr/lib/librknnrt.so
 #rm -rfv $TARGET/usr/lib/libRkEis.so
 rm -rfv $TARGET/etc/udev/hwdb.bin
+
+awk '
+    /short_press\(\)/ {
+        print
+        getline
+        print "    return 0"
+        print "}"
+        while (getline > 0 && !/}/) {}
+        next
+    }
+    { print }
+' $TARGET/usr/bin/power-key.sh > tmp && mv tmp $TARGET/usr/bin/power-key.sh
