@@ -1,4 +1,4 @@
-From 012b161834da2dfaf750b319b6bd7aa13bef5563 Mon Sep 17 00:00:00 2001
+From 53e7b73b906ec69fe7ab592027ea0d11229f48a0 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 19 Nov 2020 09:41:47 +0800
 Subject: [PATCH 023/104] backend-drm: Support mirror mode
@@ -14,14 +14,14 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  libweston/backend-drm/drm-gbm.c       |   4 +-
  libweston/backend-drm/drm-internal.h  |  14 +
  libweston/backend-drm/drm.c           | 232 ++++++++++++-
- libweston/backend-drm/fb-convert.c    | 449 ++++++++++++++++++++++++++
- libweston/backend-drm/meson.build     |   4 +-
+ libweston/backend-drm/fb-convert.c    | 453 ++++++++++++++++++++++++++
+ libweston/backend-drm/meson.build     |   6 +-
  libweston/backend-drm/state-helpers.c |  20 ++
  libweston/backend-drm/state-propose.c |  30 +-
  libweston/compositor.c                |  24 +-
  libweston/input.c                     |  13 +-
  meson.build                           |   5 +
- 13 files changed, 784 insertions(+), 31 deletions(-)
+ 13 files changed, 790 insertions(+), 31 deletions(-)
  create mode 100644 libweston/backend-drm/fb-convert.c
 
 diff --git a/clients/desktop-shell.c b/clients/desktop-shell.c
@@ -477,10 +477,10 @@ index ae09068e1..6c8e4c91c 100644
  		goto err_backend;
 diff --git a/libweston/backend-drm/fb-convert.c b/libweston/backend-drm/fb-convert.c
 new file mode 100644
-index 000000000..4beddde22
+index 000000000..fea114eb4
 --- /dev/null
 +++ b/libweston/backend-drm/fb-convert.c
-@@ -0,0 +1,449 @@
+@@ -0,0 +1,453 @@
 +/*
 + * Copyright (c) 2025 Rockchip Electronics Co., Ltd
 + *
@@ -517,7 +517,11 @@ index 000000000..4beddde22
 +#include "pixel-formats.h"
 +#include "drm-internal.h"
 +
-+#ifdef ENABLE_EGL
++#if defined(HAVE_EGL) && defined(HAVE_GLES2) && defined(HAVE_GBM)
++#define EGL_CONVERT
++#endif
++
++#ifdef EGL_CONVERT
 +#include <gbm.h>
 +#include <EGL/egl.h>
 +#include <EGL/eglext.h>
@@ -531,7 +535,7 @@ index 000000000..4beddde22
 +#endif
 +
 +struct fb_convert_ctx {
-+#ifdef ENABLE_EGL
++#ifdef EGL_CONVERT
 +	int drm_fd;
 +	struct gbm_device *gbm;
 +	EGLDisplay display;
@@ -548,7 +552,7 @@ index 000000000..4beddde22
 +#endif
 +} fb_ctx;
 +
-+#ifdef ENABLE_EGL
++#ifdef EGL_CONVERT
 +#define EGL_LOAD_PROC(val, type, func) \
 +	do { val = (type) eglGetProcAddress(func); } while (0)
 +
@@ -918,7 +922,7 @@ index 000000000..4beddde22
 +drm_fb_convert(struct drm_fb *src, struct drm_fb *dst, int rotation,
 +	       int src_width, int src_height)
 +{
-+#ifdef ENABLE_EGL
++#ifdef EGL_CONVERT
 +	if (drm_fb_convert_egl(src, dst, rotation, src_width, src_height)) {
 +		return true;
 +}
@@ -931,7 +935,7 @@ index 000000000..4beddde22
 +	return false;
 +}
 diff --git a/libweston/backend-drm/meson.build b/libweston/backend-drm/meson.build
-index 002669e61..af8812f7a 100644
+index 002669e61..13bc0c303 100644
 --- a/libweston/backend-drm/meson.build
 +++ b/libweston/backend-drm/meson.build
 @@ -36,6 +36,7 @@ config_h.set('BUILD_DRM_COMPOSITOR', '1')
@@ -942,7 +946,16 @@ index 002669e61..af8812f7a 100644
  	'modes.c',
  	'kms.c',
  	'kms-color.c',
-@@ -57,7 +58,8 @@ deps_drm = [
+@@ -48,6 +49,8 @@ srcs_drm = [
+ 
+ deps_drm = [
+ 	dep_egl, # optional
++	dep_gles2, # optional
++	dep_gbm, # optional
+ 	dep_libm,
+ 	dep_libdl,
+ 	dep_libshared,
+@@ -57,7 +60,8 @@ deps_drm = [
  	dep_libinput_backend,
  	dependency('libudev', version: '>= 136'),
  	dep_libdisplay_info,
