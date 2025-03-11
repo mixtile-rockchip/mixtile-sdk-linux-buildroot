@@ -228,6 +228,7 @@ menu "Rockchip BSP packages"
 	source "package/rockchip/slt_gpu_light/Config.in"
 	source "package/rockchip/tee-user-app/Config.in"
 	source "package/rockchip/rockchip-rvcam/Config.in"
+	source "package/rockchip/wayland-cluster/Config.in"
 endmenu
 
 menu "Rockchip IPC"

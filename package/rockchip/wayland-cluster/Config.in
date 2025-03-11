@@ -1,0 +1,10 @@
+config BR2_PACKAGE_WAYLAND_CLUSTER
+	bool "wayland-cluster"
+	select BR2_PACKAGE_STB
+	select BR2_PACKAGE_CAIRO
+	select BR2_PACKAGE_FONTCONFIG
+	depends on BR2_PACKAGE_HAS_LIBEGL
+	depends on BR2_PACKAGE_WAYLAND
+	select BR2_PACKAGE_WAYLAND_PROTOCOLS if BR2_PACKAGE_WAYLAND
+	help
+	  Cluster Demo application based on wayland
