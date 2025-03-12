@@ -1,7 +1,7 @@
-From e56f16af656f8c660ea9dee0d48d0356dc386697 Mon Sep 17 00:00:00 2001
+From 00a39d19c23303cd55b545ac70997ebdec2ad547 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 20 Jun 2019 12:43:20 +0800
-Subject: [PATCH 05/43] kmssink: Request window handle
+Subject: [PATCH 05/50] kmssink: Request window handle
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---

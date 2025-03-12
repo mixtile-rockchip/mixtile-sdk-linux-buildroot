@@ -1,4 +1,4 @@
-From 936926a7b6560b9d116c160a99d30b42be64e5ae Mon Sep 17 00:00:00 2001
+From 2b8b0558fcdb5baec63c990e796baaa69ca629fa Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 29 Nov 2021 14:49:25 +0800
 Subject: [PATCH 2/4] HACK: gstpad: Add 1 sec timeout for activation
@@ -15,10 +15,10 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 22 insertions(+)
 
 diff --git a/gst/gstpad.c b/gst/gstpad.c
-index 6b3b2b5..37cfad4 100644
+index 276c733..7419640 100644
 --- a/gst/gstpad.c
 +++ b/gst/gstpad.c
-@@ -969,6 +969,18 @@ gst_pad_mode_get_name (GstPadMode mode)
+@@ -972,6 +972,18 @@ gst_pad_mode_get_name (GstPadMode mode)
    return "unknown";
  }
  
@@ -37,7 +37,7 @@ index 6b3b2b5..37cfad4 100644
  /* Returns TRUE if pad wasn't already in the new_mode */
  static gboolean
  pre_activate (GstPad * pad, GstPadMode new_mode)
-@@ -976,8 +988,13 @@ pre_activate (GstPad * pad, GstPadMode new_mode)
+@@ -979,8 +991,13 @@ pre_activate (GstPad * pad, GstPadMode new_mode)
    switch (new_mode) {
      case GST_PAD_MODE_NONE:
        GST_OBJECT_LOCK (pad);
@@ -51,7 +51,7 @@ index 6b3b2b5..37cfad4 100644
        if (new_mode == GST_PAD_MODE (pad)) {
          GST_WARNING_OBJECT (pad,
              "Pad is already in the process of being deactivated");
-@@ -996,8 +1013,13 @@ pre_activate (GstPad * pad, GstPadMode new_mode)
+@@ -999,8 +1016,13 @@ pre_activate (GstPad * pad, GstPadMode new_mode)
      case GST_PAD_MODE_PUSH:
      case GST_PAD_MODE_PULL:
        GST_OBJECT_LOCK (pad);

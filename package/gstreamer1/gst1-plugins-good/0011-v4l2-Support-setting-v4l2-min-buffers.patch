@@ -1,7 +1,7 @@
-From f7c0159e012fad0176f7a3b2297ce5ee0cd3da3d Mon Sep 17 00:00:00 2001
+From b6e14be7fb32c7778b259f8da73c512d7287b6ea Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 23 Jun 2022 16:04:18 +0800
-Subject: [PATCH 11/12] v4l2: Support setting v4l2 min buffers
+Subject: [PATCH 11/13] v4l2: Support setting v4l2 min buffers
 
 Tested with:
 gst-launch-1.0 v4l2src min-buffers=32 ! waylandsink ts-offset=1000000000
@@ -13,7 +13,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  2 files changed, 26 insertions(+), 1 deletion(-)
 
 diff --git a/sys/v4l2/gstv4l2object.c b/sys/v4l2/gstv4l2object.c
-index abae02e..5940100 100644
+index 4730ea3..1c3b40a 100644
 --- a/sys/v4l2/gstv4l2object.c
 +++ b/sys/v4l2/gstv4l2object.c
 @@ -58,6 +58,8 @@ GST_DEBUG_CATEGORY_EXTERN (v4l2_debug);

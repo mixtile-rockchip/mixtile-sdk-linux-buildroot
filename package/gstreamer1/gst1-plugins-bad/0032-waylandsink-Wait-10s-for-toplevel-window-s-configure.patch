@@ -1,7 +1,7 @@
-From 99d6fc6c193491ff19f041439261e2cc62d2839a Mon Sep 17 00:00:00 2001
+From 802c12dbc04c2e5f08aac1ac6d48ccd38af86b6b Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 7 Jul 2022 14:43:31 +0800
-Subject: [PATCH 32/46] waylandsink: Wait 10s for toplevel window's configure
+Subject: [PATCH 32/50] waylandsink: Wait 10s for toplevel window's configure
  event
 
 The original 100ms is racy when system is under heavy load.
@@ -12,7 +12,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/gst-libs/gst/wayland/gstwlwindow.c b/gst-libs/gst/wayland/gstwlwindow.c
-index 33f4ba8..6f96d6f 100644
+index 2a10322..39efa93 100644
 --- a/gst-libs/gst/wayland/gstwlwindow.c
 +++ b/gst-libs/gst/wayland/gstwlwindow.c
 @@ -426,7 +426,7 @@ gst_wl_window_new_toplevel (GstWlDisplay * display, const GstVideoInfo * info,

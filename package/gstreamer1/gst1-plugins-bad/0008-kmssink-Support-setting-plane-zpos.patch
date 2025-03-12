@@ -1,7 +1,7 @@
-From eb05e734dc0952ea56ff2ac63b45eae478822349 Mon Sep 17 00:00:00 2001
+From da281a7d5cae3c9c830491a423eeed7738327747 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 15 Jun 2020 10:03:01 +0800
-Subject: [PATCH 08/43] kmssink: Support setting plane zpos
+Subject: [PATCH 08/50] kmssink: Support setting plane zpos
 
 Set env KMSSINK_PLANE_ZPOS to specify plane zpos.
 Set env KMSSINK_PLANE_ON_TOP to set max zpos.

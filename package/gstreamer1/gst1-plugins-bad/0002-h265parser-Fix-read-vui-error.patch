@@ -1,7 +1,7 @@
-From 1051cca1a4d874e7c7b5e65b67b7f9813ddd3fd2 Mon Sep 17 00:00:00 2001
+From 88b8797d7d99613f639f74a27fb867d19d43346f Mon Sep 17 00:00:00 2001
 From: "james.lin" <james.lin@rock-chips.com>
 Date: Mon, 9 Apr 2018 15:32:21 +0800
-Subject: [PATCH 02/43] h265parser: Fix read vui error
+Subject: [PATCH 02/50] h265parser: Fix read vui error
 
 Signed-off-by: james.lin <james.lin@rock-chips.com>
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>

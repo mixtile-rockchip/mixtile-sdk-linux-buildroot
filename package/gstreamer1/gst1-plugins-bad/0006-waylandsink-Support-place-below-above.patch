@@ -1,7 +1,7 @@
-From 4fb5c608d838576f00877e0cbf89f951034f8a7f Mon Sep 17 00:00:00 2001
+From afcb30ab39c55a04d7047f599e4e98344f2de770 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 15 Jun 2020 10:01:54 +0800
-Subject: [PATCH 06/43] waylandsink: Support place below/above
+Subject: [PATCH 06/50] waylandsink: Support place below/above
 
 Set environment WAYLANDSINK_PLACE_ABOVE=1 to place it above parent.
 

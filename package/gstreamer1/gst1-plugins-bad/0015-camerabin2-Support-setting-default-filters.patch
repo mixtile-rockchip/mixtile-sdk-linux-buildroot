@@ -1,7 +1,7 @@
-From 04307ac989910660202ac18910549e940b2c7aea Mon Sep 17 00:00:00 2001
+From 8613e16bfb12b2ab127c1380d5fde3436ab8cd7d Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 24 Dec 2020 10:16:44 +0800
-Subject: [PATCH 15/43] camerabin2: Support setting default filters
+Subject: [PATCH 15/50] camerabin2: Support setting default filters
 
 Use env "CAMERABIN2_PREVIEW_FILTER", "CAMERABIN2_IMAGE_FILTER",
 "CAMERABIN2_VIDEO_FILTER", "CAMERABIN2_VIEWFINDER_FILTER" to set default

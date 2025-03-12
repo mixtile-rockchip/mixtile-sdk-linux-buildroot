@@ -1,4 +1,4 @@
-From d613640b6521956b427d4e715eb9cbe9b203fd31 Mon Sep 17 00:00:00 2001
+From 5ea97ccffcedc35e767806b30ad3f815a5dd6368 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 24 May 2022 16:16:33 +0800
 Subject: [PATCH 12/22] glupload: Support NV12_10LE40 and NV12|NV12_10LE40|NV16

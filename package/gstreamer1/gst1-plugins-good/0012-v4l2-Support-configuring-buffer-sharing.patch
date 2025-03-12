@@ -1,7 +1,7 @@
-From 447ea64dbd759495ba84b2fc0d54859f3e5a8fa5 Mon Sep 17 00:00:00 2001
+From 56259b33effa2c79158f4333189f894f53bb1484 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 27 Jun 2022 17:48:30 +0800
-Subject: [PATCH 12/12] v4l2: Support configuring buffer sharing
+Subject: [PATCH 12/13] v4l2: Support configuring buffer sharing
 
 Tested with:
 export GST_DEBUG=v4l2bufferpool:5
@@ -15,7 +15,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  2 files changed, 25 insertions(+), 1 deletion(-)
 
 diff --git a/sys/v4l2/gstv4l2object.c b/sys/v4l2/gstv4l2object.c
-index 5940100..922e367 100644
+index 1c3b40a..45c929f 100644
 --- a/sys/v4l2/gstv4l2object.c
 +++ b/sys/v4l2/gstv4l2object.c
 @@ -59,6 +59,7 @@ GST_DEBUG_CATEGORY_EXTERN (v4l2_debug);
@@ -77,7 +77,7 @@ index 5940100..922e367 100644
      default:
        return FALSE;
        break;
-@@ -5153,7 +5170,11 @@ gst_v4l2_object_decide_allocation (GstV4l2Object * obj, GstQuery * query)
+@@ -5155,7 +5172,11 @@ gst_v4l2_object_decide_allocation (GstV4l2Object * obj, GstQuery * query)
        gst_v4l2_object_match_buffer_layout_from_struct (obj, params, caps, size);
    }
  

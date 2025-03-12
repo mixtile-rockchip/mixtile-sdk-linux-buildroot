@@ -1,7 +1,7 @@
-From 523675e1a31e349e6d60d95a7aa55d7bbc387544 Mon Sep 17 00:00:00 2001
+From 997f9144fe57642c2279f9e825fc8ca39863bd9d Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 12 Apr 2024 16:44:09 +0800
-Subject: [PATCH 45/48] kmssink: Try to modeset with video buffer
+Subject: [PATCH 45/50] kmssink: Try to modeset with video buffer
 
 To avoid the initial black screen.
 

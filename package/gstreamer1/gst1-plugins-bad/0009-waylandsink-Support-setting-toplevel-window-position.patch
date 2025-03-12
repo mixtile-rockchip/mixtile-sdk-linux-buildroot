@@ -1,7 +1,7 @@
-From e86040aa33088a204dc253226f57bde673ec5b23 Mon Sep 17 00:00:00 2001
+From 0b2a3d4b9728dd9c2c8a44356efc34d6000cfb6c Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 15 Jun 2020 10:11:42 +0800
-Subject: [PATCH 09/43] waylandsink: Support setting toplevel window position
+Subject: [PATCH 09/50] waylandsink: Support setting toplevel window position
 
 Needs hacked wayland server, tested with:
 gst-launch-1.0 videotestsrc ! waylandsink render-rectangle="<100,200,300,400>"

@@ -1,7 +1,7 @@
-From a244a8f4ab162a8c24ea8cf71c74484e88b459a7 Mon Sep 17 00:00:00 2001
+From 580366572f9ded56fa5d0d1ffd2c3cfbc1db24d3 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 15 Sep 2022 18:01:12 +0800
-Subject: [PATCH 38/48] kmssink: Support scaling in modesetting
+Subject: [PATCH 38/50] kmssink: Support scaling in modesetting
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---

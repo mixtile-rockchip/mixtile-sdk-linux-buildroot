@@ -1,7 +1,7 @@
-From 9dbfd1e5bb49c0a8b9e42f736e5ef983814b8764 Mon Sep 17 00:00:00 2001
+From f0c6659bcf8048aac5aab23639f52c5523d66956 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 6 Nov 2019 15:07:44 +0800
-Subject: [PATCH 04/12] v4l2: Support preferred formats
+Subject: [PATCH 04/13] v4l2: Support preferred formats
 
 Set env "GST_V4L2_PREFERRED_FOURCC" to specify preferred formats, for
 example:
@@ -14,7 +14,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  2 files changed, 54 insertions(+)
 
 diff --git a/sys/v4l2/gstv4l2object.c b/sys/v4l2/gstv4l2object.c
-index 9736cd5..5d5ae4f 100644
+index 6278fda..8f99919 100644
 --- a/sys/v4l2/gstv4l2object.c
 +++ b/sys/v4l2/gstv4l2object.c
 @@ -25,6 +25,7 @@
@@ -49,7 +49,7 @@ index 9736cd5..5d5ae4f 100644
     * will a) make all non-emulated formats larger
     * than emulated and b) will not overflow
 diff --git a/sys/v4l2/gstv4l2src.c b/sys/v4l2/gstv4l2src.c
-index 2d1537e..97ef231 100644
+index 68d8f7f..3d8edec 100644
 --- a/sys/v4l2/gstv4l2src.c
 +++ b/sys/v4l2/gstv4l2src.c
 @@ -438,6 +438,38 @@ gst_v4l2_src_parse_fixed_struct (GstStructure * s,

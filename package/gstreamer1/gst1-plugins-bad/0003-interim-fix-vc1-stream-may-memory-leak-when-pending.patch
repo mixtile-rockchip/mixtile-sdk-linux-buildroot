@@ -1,7 +1,7 @@
-From 47aca05f58fc1d3a29e82d37cab834a6904507d0 Mon Sep 17 00:00:00 2001
+From 9b812522699518e5cf8176bdcd213dea2b1df74c Mon Sep 17 00:00:00 2001
 From: "james.lin" <james.lin@rock-chips.com>
 Date: Tue, 17 Apr 2018 11:14:01 +0800
-Subject: [PATCH 03/43] interim fix vc1 stream may memory leak when pending
+Subject: [PATCH 03/50] interim fix vc1 stream may memory leak when pending
 
 Signed-off-by: james.lin <james.lin@rock-chips.com>
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>

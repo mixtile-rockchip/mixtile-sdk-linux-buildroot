@@ -1,7 +1,7 @@
-From 2dfba36e67f0227a7349ff17f8ab361e00bac479 Mon Sep 17 00:00:00 2001
+From 58f9c25e247ee68111caeff583d800288c6829a8 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 30 May 2024 17:24:59 +0800
-Subject: [PATCH 47/48] kmssink: Allow out of screen size
+Subject: [PATCH 47/50] kmssink: Allow out of screen size
 
 Tested with on RK3588 EVB:
 gst-launch-1.0 videotestsrc ! 'video/x-raw,width=2000,height=2000' ! kmssink render-rectangle='<-100,-100,5000,5000>'

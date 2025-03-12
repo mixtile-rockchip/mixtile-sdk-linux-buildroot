@@ -1,7 +1,7 @@
-From 42c856ea6cf6b422a63bee51d1201d30daaf3919 Mon Sep 17 00:00:00 2001
+From 289395bbdce1674938b09a3d75abcbd7e3c4b238 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 11 Jun 2019 10:19:22 +0800
-Subject: [PATCH 03/12] autodetect: Add preferred for
+Subject: [PATCH 03/13] autodetect: Add preferred for
  autovideosink/autoaudiosink
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>

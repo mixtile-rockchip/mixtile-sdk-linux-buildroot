@@ -1,7 +1,7 @@
-From 23fa0e867a94c40ca8dab1f6bc210158860f5b6a Mon Sep 17 00:00:00 2001
+From 6f16222fb9e09fca51f37d40fb00221ecfc1165d Mon Sep 17 00:00:00 2001
 From: "james.lin" <james.lin@rock-chips.com>
 Date: Tue, 23 Jan 2018 19:19:36 +0800
-Subject: [PATCH 02/12] HACK: flacparse: Handle metadata 127
+Subject: [PATCH 02/13] HACK: flacparse: Handle metadata 127
 
 Signed-off-by: james.lin <james.lin@rock-chips.com>
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>

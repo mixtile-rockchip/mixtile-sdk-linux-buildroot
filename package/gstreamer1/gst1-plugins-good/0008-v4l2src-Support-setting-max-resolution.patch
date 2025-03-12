@@ -1,7 +1,7 @@
-From eec60537dbc98e43055870a4a12e27f2e756faa9 Mon Sep 17 00:00:00 2001
+From f6bbd128f70dc636ce3b6254ef68c660cc71d826 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 11 May 2022 17:24:49 +0800
-Subject: [PATCH 08/12] v4l2src: Support setting max resolution
+Subject: [PATCH 08/13] v4l2src: Support setting max resolution
 
 Set env "GST_V4L2SRC_MAX_RESOLUTION" to limit resolution, for example:
 export GST_V4L2SRC_MAX_RESOLUTION=1920x1080
@@ -12,7 +12,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 13 insertions(+), 6 deletions(-)
 
 diff --git a/sys/v4l2/gstv4l2object.c b/sys/v4l2/gstv4l2object.c
-index 5d5ae4f..abae02e 100644
+index 8f99919..4730ea3 100644
 --- a/sys/v4l2/gstv4l2object.c
 +++ b/sys/v4l2/gstv4l2object.c
 @@ -2861,6 +2861,7 @@ gst_v4l2_object_probe_caps_for_format (GstV4l2Object * v4l2object,

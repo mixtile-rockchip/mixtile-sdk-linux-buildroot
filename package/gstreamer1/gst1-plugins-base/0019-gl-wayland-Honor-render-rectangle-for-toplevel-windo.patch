@@ -1,4 +1,4 @@
-From 29ef6c8212d956d1d30e92bd2939070b08004647 Mon Sep 17 00:00:00 2001
+From 7ea3ec5b6a31e12c65b10b7f1cf2412b40d6541a Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 4 May 2023 17:52:33 +0800
 Subject: [PATCH 19/22] gl: wayland: Honor render-rectangle for toplevel window

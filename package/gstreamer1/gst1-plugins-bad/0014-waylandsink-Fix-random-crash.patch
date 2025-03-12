@@ -1,7 +1,7 @@
-From 1fa45d65309989d837cb240320b32c32950cf139 Mon Sep 17 00:00:00 2001
+From 970873b6a6ffe69e17d6f7e326438c0807bcb036 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 26 Nov 2020 12:19:54 +0800
-Subject: [PATCH 14/43] waylandsink: Fix random crash
+Subject: [PATCH 14/50] waylandsink: Fix random crash
 
 By adding a sanity check for wl window when exposing.
 

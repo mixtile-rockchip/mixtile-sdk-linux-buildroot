@@ -1,7 +1,7 @@
-From ecbed7d427d91b75d5450d248e0c20c3a10d6439 Mon Sep 17 00:00:00 2001
+From 40eac7643af958d5b39bd0c0448143647f297b73 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 5 May 2022 17:56:46 +0800
-Subject: [PATCH 30/46] waylandsink: Support pointer and touch
+Subject: [PATCH 30/50] waylandsink: Support pointer and touch
 
 Based on weston's client window and simple-egl.
 
@@ -397,7 +397,7 @@ index b2f3573..b163bcd 100644
  gboolean gst_wl_display_support_afbc (GstWlDisplay * self);
  
 diff --git a/gst-libs/gst/wayland/gstwlwindow.c b/gst-libs/gst/wayland/gstwlwindow.c
-index 95a779b..33f4ba8 100644
+index a6f07bc..2a10322 100644
 --- a/gst-libs/gst/wayland/gstwlwindow.c
 +++ b/gst-libs/gst/wayland/gstwlwindow.c
 @@ -100,6 +100,19 @@ static void gst_wl_window_finalize (GObject * gobject);

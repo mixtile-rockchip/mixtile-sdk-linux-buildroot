@@ -1,7 +1,7 @@
-From d3fb767a90c6d39bb132176c286453a60b641f17 Mon Sep 17 00:00:00 2001
+From 80bc84bc3b5583556fb5d2c711b85f169478f38a Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 23 Jun 2022 16:01:56 +0800
-Subject: [PATCH 10/12] v4l2: Increase VIDEO_MAX_FRAME to 64
+Subject: [PATCH 10/13] v4l2: Increase VIDEO_MAX_FRAME to 64
 
 This is done in the kernel side for android:
 e81694723af1 ANDROID: media: increase video max frame number

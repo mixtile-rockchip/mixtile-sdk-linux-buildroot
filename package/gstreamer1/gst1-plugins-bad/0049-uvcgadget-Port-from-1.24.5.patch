@@ -1,7 +1,7 @@
-From 1e4022a90a81434c7496bc48d62257fca7667688 Mon Sep 17 00:00:00 2001
+From fcf4e585ef9be48c4a74ce645bc03fac43073af6 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 21 Jun 2024 14:49:54 +0800
-Subject: [PATCH 49/49] uvcgadget: Port from 1.24.5
+Subject: [PATCH 49/50] uvcgadget: Port from 1.24.5
 
 Based on:
 3c66f10e21 Release 1.24.5

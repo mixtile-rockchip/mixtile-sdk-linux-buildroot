@@ -1,7 +1,7 @@
-From a9b1189a68b23b44969851ec0d6eab78372ba245 Mon Sep 17 00:00:00 2001
+From 6eac47c6912f36f2e571af69df27bb8a478e1658 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 17 Nov 2020 11:51:40 +0800
-Subject: [PATCH 12/43] gstjpegparse: Allow parsebin to use it for autoplugging
+Subject: [PATCH 12/50] gstjpegparse: Allow parsebin to use it for autoplugging
 
 Increase rank.
 

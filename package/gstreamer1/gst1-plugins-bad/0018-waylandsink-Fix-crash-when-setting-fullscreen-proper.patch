@@ -1,7 +1,7 @@
-From ef90e5c331c50bcb5957ee69ed87fecf378b5d57 Mon Sep 17 00:00:00 2001
+From f764fef22017890fc56e830bc918f688d7cc20e2 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 11 Apr 2023 12:02:50 +0800
-Subject: [PATCH 18/43] waylandsink: Fix crash when setting fullscreen property
+Subject: [PATCH 18/50] waylandsink: Fix crash when setting fullscreen property
 
 Tested on RK3588 EVB with:
 gst-launch-1.0 videotestsrc ! waylandsink fullscreen=1

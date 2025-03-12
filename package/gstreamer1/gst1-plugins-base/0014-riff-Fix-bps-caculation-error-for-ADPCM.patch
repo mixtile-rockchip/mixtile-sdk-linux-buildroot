@@ -1,4 +1,4 @@
-From 88bed83808f8bb83fee6ae408cfd39cef9b10898 Mon Sep 17 00:00:00 2001
+From 48281c141a0f3d6e5999724bc9b213b81c553802 Mon Sep 17 00:00:00 2001
 From: Jiajian Wu <jair.wu@rock-chips.com>
 Date: Tue, 11 Oct 2022 09:21:10 +0800
 Subject: [PATCH 14/22] riff: Fix bps caculation error for ADPCM

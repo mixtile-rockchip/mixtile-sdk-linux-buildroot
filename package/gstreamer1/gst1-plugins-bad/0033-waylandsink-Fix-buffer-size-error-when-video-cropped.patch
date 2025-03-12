@@ -1,7 +1,7 @@
-From cefc1c4d501158afcb34a866ea22977ecf2fdd7c Mon Sep 17 00:00:00 2001
+From 77f3b43ee277d917b15d92800cabf61189d749b1 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 15 Jul 2022 12:14:44 +0800
-Subject: [PATCH 33/46] waylandsink: Fix buffer size error when video cropped
+Subject: [PATCH 33/50] waylandsink: Fix buffer size error when video cropped
 
 Prefer video meta's size instead of the cropped size from caps.
 

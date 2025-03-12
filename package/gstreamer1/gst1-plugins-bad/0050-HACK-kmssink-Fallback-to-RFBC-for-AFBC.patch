@@ -1,4 +1,4 @@
-From 6f59188c0888a48d1dfb5144d4b9c07276e7711f Mon Sep 17 00:00:00 2001
+From 4ebc1ec883945d8e426dfa3d4930fa9bce032a58 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 9 Jan 2025 14:52:44 +0800
 Subject: [PATCH 50/50] HACK: kmssink: Fallback to RFBC for AFBC

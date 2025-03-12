@@ -1,19 +1,19 @@
-From c8b8e11a9770b46e9387fc8b0f9f146d09640edf Mon Sep 17 00:00:00 2001
+From 7f45569dfadb3ec184f23c7dd071dce393dcc6ef Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 8 Nov 2019 17:36:20 +0800
-Subject: [PATCH 05/12] video-flip: Support rockchip RGA 2D accel
+Subject: [PATCH 05/13] video-flip: Support rockchip RGA 2D accel
 
 Disabled by default, set env GST_VIDEO_FLIP_USE_RGA=1 to enable.
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---
- gst/videofilter/gstvideoflip.c | 216 ++++++++++++++++++++++++++++++++-
+ gst/videofilter/gstvideoflip.c | 221 ++++++++++++++++++++++++++++++++-
  gst/videofilter/meson.build    |   2 +-
  meson.build                    |   3 +
- 3 files changed, 218 insertions(+), 3 deletions(-)
+ 3 files changed, 223 insertions(+), 3 deletions(-)
 
 diff --git a/gst/videofilter/gstvideoflip.c b/gst/videofilter/gstvideoflip.c
-index 718ab45..3e6c40b 100644
+index 718ab45..af9f74f 100644
 --- a/gst/videofilter/gstvideoflip.c
 +++ b/gst/videofilter/gstvideoflip.c
 @@ -48,6 +48,11 @@
@@ -46,7 +46,7 @@ index 718ab45..3e6c40b 100644
              "GRAY8, GRAY16_BE, GRAY16_LE, I420_10LE, I420_10BE, I420_12LE, I420_12BE, "
              "I422_10LE, I422_10BE, I422_12LE, I422_12BE, Y444_10LE, Y444_10BE, Y444_12LE, Y444_12BE }"))
      );
-@@ -1454,6 +1459,193 @@ gst_video_flip_y422 (GstVideoFlip * videoflip, GstVideoFrame * dest,
+@@ -1454,6 +1459,198 @@ gst_video_flip_y422 (GstVideoFlip * videoflip, GstVideoFrame * dest,
    }
  }
  
@@ -166,9 +166,14 @@ index 718ab45..3e6c40b 100644
 +  return TRUE;
 +}
 +
++static void
++gst_video_flip_dummy (GstVideoFlip * videoflip,
++    GstVideoFrame * out_frame, const GstVideoFrame * in_frame)
++{}
++
 +static gboolean
 +video_flip_try_rga (GstVideoFlip * videoflip,
-+    GstVideoFrame * out_frame, GstVideoFrame * in_frame)
++    GstVideoFrame * out_frame, const GstVideoFrame * in_frame)
 +{
 +  gint sw = GST_VIDEO_FRAME_WIDTH (in_frame);
 +  gint sh = GST_VIDEO_FRAME_HEIGHT (in_frame);
@@ -240,20 +245,20 @@ index 718ab45..3e6c40b 100644
  static void
  gst_video_flip_configure_process (GstVideoFlip * vf)
  {
-@@ -1504,6 +1696,12 @@ gst_video_flip_configure_process (GstVideoFlip * vf)
+@@ -1504,6 +1701,12 @@ gst_video_flip_configure_process (GstVideoFlip * vf)
      case GST_VIDEO_FORMAT_NV21:
        vf->process = gst_video_flip_semi_planar_yuv;
        break;
 +#ifdef HAVE_RGA
 +    case GST_VIDEO_FORMAT_NV12_10LE40:
-+      /* Not supported by the official videoflip */
-+      vf->process = video_flip_try_rga;
++      /* Set a dummy process to try RGA conversion */
++      vf->process = gst_video_flip_dummy;
 +      break;
 +#endif
      default:
        break;
    }
-@@ -1684,6 +1882,20 @@ gst_video_flip_transform_frame (GstVideoFilter * vfilter,
+@@ -1684,6 +1887,20 @@ gst_video_flip_transform_frame (GstVideoFilter * vfilter,
        GST_VIDEO_FRAME_WIDTH (out_frame), GST_VIDEO_FRAME_HEIGHT (out_frame));
    g_type_class_unref (enum_class);
  
@@ -265,7 +270,7 @@ index 718ab45..3e6c40b 100644
 +  }
 +
 +  /* Not supported by the official videoflip */
-+  if (G_UNLIKELY (videoflip->process == video_flip_try_rga)) {
++  if (G_UNLIKELY (videoflip->process == gst_video_flip_dummy)) {
 +    GST_OBJECT_UNLOCK (videoflip);
 +    goto not_negotiated;
 +  }
@@ -288,7 +293,7 @@ index d7b6788..1a594c6 100644
    install_dir : plugins_install_dir,
  )
 diff --git a/meson.build b/meson.build
-index 116f8ba..6437eff 100644
+index 22689df..cb086e9 100644
 --- a/meson.build
 +++ b/meson.build
 @@ -391,6 +391,9 @@ gst_plugins_good_args = ['-DHAVE_CONFIG_H']
