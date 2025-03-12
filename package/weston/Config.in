@@ -18,7 +18,7 @@ config BR2_PACKAGE_WESTON
 	select BR2_PACKAGE_LIBINPUT
 	select BR2_PACKAGE_LIBDISPLAY_INFO
 	select BR2_PACKAGE_LIBDRM
-	select BR2_PACKAGE_SEATD
+	# select BR2_PACKAGE_SEATD
 	# Runtime dependency
 	select BR2_PACKAGE_XKEYBOARD_CONFIG
 	select BR2_PACKAGE_WESTON_SHELL_DESKTOP if !BR2_PACKAGE_WESTON_HAS_SHELL
@@ -77,6 +77,10 @@ config BR2_PACKAGE_WESTON_DEFAULT_COMPOSITOR
 config BR2_PACKAGE_WESTON_DRM
 	bool "DRM compositor"
 
+config BR2_PACKAGE_WESTON_VNC
+	bool "VNC compositor"
+	select BR2_PACKAGE_NEATVNC
+
 # FreeRDP needs threads and !static, already the case for weston
 config BR2_PACKAGE_WESTON_RDP
 	bool "RDP compositor"
@@ -123,7 +127,6 @@ comment "X11 (nested) compositor needs X.org enabled"
 
 config BR2_PACKAGE_WESTON_XWAYLAND
 	bool "XWayland support"
-	depends on BR2_PACKAGE_HAS_LIBEGL
 	depends on BR2_PACKAGE_LIBEPOXY
 	depends on BR2_PACKAGE_XORG7 # xwayland
 	depends on BR2_USE_MMU # xwayland
@@ -137,9 +140,8 @@ config BR2_PACKAGE_WESTON_XWAYLAND
 	select BR2_PACKAGE_XLIB_LIBXCURSOR
 	select BR2_PACKAGE_XWAYLAND
 
-comment "XWayland support needs libepoxy w/ EGL and X.org enabled"
-	depends on !BR2_PACKAGE_HAS_LIBEGL || !BR2_PACKAGE_XORG7 || \
-		!BR2_PACKAGE_LIBEPOXY
+comment "XWayland support needs libepoxy and X.org enabled"
+	depends on !BR2_PACKAGE_XORG7 || !BR2_PACKAGE_LIBEPOXY
 
 comment "XWayland support needs a toolchain w/ threads, dynamic library"
 	depends on BR2_USE_MMU
@@ -155,11 +157,6 @@ config BR2_PACKAGE_WESTON_SHELL_DESKTOP
 	bool "desktop shell"
 	default y
 
-config BR2_PACKAGE_WESTON_SHELL_FULLSCREEN
-	bool "fullscreen shell"
-	default y
-	select BR2_PACKAGE_WESTON_HAS_SHELL
-
 config BR2_PACKAGE_WESTON_SHELL_IVI
 	bool "ivi shell"
 	default y
@@ -169,10 +166,6 @@ config BR2_PACKAGE_WESTON_SHELL_KIOSK
 	bool "kiosk shell"
 	default y
 	select BR2_PACKAGE_WESTON_HAS_SHELL
-
-config BR2_PACKAGE_WESTON_SCREENSHARE
-	bool "screenshare"
-	default y
 
 config BR2_PACKAGE_WESTON_SIMPLE_CLIENTS
 	bool "simple clients"
@@ -196,6 +189,7 @@ config BR2_PACKAGE_WESTON_DEMO_CLIENTS
 	depends on BR2_USE_WCHAR # pango
 	depends on BR2_PACKAGE_HAS_LIBGLES
 	depends on BR2_PACKAGE_HAS_LIBEGL
+	depends on BR2_PACKAGE_GST1_PLUGINS_BASE
 	select BR2_PACKAGE_PANGO
 	help
 	  This enables the installation of Weston's demo clients.
@@ -218,5 +212,8 @@ comment "demo clients needs an OpenGL ES/EGL provider and a toolchain w/ wchar, 
 	depends on !BR2_INSTALL_LIBSTDCPP || !BR2_TOOLCHAIN_HAS_THREADS || \
 		!BR2_USE_WCHAR || !BR2_PACKAGE_HAS_LIBGLES || \
 		!BR2_PACKAGE_HAS_LIBEGL || !BR2_TOOLCHAIN_GCC_AT_LEAST_4_9
+
+config BR2_PACKAGE_WESTON_DEFAULT_PIXMAN
+	bool "Use pixman-renderer by default"
 
 endif

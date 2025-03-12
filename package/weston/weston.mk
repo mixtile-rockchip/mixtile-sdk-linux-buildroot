@@ -4,23 +4,21 @@
 #
 ################################################################################
 
-WESTON_VERSION = 14.0.2
-WESTON_SITE = https://gitlab.freedesktop.org/wayland/weston/-/releases/$(WESTON_VERSION)/downloads
-WESTON_SOURCE = weston-$(WESTON_VERSION).tar.xz
+WESTON_VERSION = e0c5b8a26b1332300bdbdc098ae92ebfaf435c8c
+WESTON_SITE = https://gitlab.freedesktop.org/wayland/weston.git
+WESTON_SITE_METHOD = git
 WESTON_LICENSE = MIT
 WESTON_LICENSE_FILES = COPYING
 WESTON_CPE_ID_VENDOR = wayland
 WESTON_INSTALL_STAGING = YES
 
 WESTON_DEPENDENCIES = host-pkgconf wayland wayland-protocols \
-	libxkbcommon pixman libpng udev cairo libinput libdisplay-info libdrm \
-	seatd
+	libxkbcommon pixman libpng udev cairo libinput libdisplay-info libdrm
 
 WESTON_CONF_OPTS = \
 	-Ddoc=false \
-	-Dremoting=false \
-	-Dbackend-vnc=false \
-	-Dtools=calibrator,debug,info,terminal,touch-calibrator
+	-Dtools=calibrator,debug,info,terminal,touch-calibrator \
+	-Drenderer-vulkan=false -Dshell-lua=false
 
 ifeq ($(BR2_PACKAGE_WESTON_SIMPLE_CLIENTS),y)
 # Note: some clients are conditional, see further for the others.
@@ -58,16 +56,26 @@ ifeq ($(BR2_PACKAGE_WESTON_SIMPLE_CLIENTS),y)
 WESTON_SIMPLE_CLIENTS += dmabuf-egl dmabuf-feedback egl
 endif
 ifeq ($(BR2_PACKAGE_PIPEWIRE)$(BR2_PACKAGE_WESTON_DRM),yy)
-WESTON_CONF_OPTS += -Dpipewire=true -Dbackend-pipewire=true
+WESTON_CONF_OPTS += -Dbackend-pipewire=true
 WESTON_DEPENDENCIES += pipewire
 else
-WESTON_CONF_OPTS += -Dpipewire=false -Dbackend-pipewire=false
+WESTON_CONF_OPTS += -Dbackend-pipewire=false
 endif
 else
 WESTON_CONF_OPTS += \
 	-Drenderer-gl=false \
-	-Dpipewire=false \
 	-Dbackend-pipewire=false
+endif
+
+ifeq ($(BR2_PACKAGE_WESTON_VNC),y)
+ifeq ($(BR2_PACKAGE_LINUX_PAM),y)
+WESTON_DEPENDENCIES += linux-pam
+endif
+
+WESTON_DEPENDENCIES += neatvnc
+WESTON_CONF_OPTS += -Dbackend-vnc=true
+else
+WESTON_CONF_OPTS += -Dbackend-vnc=false
 endif
 
 WESTON_CONF_OPTS += -Dsimple-clients=$(subst $(space),$(comma),$(strip $(WESTON_SIMPLE_CLIENTS)))
@@ -114,13 +122,6 @@ else
 WESTON_CONF_OPTS += -Dxwayland=false
 endif
 
-ifeq ($(BR2_PACKAGE_LIBVA),y)
-WESTON_CONF_OPTS += -Dbackend-drm-screencast-vaapi=true
-WESTON_DEPENDENCIES += libva
-else
-WESTON_CONF_OPTS += -Dbackend-drm-screencast-vaapi=false
-endif
-
 ifeq ($(BR2_PACKAGE_LCMS2),y)
 WESTON_CONF_OPTS += -Dcolor-management-lcms=true
 WESTON_DEPENDENCIES += lcms2
@@ -148,12 +149,6 @@ else
 WESTON_CONF_OPTS += -Dshell-desktop=false
 endif
 
-ifeq ($(BR2_PACKAGE_WESTON_SHELL_FULLSCREEN),y)
-WESTON_CONF_OPTS += -Dshell-fullscreen=true
-else
-WESTON_CONF_OPTS += -Dshell-fullscreen=false
-endif
-
 ifeq ($(BR2_PACKAGE_WESTON_SHELL_IVI),y)
 WESTON_CONF_OPTS += -Dshell-ivi=true
 else
@@ -166,17 +161,48 @@ else
 WESTON_CONF_OPTS += -Dshell-kiosk=false
 endif
 
-ifeq ($(BR2_PACKAGE_WESTON_SCREENSHARE),y)
-WESTON_CONF_OPTS += -Dscreenshare=true
-else
-WESTON_CONF_OPTS += -Dscreenshare=false
-endif
-
 ifeq ($(BR2_PACKAGE_WESTON_DEMO_CLIENTS),y)
 WESTON_CONF_OPTS += -Ddemo-clients=true
-WESTON_DEPENDENCIES += pango
+WESTON_DEPENDENCIES += pango gst1-plugins-base
 else
 WESTON_CONF_OPTS += -Ddemo-clients=false
 endif
+
+ifeq ($(BR2_PACKAGE_ROCKCHIP_RGA),y)
+WESTON_DEPENDENCIES += rockchip-rga
+endif
+
+ifeq ($(BR2_PACKAGE_WESTON_DEFAULT_PIXMAN),y)
+define WESTON_INSTALL_PIXMAN_INI
+	$(INSTALL) -D -m 0644 $(WESTON_PKGDIR)/pixman.ini \
+		$(TARGET_DIR)/etc/xdg/weston/weston.ini.d/01-pixman.ini
+endef
+
+WESTON_POST_INSTALL_TARGET_HOOKS += WESTON_INSTALL_PIXMAN_INI
+endif
+
+define WESTON_INSTALL_TARGET_ENV
+	$(INSTALL) -D -m 0644 $(WESTON_PKGDIR)/weston.sh \
+		$(TARGET_DIR)/etc/profile.d/weston.sh
+endef
+
+WESTON_POST_INSTALL_TARGET_HOOKS += WESTON_INSTALL_TARGET_ENV
+
+define WESTON_INSTALL_TARGET_SCRIPTS
+	$(INSTALL) -D -m 0755 $(WESTON_PKGDIR)/weston-calibration-helper.sh \
+		$(TARGET_DIR)/bin/weston-calibration-helper.sh
+endef
+
+WESTON_POST_INSTALL_TARGET_HOOKS += WESTON_INSTALL_TARGET_SCRIPTS
+
+define WESTON_INSTALL_INIT_SYSV
+	$(INSTALL) -D -m 755 $(WESTON_PKGDIR)/S49weston \
+		$(TARGET_DIR)/etc/init.d/S49weston
+endef
+
+define WESTON_INSTALL_INIT_SYSTEMD
+	$(INSTALL) -D -m 644 $(WESTON_PKGDIR)/weston.service \
+		$(TARGET_DIR)/usr/lib/systemd/system/weston.service
+endef
 
 $(eval $(meson-package))
