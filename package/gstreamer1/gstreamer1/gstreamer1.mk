@@ -4,13 +4,13 @@
 #
 ################################################################################
 
-GSTREAMER1_VERSION = 1.24.13
+GSTREAMER1_VERSION = 1.28.2
 GSTREAMER1_SOURCE = gstreamer-$(GSTREAMER1_VERSION).tar.xz
 GSTREAMER1_SITE = https://gstreamer.freedesktop.org/src/gstreamer
 GSTREAMER1_INSTALL_STAGING = YES
 GSTREAMER1_LICENSE_FILES = COPYING
 GSTREAMER1_LICENSE = LGPL-2.1+
-GSTREAMER1_CPE_ID_VENDOR = gstreamer
+GSTREAMER1_CPE_ID_VENDOR = gstreamer_project
 GSTREAMER1_CPE_ID_PRODUCT = gstreamer
 
 GSTREAMER1_CONF_OPTS = \
@@ -57,5 +57,26 @@ define GSTREAMER1_FIX_GIRDIR
 		$(STAGING_DIR)/usr/lib/pkgconfig/gstreamer-base-1.0.pc
 endef
 GSTREAMER1_POST_INSTALL_STAGING_HOOKS += GSTREAMER1_FIX_GIRDIR
+
+define GSTREAMER1_INSTALL_TARGET_ENV
+	$(INSTALL) -D -m 0644 $(GSTREAMER1_PKGDIR)/gst.sh \
+		$(TARGET_DIR)/etc/profile.d/gst.sh
+endef
+GSTREAMER1_POST_INSTALL_TARGET_HOOKS += GSTREAMER1_INSTALL_TARGET_ENV
+
+ifeq ($(BR2_PACKAGE_PULSEAUDIO),y)
+define GSTREAMER1_TARGET_USE_PULSEAUDIO
+	$(SED) 's/# \(.*AUDIOSINK\)/\1/' $(TARGET_DIR)/etc/profile.d/gst.sh
+	$(SED) 's/alsasink/pulsesink/' $(TARGET_DIR)/etc/profile.d/gst.sh
+endef
+GSTREAMER1_POST_INSTALL_TARGET_HOOKS += GSTREAMER1_TARGET_USE_PULSEAUDIO
+endif
+
+ifeq ($(BR2_PREFER_ROCKCHIP_RGA),y)
+define GSTREAMER1_TARGET_USE_RGA
+	$(SED) 's/# \(.*USE_RGA\)/\1/' $(TARGET_DIR)/etc/profile.d/gst.sh
+endef
+GSTREAMER1_POST_INSTALL_TARGET_HOOKS += GSTREAMER1_TARGET_USE_RGA
+endif
 
 $(eval $(meson-package))
