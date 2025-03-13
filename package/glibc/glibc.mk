@@ -10,7 +10,7 @@
 ifeq ($(BR2_PACKAGE_GLIBC_2_28),y)
 GLIBC_VERSION = 2.28-69-g1e5c5303a522764d7e9d2302a60e4a32cdb902f1
 else
-GLIBC_VERSION = 2.38-44-gd37c2b20a4787463d192b32041c3406c2bd91de0
+GLIBC_VERSION = 2.40-18-g5641780762723156b0d20a0b9f7df1d76831bab0
 endif
 # Upstream doesn't officially provide an https download link.
 # There is one (https://sourceware.org/git/glibc.git) but it's not reliable,
@@ -29,33 +29,17 @@ GLIBC_CPE_ID_VENDOR = gnu
 GLIBC_CPE_ID_VERSION = $(word 1, $(subst -,$(space),$(GLIBC_VERSION)))
 
 ifneq ($(BR2_PACKAGE_GLIBC_2_28),y)
-# Fixed by b25508dd774b617f99419bdc3cf2ace4560cd2d6, which is between
-# 2.38 and the version we're really using
-GLIBC_IGNORE_CVES += CVE-2023-4527
+# Fixed by glibc-2.39-31-g31da30f23cddd36db29d5b6a1c7619361b271fb4
+GLIBC_IGNORE_CVES += CVE-2024-2961
 
-# Fixed by 5ee59ca371b99984232d7584fe2b1a758b4421d3, which is between
-# 2.38 and the version we're really using
-GLIBC_IGNORE_CVES += CVE-2023-4806
+# Fixed by glibc-2.39-35-g1263d583d2e28afb8be53f8d6922f0842036f35d
+GLIBC_IGNORE_CVES += CVE-2024-33599
 
-# Fixed by 750a45a783906a19591fb8ff6b7841470f1f5710, which is between
-# 2.38 and the version we're really using.
-GLIBC_IGNORE_CVES += CVE-2023-4911
+# Fixed by glibc-2.39-37-gc99f886de54446cd4447db6b44be93dabbdc2f8b
+GLIBC_IGNORE_CVES += CVE-2024-33600
 
-# Fixed by 5ee59ca371b99984232d7584fe2b1a758b4421d3, which is between
-# 2.38 and the version we're really using.
-GLIBC_IGNORE_CVES += CVE-2023-5156
-
-# Fixed by 23514c72b780f3da097ecf33a793b7ba9c2070d2, which is between
-# 2.38 and the version we're really using.
-GLIBC_IGNORE_CVES += CVE-2023-6246
-
-# Fixed by d0338312aace5bbfef85e03055e1212dd0e49578, which is between
-# 2.38 and the version we're really using.
-GLIBC_IGNORE_CVES += CVE-2023-6779
-
-# Fixed by d37c2b20a4787463d192b32041c3406c2bd91de0, which is between
-# 2.38 and the version we're really using.
-GLIBC_IGNORE_CVES += CVE-2023-6780
+# Fixed by glibc-2.39-38-ga9a8d3eebb145779a18d90e3966009a1daa63cd
+GLIBC_IGNORE_CVES += CVE-2024-33601 CVE-2024-33602
 endif
 
 # All these CVEs are considered as not being security issues by
@@ -224,7 +208,7 @@ GLIBC_POST_INSTALL_STAGING_HOOKS += GLIBC_POST_STAGING_INSTALL
 #
 
 GLIBC_LIBS_LIB = \
-	ld*.so.* libanl.so.* libc.so.* libcrypt.so.* libdl.so.* libgcc_s.so.* \
+	ld*.so.* libanl.so.* libc.so.* libdl.so.* libgcc_s.so.* \
 	libnsl.so.* libm.so.* libpthread.so.* libresolv.so.* librt.so.* \
 	libutil.so.* libnss_files.so.* libnss_dns.so.* libmvec.so.*
 
