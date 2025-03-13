@@ -1,4 +1,4 @@
-From c4ea3295d8bcee836d27424954cecf412e1d5bc9 Mon Sep 17 00:00:00 2001
+From fe1349e1fdb8088e0b365253b258f3ad9772499e Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 15 Jan 2025 11:56:59 +0800
 Subject: [PATCH 5/5] HACK: Force using DRM_FORMAT_MOD_LINEAR in

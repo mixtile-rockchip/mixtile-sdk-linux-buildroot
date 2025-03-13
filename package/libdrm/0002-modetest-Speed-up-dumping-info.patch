@@ -1,13 +1,12 @@
-From 9f5e033dd10f36a19a3e33c72d3a001a26157d0d Mon Sep 17 00:00:00 2001
+From 08e77b4ffc0155775cc58ca1c5124829569580a9 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Sat, 15 Dec 2018 12:20:01 +0800
-Subject: [PATCH 2/4] modetest: Speed up dumping info
+Subject: [PATCH 2/5] modetest: Speed up dumping info
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---
  tests/modetest/modetest.c | 22 +++++++++++++++++-----
- tests/util/kms.c          |  2 +-
- 2 files changed, 18 insertions(+), 6 deletions(-)
+ 1 file changed, 17 insertions(+), 5 deletions(-)
 
 diff --git a/tests/modetest/modetest.c b/tests/modetest/modetest.c
 index d9e761e..4ec5631 100644
@@ -133,26 +132,6 @@ index d9e761e..4ec5631 100644
  
  	if (dev.use_atomic)
  		dev.req = drmModeAtomicAlloc();
-diff --git a/tests/util/kms.c b/tests/util/kms.c
-index 34a8418..f209e72 100644
---- a/tests/util/kms.c
-+++ b/tests/util/kms.c
-@@ -97,6 +97,7 @@ const char *util_lookup_connector_status_name(unsigned int status)
- }
- 
- static const char * const modules[] = {
-+	"rockchip",
- 	"i915",
- 	"amdgpu",
- 	"radeon",
-@@ -109,7 +110,6 @@ static const char * const modules[] = {
- 	"sti",
- 	"tegra",
- 	"imx-drm",
--	"rockchip",
- 	"atmel-hlcdc",
- 	"fsl-dcu-drm",
- 	"vc4",
 -- 
 2.20.1
 
