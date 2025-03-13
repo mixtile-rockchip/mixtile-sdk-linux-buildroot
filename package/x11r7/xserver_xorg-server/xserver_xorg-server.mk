@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-XSERVER_XORG_SERVER_VERSION = 21.1.8_2024_06_24
+XSERVER_XORG_SERVER_VERSION = 21.1.14_2025_03_13
 XSERVER_XORG_SERVER_SITE = $(call github,JeffyCN,xorg-xserver,$(XSERVER_XORG_SERVER_VERSION))
 XSERVER_XORG_SERVER_LICENSE = MIT
 XSERVER_XORG_SERVER_LICENSE_FILES = COPYING
@@ -12,11 +12,8 @@ XSERVER_XORG_SERVER_CPE_ID_VENDOR = x.org
 XSERVER_XORG_SERVER_CPE_ID_PRODUCT = xorg-server
 XSERVER_XORG_SERVER_SELINUX_MODULES = xdg xserver
 XSERVER_XORG_SERVER_INSTALL_STAGING = YES
-# xfont_font-util is needed only for autoreconf
-XSERVER_XORG_SERVER_AUTORECONF = YES
 
 XSERVER_XORG_SERVER_DEPENDENCIES = \
-	xfont_font-util \
 	xutil_util-macros \
 	xlib_libX11 \
 	xlib_libXau \
