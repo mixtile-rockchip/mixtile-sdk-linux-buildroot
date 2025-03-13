@@ -1,4 +1,4 @@
-From 1fec7ae5d93a1485301e8bc0e58c81741fb7e00d Mon Sep 17 00:00:00 2001
+From 16d385e0b461944a654ea32da2389b7c0b996f9e Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 29 Nov 2022 17:17:27 +0800
 Subject: [PATCH 1/2] HACK: v4l2: Bypass API version check
@@ -11,10 +11,10 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 2 insertions(+)
 
 diff --git a/src/libcamera/v4l2_videodevice.cpp b/src/libcamera/v4l2_videodevice.cpp
-index a72ef64..9464d13 100644
+index a5cf678..bd3f6f1 100644
 --- a/src/libcamera/v4l2_videodevice.cpp
 +++ b/src/libcamera/v4l2_videodevice.cpp
-@@ -583,6 +583,7 @@ int V4L2VideoDevice::open()
+@@ -582,6 +582,7 @@ int V4L2VideoDevice::open()
  		return ret;
  	}
  
@@ -22,7 +22,7 @@ index a72ef64..9464d13 100644
  	if (caps_.version < KERNEL_VERSION(5, 0, 0)) {
  		LOG(V4L2, Error)
  			<< "V4L2 API v" << (caps_.version >> 16)
-@@ -591,6 +592,7 @@ int V4L2VideoDevice::open()
+@@ -590,6 +591,7 @@ int V4L2VideoDevice::open()
  			<< " too old, v5.0.0 or later is required";
  		return -EINVAL;
  	}

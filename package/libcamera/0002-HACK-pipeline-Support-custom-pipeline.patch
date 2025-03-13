@@ -1,4 +1,4 @@
-From ab991e03cc84bb92faa72b92263f5de48c8bee79 Mon Sep 17 00:00:00 2001
+From 37a459995d943facc58e38bd452f1c46a35ea054 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 29 Nov 2022 17:18:23 +0800
 Subject: [PATCH 2/2] HACK: pipeline: Support custom pipeline
@@ -22,33 +22,33 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  create mode 100644 src/libcamera/pipeline/custom/meson.build
 
 diff --git a/meson.build b/meson.build
-index cb6b666..0c23874 100644
+index 06b9af9..6bef3e1 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -201,6 +201,7 @@ pipelines_support = {
+@@ -214,6 +214,7 @@ pipelines_support = {
+     'mali-c55':     arch_arm,
      'rkisp1':       arch_arm,
      'rpi/vc4':      arch_arm,
-     'simple':       arch_arm,
 +    'custom':       arch_arm,
+     'simple':       ['any'],
      'uvcvideo':     ['any'],
      'vimc':         ['test'],
- }
 diff --git a/meson_options.txt b/meson_options.txt
-index 5fdc7be..ebe926c 100644
+index 1dc3b4c..8b29e94 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -47,7 +47,8 @@ option('pipelines',
-             'rpi/vc4',
+@@ -54,7 +54,8 @@ option('pipelines',
              'simple',
              'uvcvideo',
--            'vimc'
-+            'vimc',
+             'vimc',
+-            'virtual'
++            'virtual',
 +            'custom',
          ],
          description : 'Select which pipeline handlers to build. If this is set to "auto", all the pipelines applicable to the target architecture will be built. If this is set to "all", all the pipelines will be built. If both are selected then "all" will take precedence.')
  
 diff --git a/src/libcamera/device_enumerator.cpp b/src/libcamera/device_enumerator.cpp
-index 42b5ba6..3f3401b 100644
+index ae17862..1d6b66a 100644
 --- a/src/libcamera/device_enumerator.cpp
 +++ b/src/libcamera/device_enumerator.cpp
 @@ -93,8 +93,11 @@ void DeviceMatch::add(const std::string &entity)
