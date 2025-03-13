@@ -1,4 +1,4 @@
-From d86fb1667ffd8e4dcf4a6339b2a2465da560e015 Mon Sep 17 00:00:00 2001
+From 53c2be835b30d93947de7d685b8a5f30d5d53bcc Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 12 May 2022 15:54:25 +0800
 Subject: [PATCH 7/7] libv4l: Disallow conversion by default
@@ -13,10 +13,10 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/lib/libv4l2/libv4l2.c b/lib/libv4l2/libv4l2.c
-index 949a020..bd0b207 100644
+index d0925c1..8cb0867 100644
 --- a/lib/libv4l2/libv4l2.c
 +++ b/lib/libv4l2/libv4l2.c
-@@ -789,6 +789,9 @@ int v4l2_fd_open(int fd, int v4l2_flags)
+@@ -784,6 +784,9 @@ int v4l2_fd_open(int fd, int v4l2_flags)
  	if (dev_ops->ioctl(dev_ops_priv, fd, VIDIOC_G_PARM, &parm))
  		parm.type = 0;
  

@@ -1,4 +1,4 @@
-From 8572831308f1f09f716bdf2a00d5a72b89171345 Mon Sep 17 00:00:00 2001
+From 416a771acc5758a7254b17cc8160971761ba6c67 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 27 Sep 2019 18:52:24 +0800
 Subject: [PATCH 2/7] libv4l: mplane: Filter out multiplane formats
@@ -12,10 +12,10 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 141 insertions(+), 8 deletions(-)
 
 diff --git a/lib/libv4l-mplane/libv4l-mplane.c b/lib/libv4l-mplane/libv4l-mplane.c
-index 2f685a7..b30840a 100644
+index 071e9bc..ff15e51 100644
 --- a/lib/libv4l-mplane/libv4l-mplane.c
 +++ b/lib/libv4l-mplane/libv4l-mplane.c
-@@ -49,6 +49,15 @@
+@@ -48,6 +48,15 @@
  #define PLUGIN_PUBLIC
  #endif
  
@@ -31,7 +31,7 @@ index 2f685a7..b30840a 100644
  struct mplane_plugin {
  	union {
  		struct {
-@@ -57,6 +66,9 @@ struct mplane_plugin {
+@@ -56,6 +65,9 @@ struct mplane_plugin {
  		};
  		unsigned int mplane;
  	};
@@ -41,7 +41,7 @@ index 2f685a7..b30840a 100644
  };
  
  #define SIMPLE_CONVERT_IOCTL(fd, cmd, arg, __struc) ({		\
-@@ -75,6 +87,55 @@ struct mplane_plugin {
+@@ -74,6 +86,55 @@ struct mplane_plugin {
  	__ret;							\
  	})
  
@@ -97,7 +97,7 @@ index 2f685a7..b30840a 100644
  static void *plugin_init(int fd)
  {
  	struct v4l2_capability cap;
-@@ -92,13 +153,21 @@ static void *plugin_init(int fd)
+@@ -91,13 +152,21 @@ static void *plugin_init(int fd)
  	}
  
  	if (!(cap.capabilities & V4L2_CAP_VIDEO_CAPTURE) &&
@@ -121,7 +121,7 @@ index 2f685a7..b30840a 100644
  	/* Device doesn't need it. return NULL to disable the plugin */
  	if (!plugin.mplane)
  		return NULL;
-@@ -175,6 +244,39 @@ static int convert_type(int type)
+@@ -174,6 +243,39 @@ static int convert_type(int type)
  	}
  }
  
@@ -161,7 +161,7 @@ index 2f685a7..b30840a 100644
  static void sanitize_format(struct v4l2_format *fmt)
  {
  	unsigned int offset;
-@@ -201,19 +303,23 @@ static void sanitize_format(struct v4l2_format *fmt)
+@@ -200,19 +302,23 @@ static void sanitize_format(struct v4l2_format *fmt)
  	       sizeof(fmt->fmt.pix) - offset);
  }
  
@@ -187,7 +187,7 @@ index 2f685a7..b30840a 100644
  		break;
  	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
  	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
-@@ -223,6 +329,15 @@ static int try_set_fmt_ioctl(int fd, unsigned long int cmd,
+@@ -222,6 +328,15 @@ static int try_set_fmt_ioctl(int fd, unsigned long int cmd,
  		return SYS_IOCTL(fd, cmd, arg);
  	}
  
@@ -203,7 +203,7 @@ index 2f685a7..b30840a 100644
  	sanitize_format(org);
  
  	fmt.fmt.pix_mp.width = org->fmt.pix.width;
-@@ -254,6 +369,10 @@ static int try_set_fmt_ioctl(int fd, unsigned long int cmd,
+@@ -253,6 +368,10 @@ static int try_set_fmt_ioctl(int fd, unsigned long int cmd,
  	org->fmt.pix.sizeimage = fmt.fmt.pix_mp.plane_fmt[0].sizeimage;
  	org->fmt.pix.flags = fmt.fmt.pix_mp.flags;
  
@@ -214,7 +214,7 @@ index 2f685a7..b30840a 100644
  	return 0;
  }
  
-@@ -316,8 +435,10 @@ static int create_bufs_ioctl(int fd, unsigned long int cmd,
+@@ -315,8 +434,10 @@ static int create_bufs_ioctl(int fd, unsigned long int cmd,
  	return ret;
  }
  
@@ -226,7 +226,7 @@ index 2f685a7..b30840a 100644
  	struct v4l2_format fmt = { 0 };
  	struct v4l2_format *org = arg;
  	int ret;
-@@ -325,9 +446,11 @@ static int get_fmt_ioctl(int fd, unsigned long int cmd, struct v4l2_format *arg)
+@@ -324,9 +445,11 @@ static int get_fmt_ioctl(int fd, unsigned long int cmd, struct v4l2_format *arg)
  	switch (arg->type) {
  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
  		fmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
@@ -238,7 +238,7 @@ index 2f685a7..b30840a 100644
  		break;
  	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
  	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
-@@ -337,10 +460,18 @@ static int get_fmt_ioctl(int fd, unsigned long int cmd, struct v4l2_format *arg)
+@@ -336,10 +459,18 @@ static int get_fmt_ioctl(int fd, unsigned long int cmd, struct v4l2_format *arg)
  		return SYS_IOCTL(fd, cmd, arg);
  	}
  
@@ -257,7 +257,7 @@ index 2f685a7..b30840a 100644
  	memset(&org->fmt.pix, 0, sizeof(org->fmt.pix));
  	org->fmt.pix.width = fmt.fmt.pix_mp.width;
  	org->fmt.pix.height = fmt.fmt.pix_mp.height;
-@@ -411,16 +542,18 @@ static int buf_ioctl(int fd, unsigned long int cmd, struct v4l2_buffer *arg)
+@@ -410,16 +541,18 @@ static int buf_ioctl(int fd, unsigned long int cmd, struct v4l2_buffer *arg)
  static int plugin_ioctl(void *dev_ops_priv, int fd,
  			unsigned long int cmd, void *arg)
  {

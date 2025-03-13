@@ -1,4 +1,4 @@
-From 81471d8195f3da907205ec7384bccfe9c8f846fd Mon Sep 17 00:00:00 2001
+From 279f88b029fdccb71144ebd5deed9a3d30d62717 Mon Sep 17 00:00:00 2001
 From: "vicent.chi" <vicent.chi@rock-chips.com>
 Date: Thu, 31 Oct 2019 11:46:12 +0800
 Subject: [PATCH 3/7] libv4l: add V4L2_MEMORY_DMABUF memory support
@@ -22,10 +22,10 @@ index 1924c91..30dd1bc 100644
  
  /* From v4l2-plugin.c */
 diff --git a/lib/libv4l2/libv4l2.c b/lib/libv4l2/libv4l2.c
-index 0c02bec..0b17888 100644
+index dd93d56..21d7a59 100644
 --- a/lib/libv4l2/libv4l2.c
 +++ b/lib/libv4l2/libv4l2.c
-@@ -543,7 +543,7 @@ static int v4l2_deactivate_read_stream(int index)
+@@ -538,7 +538,7 @@ static int v4l2_deactivate_read_stream(int index)
  
  static int v4l2_needs_conversion(int index)
  {
@@ -34,7 +34,7 @@ index 0c02bec..0b17888 100644
  		return 0;
  
  	return v4lconvert_needs_conversion(devices[index].convert,
-@@ -1305,12 +1305,18 @@ no_capture_request:
+@@ -1300,12 +1300,18 @@ no_capture_request:
  		struct v4l2_requestbuffers *req = arg;
  
  		/* IMPROVEME (maybe?) add support for userptr's? */
@@ -54,7 +54,7 @@ index 0c02bec..0b17888 100644
  		result = v4l2_check_buffer_change_ok(index);
  		if (result)
  			break;
-@@ -1563,6 +1569,14 @@ ssize_t v4l2_read(int fd, void *dest, size_t n)
+@@ -1558,6 +1564,14 @@ ssize_t v4l2_read(int fd, void *dest, size_t n)
  		goto leave;
  	}
  
@@ -69,7 +69,7 @@ index 0c02bec..0b17888 100644
  	/* Since we need to do conversion try to use mmap (streaming) mode under
  	   the hood as that safes a memcpy for each frame read.
  
-@@ -1627,6 +1641,7 @@ void *v4l2_mmap(void *start, size_t length, int prot, int flags, int fd,
+@@ -1622,6 +1636,7 @@ void *v4l2_mmap(void *start, size_t length, int prot, int flags, int fd,
  	void *result;
  
  	index = v4l2_get_index(fd);
@@ -77,7 +77,7 @@ index 0c02bec..0b17888 100644
  	if (index != -1 && devices[index].dev_ops->mmap) {
  		pthread_mutex_lock(&devices[index].stream_lock);
  		result = devices[index].dev_ops->mmap(
-@@ -1637,6 +1652,10 @@ void *v4l2_mmap(void *start, size_t length, int prot, int flags, int fd,
+@@ -1632,6 +1647,10 @@ void *v4l2_mmap(void *start, size_t length, int prot, int flags, int fd,
  		return result;
  	}
  
