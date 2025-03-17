@@ -9,6 +9,8 @@
 # When updating the version, please also update localedef
 ifeq ($(BR2_PACKAGE_GLIBC_2_28),y)
 GLIBC_VERSION = 2.28-69-g1e5c5303a522764d7e9d2302a60e4a32cdb902f1
+else ifeq ($(BR2_PACKAGE_GLIBC_2_38),y)
+GLIBC_VERSION = 2.38-44-gd37c2b20a4787463d192b32041c3406c2bd91de0
 else
 GLIBC_VERSION = 2.40-18-g5641780762723156b0d20a0b9f7df1d76831bab0
 endif
@@ -28,7 +30,7 @@ GLIBC_CPE_ID_VENDOR = gnu
 # allow proper matching with the CPE database.
 GLIBC_CPE_ID_VERSION = $(word 1, $(subst -,$(space),$(GLIBC_VERSION)))
 
-ifneq ($(BR2_PACKAGE_GLIBC_2_28),y)
+ifeq ($(BR2_PACKAGE_GLIBC_LATEST),y)
 # Fixed by glibc-2.39-31-g31da30f23cddd36db29d5b6a1c7619361b271fb4
 GLIBC_IGNORE_CVES += CVE-2024-2961
 
@@ -40,6 +42,34 @@ GLIBC_IGNORE_CVES += CVE-2024-33600
 
 # Fixed by glibc-2.39-38-ga9a8d3eebb145779a18d90e3966009a1daa63cd
 GLIBC_IGNORE_CVES += CVE-2024-33601 CVE-2024-33602
+else ifeq ($(BR2_PACKAGE_GLIBC_2_38),y)
+# Fixed by b25508dd774b617f99419bdc3cf2ace4560cd2d6, which is between
+# 2.38 and the version we're really using
+GLIBC_IGNORE_CVES += CVE-2023-4527
+
+# Fixed by 5ee59ca371b99984232d7584fe2b1a758b4421d3, which is between
+# 2.38 and the version we're really using
+GLIBC_IGNORE_CVES += CVE-2023-4806
+
+# Fixed by 750a45a783906a19591fb8ff6b7841470f1f5710, which is between
+# 2.38 and the version we're really using.
+GLIBC_IGNORE_CVES += CVE-2023-4911
+
+# Fixed by 5ee59ca371b99984232d7584fe2b1a758b4421d3, which is between
+# 2.38 and the version we're really using.
+GLIBC_IGNORE_CVES += CVE-2023-5156
+
+# Fixed by 23514c72b780f3da097ecf33a793b7ba9c2070d2, which is between
+# 2.38 and the version we're really using.
+GLIBC_IGNORE_CVES += CVE-2023-6246
+
+# Fixed by d0338312aace5bbfef85e03055e1212dd0e49578, which is between
+# 2.38 and the version we're really using.
+GLIBC_IGNORE_CVES += CVE-2023-6779
+
+# Fixed by d37c2b20a4787463d192b32041c3406c2bd91de0, which is between
+# 2.38 and the version we're really using.
+GLIBC_IGNORE_CVES += CVE-2023-6780
 endif
 
 # All these CVEs are considered as not being security issues by
@@ -140,12 +170,6 @@ else
 GLIBC_CONF_OPTS += --enable-kernel=$(call qstrip,$(BR2_TOOLCHAIN_HEADERS_AT_LEAST))
 endif
 
-ifeq ($(BR2_TOOLCHAIN_GCC_AT_LEAST_10),y)
-GLIBC_CONF_OPTS += \
-	$(if $(BR2_aarch64)$(BR2_aarch64_be),--enable-mathvec) \
-	--enable-crypt
-endif
-
 # Even though we use the autotools-package infrastructure, we have to
 # override the default configure commands for several reasons:
 #
@@ -196,6 +220,11 @@ define GLIBC_CONFIGURE_CMDS
 	$(GLIBC_ADD_MISSING_STUB_H)
 endef
 
+ifeq ($(BR2_TOOLCHAIN_GCC_AT_LEAST_10),y)
+GLIBC_CONF_OPTS += \
+	$(if $(BR2_aarch64)$(BR2_aarch64_be),--enable-mathvec)
+endif
+
 define GLIBC_POST_STAGING_INSTALL
 	$(INSTALL) -D -m 0755 $(@D)/build/nis/libnsl.so* \
 		$(STAGING_DIR)/usr/lib/
@@ -207,10 +236,19 @@ GLIBC_POST_INSTALL_STAGING_HOOKS += GLIBC_POST_STAGING_INSTALL
 # to install the libraries, and nothing more.
 #
 
+ifeq ($(BR2_PACKAGE_GLIBC_LATEST),y)
 GLIBC_LIBS_LIB = \
 	ld*.so.* libanl.so.* libc.so.* libdl.so.* libgcc_s.so.* \
 	libnsl.so.* libm.so.* libpthread.so.* libresolv.so.* librt.so.* \
 	libutil.so.* libnss_files.so.* libnss_dns.so.* libmvec.so.*
+else
+# Drop since 2.39
+GLIBC_CONF_OPTS += --enable-crypt
+GLIBC_LIBS_LIB = \
+	ld*.so.* libanl.so.* libc.so.* libcrypt.so.* libdl.so.* libgcc_s.so.* \
+	libnsl.so.* libm.so.* libpthread.so.* libresolv.so.* librt.so.* \
+	libutil.so.* libnss_files.so.* libnss_dns.so.* libmvec.so.*
+endif
 
 ifeq ($(BR2_PACKAGE_GDB),y)
 GLIBC_LIBS_LIB += libthread_db.so.*

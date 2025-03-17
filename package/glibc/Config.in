@@ -59,6 +59,9 @@ choice
 config BR2_PACKAGE_GLIBC_LATEST
         bool "glibc latest"
 
+config BR2_PACKAGE_GLIBC_2_38
+        bool "glibc 2.38"
+
 config BR2_PACKAGE_GLIBC_2_28
         bool "glibc 2.28"
 
