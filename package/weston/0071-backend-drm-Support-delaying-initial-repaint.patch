@@ -1,7 +1,7 @@
-From 89d943b2470eb75165107c273ce19c88740c0ed4 Mon Sep 17 00:00:00 2001
+From a6acfd098841c6ab14a5455adc13120bf9adec08 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 19 Oct 2023 11:41:06 +0800
-Subject: [PATCH 071/101] backend-drm: Support delaying initial repaint
+Subject: [PATCH 071/104] backend-drm: Support delaying initial repaint
 
 Set env "WESTON_DRM_INITIAL_FREEZE_MS" for the initial freezing.
 
@@ -12,10 +12,10 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  2 files changed, 27 insertions(+)
 
 diff --git a/libweston/backend-drm/drm-internal.h b/libweston/backend-drm/drm-internal.h
-index d35deb226..bece99bc5 100644
+index ea65ce0c6..28584f12a 100644
 --- a/libweston/backend-drm/drm-internal.h
 +++ b/libweston/backend-drm/drm-internal.h
-@@ -278,6 +278,9 @@ struct drm_backend {
+@@ -280,6 +280,9 @@ struct drm_backend {
  	bool pending_update;
  	int64_t last_update_ms;
  

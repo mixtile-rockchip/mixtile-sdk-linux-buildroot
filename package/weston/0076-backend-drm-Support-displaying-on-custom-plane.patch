@@ -1,7 +1,7 @@
-From 377042a47fc0c6e1e3aa0964d2a9deed93d37dc0 Mon Sep 17 00:00:00 2001
+From 50e6aa23b2b4b0f5542584f4ca7fe0e4365e2a39 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 4 Jan 2024 10:50:02 +0800
-Subject: [PATCH 076/101] backend-drm: Support displaying on custom plane
+Subject: [PATCH 076/104] backend-drm: Support displaying on custom plane
 
 Tested on RK3588 EVB with:
 1/ gst-launch-1.0 videotestsrc ! kmssink force-modesetting=1
@@ -20,10 +20,10 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  3 files changed, 102 insertions(+), 9 deletions(-)
 
 diff --git a/libweston/backend-drm/drm-internal.h b/libweston/backend-drm/drm-internal.h
-index bece99bc5..0f25e50db 100644
+index 28584f12a..a236d2374 100644
 --- a/libweston/backend-drm/drm-internal.h
 +++ b/libweston/backend-drm/drm-internal.h
-@@ -610,6 +610,7 @@ struct drm_output {
+@@ -612,6 +612,7 @@ struct drm_output {
  
  	/* Plane being displayed directly on the CRTC */
  	struct drm_plane *scanout_plane;

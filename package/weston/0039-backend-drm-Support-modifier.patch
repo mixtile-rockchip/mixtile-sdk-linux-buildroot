@@ -1,7 +1,7 @@
-From 4468437d34f03681f9acfff8fa4e29e045b11c51 Mon Sep 17 00:00:00 2001
+From 1209efc7cd59e983a4d450e7c4cb22981c9261ab Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 6 Jan 2021 04:11:48 +0800
-Subject: [PATCH 039/101] backend-drm: Support modifier
+Subject: [PATCH 039/104] backend-drm: Support modifier
 
 Tested on rk3588 with:
 unset WESTON_DISABLE_ATOMIC
@@ -54,10 +54,10 @@ index 70924cf3e..055ef0baf 100644
  			gbm_surface_create_with_modifiers(gbm,
  							  mode->width, mode->height,
 diff --git a/libweston/backend-drm/drm-internal.h b/libweston/backend-drm/drm-internal.h
-index a1768200a..cda5d35c0 100644
+index d4f4fdf15..c4fa3dd25 100644
 --- a/libweston/backend-drm/drm-internal.h
 +++ b/libweston/backend-drm/drm-internal.h
-@@ -463,6 +463,7 @@ struct drm_plane {
+@@ -465,6 +465,7 @@ struct drm_plane {
  	struct weston_drm_format_array formats;
  
  	bool can_scale;

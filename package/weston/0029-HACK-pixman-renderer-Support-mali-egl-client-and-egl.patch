@@ -1,4 +1,4 @@
-From 7f3556c434a3b950d5a6b75985e1e35cdd3500c1 Mon Sep 17 00:00:00 2001
+From fd25e3c0182ab623c69ebe5633b838cd5a99a1e4 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 3 Jul 2020 14:53:52 +0800
 Subject: [PATCH 029/104] HACK: pixman-renderer: Support mali egl client and
@@ -9,11 +9,32 @@ lots of hacks to attach a wl_buffer created in that way.
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---
- libweston/meson.build       |   4 +
- libweston/pixman-renderer.c | 341 +++++++++++++++++++++++++++++++-----
- meson.build                 |  18 +-
- 3 files changed, 319 insertions(+), 44 deletions(-)
+ libweston/backend-drm/drm-internal.h |   2 +
+ libweston/meson.build                |   4 +
+ libweston/pixman-renderer.c          | 347 ++++++++++++++++++++++++---
+ meson.build                          |  18 +-
+ 4 files changed, 327 insertions(+), 44 deletions(-)
 
+diff --git a/libweston/backend-drm/drm-internal.h b/libweston/backend-drm/drm-internal.h
+index a1768200a..d4f4fdf15 100644
+--- a/libweston/backend-drm/drm-internal.h
++++ b/libweston/backend-drm/drm-internal.h
+@@ -62,6 +62,7 @@
+ #include "libweston-internal.h"
+ #include "drm-kms-enums.h"
+ 
++#ifdef BUILD_DRM_GBM
+ #ifndef GBM_BO_USE_CURSOR
+ #define GBM_BO_USE_CURSOR GBM_BO_USE_CURSOR_64X64
+ #endif
+@@ -69,6 +70,7 @@
+ #ifndef GBM_BO_USE_LINEAR
+ #define GBM_BO_USE_LINEAR (1 << 4)
+ #endif
++#endif
+ 
+ #ifndef DRM_PLANE_ZPOS_INVALID_PLANE
+ #define DRM_PLANE_ZPOS_INVALID_PLANE	0xffffffffffffffffULL
 diff --git a/libweston/meson.build b/libweston/meson.build
 index fc904eefd..c1c903c52 100644
 --- a/libweston/meson.build
@@ -37,10 +58,10 @@ index fc904eefd..c1c903c52 100644
  if get_option('backend-vnc')
  	dep_pam = dependency('pam', required: false)
 diff --git a/libweston/pixman-renderer.c b/libweston/pixman-renderer.c
-index 82854a226..739350559 100644
+index 82854a226..c348ef461 100644
 --- a/libweston/pixman-renderer.c
 +++ b/libweston/pixman-renderer.c
-@@ -48,6 +48,23 @@
+@@ -48,6 +48,29 @@
  #include "linux-dmabuf.h"
  #include "linux-dmabuf-unstable-v1-server-protocol.h"
  
@@ -57,6 +78,12 @@ index 82854a226..739350559 100644
 +#include <EGL/eglext.h>
 +#include <GLES2/gl2.h>
 +#include <GLES2/gl2ext.h>
++
++/* HACK: Force enabling EGL */
++#ifndef ENABLE_EGL
++#define ENABLE_EGL
++#endif
++
 +#include "shared/platform.h"
 +#include "shared/weston-egl-ext.h"  /* for PFN* stuff */
 +#endif
@@ -64,7 +91,7 @@ index 82854a226..739350559 100644
  struct pixman_output_state {
  	pixman_image_t *shadow_image;
  	const struct pixel_format_info *shadow_format;
-@@ -86,6 +103,18 @@ struct pixman_renderer {
+@@ -86,6 +109,18 @@ struct pixman_renderer {
  	struct wl_signal destroy_signal;
  
  	struct weston_drm_format_array supported_formats;
@@ -83,7 +110,7 @@ index 82854a226..739350559 100644
  };
  
  struct dmabuf_data {
-@@ -93,6 +122,17 @@ struct dmabuf_data {
+@@ -93,6 +128,17 @@ struct dmabuf_data {
  	size_t size;
  };
  
@@ -101,7 +128,7 @@ index 82854a226..739350559 100644
  static inline struct pixman_renderbuffer *
  to_pixman_renderbuffer(struct weston_renderbuffer *renderbuffer)
  {
-@@ -737,9 +777,22 @@ pixman_renderer_flush_damage(struct weston_paint_node *pnode)
+@@ -737,9 +783,22 @@ pixman_renderer_flush_damage(struct weston_paint_node *pnode)
  	/* No-op for pixman renderer */
  }
  
@@ -124,7 +151,7 @@ index 82854a226..739350559 100644
  	struct pixman_surface_state *ps;
  
  	ps = container_of(listener, struct pixman_surface_state,
-@@ -751,6 +804,8 @@ buffer_state_handle_buffer_destroy(struct wl_listener *listener, void *data)
+@@ -751,6 +810,8 @@ buffer_state_handle_buffer_destroy(struct wl_listener *listener, void *data)
  	}
  
  	ps->buffer_destroy_listener.notify = NULL;
@@ -133,18 +160,18 @@ index 82854a226..739350559 100644
  }
  
  static void
-@@ -776,15 +831,10 @@ pixman_renderer_surface_set_color(struct weston_surface *es,
+@@ -776,15 +837,10 @@ pixman_renderer_surface_set_color(struct weston_surface *es,
  static void
  pixman_renderer_destroy_dmabuf(struct linux_dmabuf_buffer *dmabuf)
  {
 -	struct dmabuf_data *data = dmabuf->user_data;
 -	linux_dmabuf_buffer_set_user_data(dmabuf, NULL, NULL);
--
++	void *data = linux_dmabuf_buffer_get_user_data(dmabuf);
+ 
 -	if (data) {
 -		if (data->ptr)
 -			munmap(data->ptr, data->size);
-+	void *data = linux_dmabuf_buffer_get_user_data(dmabuf);
- 
+-
 -		free(data);
 -	}
 +	pixman_renderer_destroy_dmabuf_data(data);
@@ -152,7 +179,7 @@ index 82854a226..739350559 100644
  }
  
  static bool
-@@ -793,8 +843,15 @@ pixman_renderer_prepare_dmabuf(struct linux_dmabuf_buffer *dmabuf)
+@@ -793,8 +849,15 @@ pixman_renderer_prepare_dmabuf(struct linux_dmabuf_buffer *dmabuf)
  	struct dmabuf_attributes *attributes = &dmabuf->attributes;
  	struct dmabuf_data *data;
  	size_t total_size, vstride0;
@@ -168,7 +195,7 @@ index 82854a226..739350559 100644
  	if (attributes->modifier != DRM_FORMAT_MOD_INVALID &&
  	    attributes->modifier != DRM_FORMAT_MOD_LINEAR)
  		return false;
-@@ -809,7 +866,6 @@ pixman_renderer_prepare_dmabuf(struct linux_dmabuf_buffer *dmabuf)
+@@ -809,7 +872,6 @@ pixman_renderer_prepare_dmabuf(struct linux_dmabuf_buffer *dmabuf)
  	if (attributes->n_planes == 1)
  		goto out;
  
@@ -176,7 +203,7 @@ index 82854a226..739350559 100644
  	vstride0 = (attributes->offset[1] - attributes->offset[0]) /
  		attributes->stride[0];
  
-@@ -832,18 +888,22 @@ pixman_renderer_prepare_dmabuf(struct linux_dmabuf_buffer *dmabuf)
+@@ -832,18 +894,22 @@ pixman_renderer_prepare_dmabuf(struct linux_dmabuf_buffer *dmabuf)
  out:
  	/* Handle contig dma buffer */
  
@@ -206,7 +233,7 @@ index 82854a226..739350559 100644
  }
  
  static void
-@@ -853,18 +913,16 @@ pixman_renderer_attach_dmabuf(struct weston_surface *es,
+@@ -853,18 +919,16 @@ pixman_renderer_attach_dmabuf(struct weston_surface *es,
  {
  	struct pixman_surface_state *ps = get_surface_state(es);
  	struct dmabuf_attributes *attributes = &dmabuf->attributes;
@@ -231,7 +258,7 @@ index 82854a226..739350559 100644
  
  	buffer->width = attributes->width;
  	buffer->height = attributes->height;
-@@ -897,6 +955,9 @@ pixman_renderer_attach_dmabuf(struct weston_surface *es,
+@@ -897,6 +961,9 @@ pixman_renderer_attach_dmabuf(struct weston_surface *es,
  	case DRM_FORMAT_BGR888:
  		pixman_format = PIXMAN_b8g8r8;
  		break;
@@ -241,7 +268,7 @@ index 82854a226..739350559 100644
  	case DRM_FORMAT_ARGB8888:
  		pixman_format = PIXMAN_a8r8g8b8;
  		break;
-@@ -906,6 +967,9 @@ pixman_renderer_attach_dmabuf(struct weston_surface *es,
+@@ -906,6 +973,9 @@ pixman_renderer_attach_dmabuf(struct weston_surface *es,
  	case DRM_FORMAT_RGB888:
  		pixman_format = PIXMAN_r8g8b8;
  		break;
@@ -251,7 +278,7 @@ index 82854a226..739350559 100644
  	case DRM_FORMAT_YUYV:
  		pixman_format = PIXMAN_yuy2;
  		break;
-@@ -929,11 +993,7 @@ pixman_renderer_attach_dmabuf(struct weston_surface *es,
+@@ -929,11 +999,7 @@ pixman_renderer_attach_dmabuf(struct weston_surface *es,
  #endif
  	default:
  		weston_log("Unsupported dmabuf format\n");
@@ -264,7 +291,7 @@ index 82854a226..739350559 100644
  	}
  
  	ps->image = pixman_image_create_bits(pixman_format,
-@@ -945,6 +1005,13 @@ pixman_renderer_attach_dmabuf(struct weston_surface *es,
+@@ -945,6 +1011,13 @@ pixman_renderer_attach_dmabuf(struct weston_surface *es,
  		buffer_state_handle_buffer_destroy;
  	wl_signal_add(&buffer->destroy_signal,
  		      &ps->buffer_destroy_listener);
@@ -278,7 +305,7 @@ index 82854a226..739350559 100644
  }
  
  static void
-@@ -955,7 +1022,6 @@ pixman_renderer_attach(struct weston_paint_node *pnode)
+@@ -955,7 +1028,6 @@ pixman_renderer_attach(struct weston_paint_node *pnode)
  	struct weston_buffer *buffer = pnode->surface->buffer_ref.buffer;
  	struct pixman_surface_state *ps = get_surface_state(es);
  	struct wl_shm_buffer *shm_buffer;
@@ -286,7 +313,7 @@ index 82854a226..739350559 100644
  	const struct pixel_format_info *pixel_info;
  
  	weston_buffer_reference(&ps->buffer_ref, buffer,
-@@ -989,19 +1055,53 @@ pixman_renderer_attach(struct weston_paint_node *pnode)
+@@ -989,17 +1061,51 @@ pixman_renderer_attach(struct weston_paint_node *pnode)
  		return;
  	}
  
@@ -327,15 +354,15 @@ index 82854a226..739350559 100644
 +		/* Reuse the old user_data */
 +		linux_dmabuf_buffer_set_user_data(&dmabuf,
 +                                                 buffer->renderer_private, NULL);
-+
+ 
 +		pixman_renderer_attach_dmabuf(es, buffer, &dmabuf);
 +
 +		/* Use renderer_private for user_data destruction */
 +		buffer->renderer_private =
 +			linux_dmabuf_buffer_get_user_data(&dmabuf);
- 
- 		return;
- 	}
++
++		return;
++	}
 +#endif
 +
 +	if (buffer->type != WESTON_BUFFER_SHM) {
@@ -344,12 +371,10 @@ index 82854a226..739350559 100644
 +					BUFFER_WILL_NOT_BE_ACCESSED);
 +		weston_buffer_release_reference(&ps->buffer_release_ref,
 +						NULL);
-+		return;
-+	}
+ 		return;
+ 	}
  
- 	shm_buffer = buffer->shm_buffer;
- 	/* This can happen if a SHM wl_buffer gets destroyed before we attach,
-@@ -1033,6 +1133,61 @@ pixman_renderer_attach(struct weston_paint_node *pnode)
+@@ -1033,6 +1139,61 @@ pixman_renderer_attach(struct weston_paint_node *pnode)
  		      &ps->buffer_destroy_listener);
  }
  
@@ -411,7 +436,7 @@ index 82854a226..739350559 100644
  static void
  pixman_renderer_surface_state_destroy(struct pixman_surface_state *ps)
  {
-@@ -1109,6 +1264,21 @@ pixman_renderer_destroy(struct weston_compositor *ec)
+@@ -1109,6 +1270,21 @@ pixman_renderer_destroy(struct weston_compositor *ec)
  {
  	struct pixman_renderer *pr = get_renderer(ec);
  
@@ -433,7 +458,7 @@ index 82854a226..739350559 100644
  	wl_signal_emit(&pr->destroy_signal, pr);
  	weston_binding_destroy(pr->debug_binding);
  
-@@ -1294,6 +1464,89 @@ out:
+@@ -1294,6 +1470,89 @@ out:
  	return ret;
  }
  
@@ -523,7 +548,7 @@ index 82854a226..739350559 100644
  WL_EXPORT int
  pixman_renderer_init(struct weston_compositor *ec)
  {
-@@ -1318,6 +1571,11 @@ pixman_renderer_init(struct weston_compositor *ec)
+@@ -1318,6 +1577,11 @@ pixman_renderer_init(struct weston_compositor *ec)
  		pixman_renderer_surface_copy_content;
  	renderer->base.type = WESTON_RENDERER_PIXMAN;
  	renderer->base.pixman = &pixman_renderer_interface;
@@ -535,7 +560,7 @@ index 82854a226..739350559 100644
  	ec->renderer = &renderer->base;
  	ec->capabilities |= WESTON_CAP_ROTATION_ANY;
  	ec->capabilities |= WESTON_CAP_VIEW_CLIP_MASK;
-@@ -1358,6 +1616,11 @@ pixman_renderer_init(struct weston_compositor *ec)
+@@ -1358,6 +1622,11 @@ pixman_renderer_init(struct weston_compositor *ec)
  	renderer->base.get_supported_formats =
  		pixman_renderer_get_supported_formats;
  

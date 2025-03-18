@@ -1,17 +1,17 @@
-From 0c27c081b73b199fb616b4e50bf3fb5e5d5cb92a Mon Sep 17 00:00:00 2001
+From d3e9676f71975e589e92ce3d28e200e7e0c6107e Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 22 Jan 2025 16:32:10 +0800
 Subject: [PATCH 099/104] drm: Support HW cursor when not using gl-renderer
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---
- libweston/backend-drm/drm-gbm.c       | 69 ---------------------------
- libweston/backend-drm/drm-internal.h  |  4 +-
- libweston/backend-drm/drm.c           | 69 +++++++++++++++++++--------
- libweston/backend-drm/fb.c            | 53 +++++++++++---------
+ libweston/backend-drm/drm-gbm.c       | 69 -------------------------
+ libweston/backend-drm/drm-internal.h  | 19 +------
+ libweston/backend-drm/drm.c           | 69 +++++++++++++++++--------
+ libweston/backend-drm/fb.c            | 72 ++++++++++++++++-----------
  libweston/backend-drm/kms.c           |  4 +-
  libweston/backend-drm/state-propose.c | 23 +--------
- 6 files changed, 84 insertions(+), 138 deletions(-)
+ 6 files changed, 98 insertions(+), 158 deletions(-)
 
 diff --git a/libweston/backend-drm/drm-gbm.c b/libweston/backend-drm/drm-gbm.c
 index 27c76d71d..bbe0a6af3 100644
@@ -108,10 +108,10 @@ index 27c76d71d..bbe0a6af3 100644
  
  struct drm_fb *
 diff --git a/libweston/backend-drm/drm-internal.h b/libweston/backend-drm/drm-internal.h
-index 73d0c82e4..66191d7bd 100644
+index 2e52aac92..d26948683 100644
 --- a/libweston/backend-drm/drm-internal.h
 +++ b/libweston/backend-drm/drm-internal.h
-@@ -595,8 +595,8 @@ struct drm_output {
+@@ -597,8 +597,8 @@ struct drm_output {
  	bool dpms_off_pending;
  	bool mode_switch_pending;
  
@@ -122,6 +122,35 @@ index 73d0c82e4..66191d7bd 100644
  	struct drm_plane *cursor_plane;
  	struct weston_view *cursor_view;
  	struct wl_listener cursor_view_destroy_listener;
+@@ -875,7 +875,6 @@ drm_output_ensure_hdr_output_metadata_blob(struct drm_output *output);
+ enum wdrm_colorspace
+ wdrm_colorspace_from_output(struct weston_output *output);
+ 
+-#ifdef BUILD_DRM_GBM
+ extern struct drm_fb *
+ drm_fb_get_from_paint_node(struct drm_output_state *state,
+ 			   struct weston_paint_node *pnode);
+@@ -883,20 +882,6 @@ drm_fb_get_from_paint_node(struct drm_output_state *state,
+ extern bool
+ drm_can_scanout_dmabuf(struct weston_backend *backend,
+ 		       struct linux_dmabuf_buffer *dmabuf);
+-#else
+-static inline struct drm_fb *
+-drm_fb_get_from_paint_node(struct drm_output_state *state,
+-			   struct weston_paint_node *pnode)
+-{
+-	return NULL;
+-}
+-static inline bool
+-drm_can_scanout_dmabuf(struct weston_backend *backend,
+-		       struct linux_dmabuf_buffer *dmabuf)
+-{
+-	return false;
+-}
+-#endif
+ 
+ struct drm_pending_state *
+ drm_pending_state_alloc(struct drm_device *device);
 diff --git a/libweston/backend-drm/drm.c b/libweston/backend-drm/drm.c
 index 1c5dc6064..c0031d5c1 100644
 --- a/libweston/backend-drm/drm.c
@@ -258,11 +287,59 @@ index 1c5dc6064..c0031d5c1 100644
  	drm_output_detach_crtc(output);
  
 diff --git a/libweston/backend-drm/fb.c b/libweston/backend-drm/fb.c
-index cbfaf1e65..f39124b12 100644
+index cbfaf1e65..f67eb3885 100644
 --- a/libweston/backend-drm/fb.c
 +++ b/libweston/backend-drm/fb.c
-@@ -400,13 +400,6 @@ drm_fb_get_from_dmabuf(struct linux_dmabuf_buffer *dmabuf,
+@@ -364,23 +364,27 @@ drm_fb_destroy_gbm(struct gbm_bo *bo, void *data)
+ 	       fb->type == BUFFER_CURSOR);
+ 	drm_fb_destroy(fb);
+ }
++#endif
+ 
+ static void
+ drm_fb_destroy_dmabuf(struct drm_fb *fb)
+ {
+ 	int i;
+ 
+-	if (fb->bo) {
+-		/* We deliberately do not close the GEM handles here; GBM manages
+-		 * their lifetime through the BO. */
+-		gbm_bo_destroy(fb->bo);
+-	} else {
++	if (!fb->bo) {
+ 		for (i = 0; i < fb->num_planes; i++) {
+ 			struct drm_gem_close arg = { fb->handles[i], };
+ 			drmIoctl(fb->fd, DRM_IOCTL_GEM_CLOSE, &arg);
+ 		}
++		goto out;
+ 	}
+ 
++#ifdef BUILD_DRM_GBM
++	/* We deliberately do not close the GEM handles here; GBM manages
++	 * their lifetime through the BO. */
++	if (fb->bo)
++		gbm_bo_destroy(fb->bo);
++
+ 	/*
+ 	 * If we imported the dmabuf into a scanout device, we are responsible
+ 	 * for closing the GEM handle.
+@@ -388,7 +392,9 @@ drm_fb_destroy_dmabuf(struct drm_fb *fb)
+ 	for (i = 0; i < 4; i++)
+ 		if (fb->scanout_device && fb->handles[i] != 0)
+ 			gem_handle_put(fb->scanout_device, fb->handles[i]);
++#endif
+ 
++out:
+ 	drm_fb_destroy(fb);
+ }
+ 
+@@ -397,16 +403,11 @@ drm_fb_get_from_dmabuf(struct linux_dmabuf_buffer *dmabuf,
+ 		       struct drm_device *device, bool is_opaque,
+ 		       uint32_t *try_view_on_plane_failure_reasons)
+ {
++#ifdef BUILD_DRM_GBM
  	struct drm_backend *backend = device->backend;
++#endif
  	struct drm_fb *fb;
  	int i;
 -	struct gbm_import_fd_modifier_data import_mod = {
@@ -275,7 +352,7 @@ index cbfaf1e65..f39124b12 100644
  
  #if 0
  	/* We should not import to KMS a buffer that has been allocated using no
-@@ -444,12 +437,6 @@ drm_fb_get_from_dmabuf(struct linux_dmabuf_buffer *dmabuf,
+@@ -444,12 +445,6 @@ drm_fb_get_from_dmabuf(struct linux_dmabuf_buffer *dmabuf,
  	fb->type = BUFFER_DMABUF;
  	fb->backend = device->backend;
  
@@ -288,7 +365,7 @@ index cbfaf1e65..f39124b12 100644
  	fb->width = dmabuf->attributes.width;
  	fb->height = dmabuf->attributes.height;
  	fb->modifier = dmabuf->attributes.modifier;
-@@ -478,6 +465,25 @@ drm_fb_get_from_dmabuf(struct linux_dmabuf_buffer *dmabuf,
+@@ -478,6 +473,25 @@ drm_fb_get_from_dmabuf(struct linux_dmabuf_buffer *dmabuf,
  	}
  
  	fb->num_planes = dmabuf->attributes.n_planes;
@@ -314,7 +391,7 @@ index cbfaf1e65..f39124b12 100644
  	if (fb->bo) {
  		for (i = 0; i < fb->num_planes; i++) {
  			union gbm_bo_handle handle;
-@@ -490,9 +496,12 @@ drm_fb_get_from_dmabuf(struct linux_dmabuf_buffer *dmabuf,
+@@ -490,9 +504,12 @@ drm_fb_get_from_dmabuf(struct linux_dmabuf_buffer *dmabuf,
  			}
  			fb->handles[i] = handle.u32;
  		}
@@ -329,7 +406,15 @@ index cbfaf1e65..f39124b12 100644
  					       &fb->handles[i])) {
  				*try_view_on_plane_failure_reasons |=
  					FAILURE_REASONS_GBM_BO_IMPORT_FAILED;
-@@ -618,7 +627,6 @@ drm_fb_unref(struct drm_fb *fb)
+@@ -515,6 +532,7 @@ err_free:
+ 	return NULL;
+ }
+ 
++#ifdef BUILD_DRM_GBM
+ struct drm_fb *
+ drm_fb_get_from_bo(struct gbm_bo *bo, struct drm_device *device,
+ 		   bool is_opaque, enum drm_fb_type type)
+@@ -618,7 +636,6 @@ drm_fb_unref(struct drm_fb *fb)
  	}
  }
  
@@ -337,7 +422,7 @@ index cbfaf1e65..f39124b12 100644
  bool
  drm_can_scanout_dmabuf(struct weston_backend *backend,
  		       struct linux_dmabuf_buffer *dmabuf)
-@@ -747,17 +755,16 @@ drm_fb_get_from_paint_node(struct drm_output_state *state,
+@@ -747,17 +764,16 @@ drm_fb_get_from_paint_node(struct drm_output_state *state,
  	buf_fb->device = device;
  	wl_list_insert(&private->buffer_fb_list, &buf_fb->link);
  
@@ -360,7 +445,7 @@ index cbfaf1e65..f39124b12 100644
  	} else if (buffer->type == WESTON_BUFFER_RENDERER_OPAQUE) {
  		struct gbm_bo *bo;
  
-@@ -773,6 +780,7 @@ drm_fb_get_from_paint_node(struct drm_output_state *state,
+@@ -773,6 +789,7 @@ drm_fb_get_from_paint_node(struct drm_output_state *state,
  			gbm_bo_destroy(bo);
  			goto unsuitable;
  		}
@@ -368,7 +453,7 @@ index cbfaf1e65..f39124b12 100644
  	} else {
  		pnode->try_view_on_plane_failure_reasons |= FAILURE_REASONS_BUFFER_TYPE;
  		goto unsuitable;
-@@ -806,4 +814,3 @@ unsuitable:
+@@ -806,4 +823,3 @@ unsuitable:
  	pnode->try_view_on_plane_failure_reasons |= buf_fb->failure_reasons;
  	return NULL;
  }

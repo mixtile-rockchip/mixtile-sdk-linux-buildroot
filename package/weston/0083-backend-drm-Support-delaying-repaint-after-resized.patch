@@ -1,7 +1,7 @@
-From decc820cb25e380748b50351c5a32191468cf2f8 Mon Sep 17 00:00:00 2001
+From ef0392ecc07d805540007406fc7a6688ecf41968 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 17 Apr 2024 15:41:33 +0800
-Subject: [PATCH 083/101] backend-drm: Support delaying repaint after resized
+Subject: [PATCH 083/104] backend-drm: Support delaying repaint after resized
 
 Freeze after drm outputs resized, to avoid glith.
 
@@ -12,10 +12,10 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  2 files changed, 38 insertions(+), 4 deletions(-)
 
 diff --git a/libweston/backend-drm/drm-internal.h b/libweston/backend-drm/drm-internal.h
-index 0f25e50db..73d0c82e4 100644
+index a236d2374..2e52aac92 100644
 --- a/libweston/backend-drm/drm-internal.h
 +++ b/libweston/backend-drm/drm-internal.h
-@@ -119,6 +119,9 @@
+@@ -121,6 +121,9 @@
  /* Min duration between drm outputs update requests, to avoid glith */
  #define DRM_MIN_UPDATE_MS	1000
  
@@ -25,7 +25,7 @@ index 0f25e50db..73d0c82e4 100644
  #define WESTON_DRM_CONFIG_FILE	"/tmp/.weston_drm.conf"
  #define DRM_CONFIG_UPDATE_MS	100
  
-@@ -277,6 +280,8 @@ struct drm_backend {
+@@ -279,6 +282,8 @@ struct drm_backend {
  	struct wl_event_source *hotplug_timer;
  	bool pending_update;
  	int64_t last_update_ms;
@@ -34,7 +34,7 @@ index 0f25e50db..73d0c82e4 100644
  
  	int64_t initial_update_ms;
  	int64_t initial_freeze_ms;
-@@ -288,6 +293,7 @@ struct drm_backend {
+@@ -290,6 +295,7 @@ struct drm_backend {
  	drm_head_match_t *head_matches;
  	struct drm_head *primary_head;
  	struct wl_listener output_create_listener;

@@ -1,7 +1,7 @@
-From 57ef8553763ab57faaeda548ac783a2344f968d0 Mon Sep 17 00:00:00 2001
+From ed6669cc41ddc0637c5060373a5dd07ef19224d9 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 7 Mar 2022 17:20:59 +0800
-Subject: [PATCH 052/101] backend-drm: Allow overriding plane type when using
+Subject: [PATCH 052/104] backend-drm: Allow overriding plane type when using
  atomic
 
 Set env DRM_PLANE_TYPE_<plane id> to primary|overlay|cursor.
@@ -14,10 +14,10 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  3 files changed, 34 insertions(+), 4 deletions(-)
 
 diff --git a/libweston/backend-drm/drm-internal.h b/libweston/backend-drm/drm-internal.h
-index 455ddad4b..4773f02fd 100644
+index d39601386..a4d3264a7 100644
 --- a/libweston/backend-drm/drm-internal.h
 +++ b/libweston/backend-drm/drm-internal.h
-@@ -802,6 +802,9 @@ drm_plane_populate_formats(struct drm_plane *plane, const drmModePlane *kplane,
+@@ -804,6 +804,9 @@ drm_plane_populate_formats(struct drm_plane *plane, const drmModePlane *kplane,
  void
  drm_property_info_free(struct drm_property_info *info, int num_props);
  
