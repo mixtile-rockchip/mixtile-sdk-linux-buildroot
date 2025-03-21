@@ -12,7 +12,7 @@ GLIBC_VERSION = 2.28-69-g1e5c5303a522764d7e9d2302a60e4a32cdb902f1
 else ifeq ($(BR2_PACKAGE_GLIBC_2_38),y)
 GLIBC_VERSION = 2.38-44-gd37c2b20a4787463d192b32041c3406c2bd91de0
 else
-GLIBC_VERSION = 2.40-18-g5641780762723156b0d20a0b9f7df1d76831bab0
+GLIBC_VERSION = 2.41-5-gcb7f20653724029be89224ed3a35d627cc5b4163
 endif
 # Upstream doesn't officially provide an https download link.
 # There is one (https://sourceware.org/git/glibc.git) but it's not reliable,
@@ -181,10 +181,6 @@ endif
 # Glibc nowadays can be build with optimization flags f.e. -Os
 
 GLIBC_CFLAGS = $(TARGET_OPTIMIZATION)
-# crash in qemu-system-nios2 with -Os
-ifeq ($(BR2_nios2),y)
-GLIBC_CFLAGS += -O2
-endif
 
 # glibc can't be built without optimization
 ifeq ($(BR2_OPTIMIZE_0),y)
