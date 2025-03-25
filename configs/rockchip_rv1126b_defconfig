@@ -1,8 +1,7 @@
 #include "base/base.config"
 #include "wifibt/bt.config"
 #include "wifibt/wireless.config"
-#include "chips/rk3576_aarch64.config"
-#include "toolchain/arm_10_aarch64.config"
+#include "chips/rv1126b_aarch64.config"
 BR2_PACKAGE_ALSA_UTILS=y
 BR2_PACKAGE_ALSA_UTILS_AMIXER=y
 BR2_PACKAGE_ANDROID_ADBD=y
