@@ -28,6 +28,12 @@ config BR2_PACKAGE_RV1126_RV1109
 	help
 	  Use Rockchip's rv1126/rv1109 SoC.
 
+config BR2_PACKAGE_RV1126B
+	bool "rv1126b"
+	select BR2_PACKAGE_ROCKCHIP_HAS_ISP3
+	help
+	  Use Rockchip's rv1126b SoC.
+
 config BR2_PACKAGE_RK1806
 	bool "rk1806"
 	select BR2_PACKAGE_ROCKCHIP_HAS_ISP1
