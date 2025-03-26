@@ -2,7 +2,7 @@
 #include "chips/rk3036_arm.config"
 #include "font/chinese.config"
 #include "fs/ntfs.config"
-#include "gpu/gpu.config"
+#include "gpu/mali.config"
 #include "multimedia/audio.config"
 #include "multimedia/gst/audio.config"
 #include "multimedia/gst/rtsp.config"

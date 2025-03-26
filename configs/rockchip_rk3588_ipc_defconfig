@@ -1,5 +1,5 @@
 #include "rockchip_rk3588_defconfig"
-#include "gpu/gpu.config"
+#include "gpu/mali.config"
 #include "multimedia/audio.config"
 #include "multimedia/camera.config"
 #include "multimedia/mpp.config"

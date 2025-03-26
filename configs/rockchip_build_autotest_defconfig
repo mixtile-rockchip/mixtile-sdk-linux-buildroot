@@ -6,7 +6,7 @@
 #include "fs/exfat.config"
 #include "fs/ntfs.config"
 #include "fs/vfat.config"
-#include "gpu/gpu.config"
+#include "gpu/mali.config"
 #include "gui/lvgl.config"
 #include "multimedia/audio.config"
 #include "multimedia/camera.config"

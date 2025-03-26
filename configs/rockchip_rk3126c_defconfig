@@ -3,7 +3,7 @@
 #include "font/chinese.config"
 #include "fs/ubifs.config"
 #include "fs/vfat.config"
-#include "gpu/gpu.config"
+#include "gpu/mali.config"
 #include "multimedia/audio.config"
 #include "multimedia/camera.config"
 #include "multimedia/gst/audio.config"

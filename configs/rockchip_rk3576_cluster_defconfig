@@ -7,7 +7,7 @@
 #include "fs/ntfs.config"
 #include "fs/vfat.config"
 #include "base/base.config"
-#include "gpu/gpu.config"
+#include "gpu/mali.config"
 #include "gui/weston.config"
 #include "network/network.config"
 #include "tools/benchmark.config"
