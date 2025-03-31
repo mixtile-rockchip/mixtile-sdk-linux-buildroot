@@ -18,6 +18,10 @@ else ifneq ($(BR2_PACKAGE_RK3506),)
 ROCKIT_CONF_OPTS += -DRK3506=TRUE
 ROCKIT_DEPENDENCIES = rockchip-rga alsa-lib
 
+else ifneq ($(BR2_PACKAGE_RV1126B),)
+ROCKIT_CONF_OPTS += -DRV1126B=TRUE
+ROCKIT_DEPENDENCIES = rockchip-mpp rockchip-rga alsa-lib
+
 else
 ROCKIT_DEPENDENCIES = rockchip-mpp rockchip-rga alsa-lib
 endif

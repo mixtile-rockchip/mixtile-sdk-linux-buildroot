@@ -17,4 +17,8 @@ ifeq ($(BR2_PACKAGE_IVA_RV1106),y)
 IVA_CONF_OPTS += -DTARGET_SOC=rv1106
 endif
 
+ifeq ($(BR2_PACKAGE_IVA_RV1126B),y)
+IVA_CONF_OPTS += -DTARGET_SOC=rv1126b
+endif
+
 $(eval $(cmake-package))

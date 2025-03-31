@@ -23,6 +23,11 @@ config BR2_PACKAGE_IVA_RV1106
 	bool "rockiva rv1106"
 	help
 	  Use rockiva for rv1106.
+
+config BR2_PACKAGE_IVA_RV1126B
+	bool "rockiva rv1126b"
+	help
+	  Use rockiva for rv1126b.
 endchoice
 
 endif

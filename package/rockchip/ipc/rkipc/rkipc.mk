@@ -45,4 +45,11 @@ ifeq ($(BR2_PACKAGE_RKIPC_RV1126_BATTERY_IPC), y)
 	RKIPC_CONF_OPTS += -DCOMPILE_FOR_RV1126_BATTERY_IPC=ON
 endif
 
+ifeq ($(BR2_PACKAGE_RKIPC_RV1126B), y)
+    RKIPC_DEPENDENCIES += rkfsmk rockit rockchip-rga iva camera-engine-rkaiq
+    RKIPC_CONF_OPTS += -DCOMPILE_FOR_RV1126B=ON
+    RKIPC_CONF_OPTS += -DRK_APP_ARCH_TYPE=arm64
+    RKIPC_CONF_OPTS += -DCOMPILE_FOR_BUILDROOT=ON
+endif
+
 $(eval $(cmake-package))
