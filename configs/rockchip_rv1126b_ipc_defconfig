@@ -19,3 +19,4 @@ BR2_PACKAGE_LIBTOOL=y
 BR2_PACKAGE_RKFSMK=y
 BR2_PACKAGE_RKIPC=y
 BR2_PACKAGE_RKIPC_RV1126B=y
+BR2_ROOTFS_OVERLAY="board/rockchip/common/base board/rockchip/rv1126b/fs-overlay-ipc/"
