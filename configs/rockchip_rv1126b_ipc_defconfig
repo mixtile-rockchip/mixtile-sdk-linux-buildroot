@@ -1,0 +1,21 @@
+#include "base/base.config"
+#include "wifibt/bt.config"
+#include "wifibt/wireless.config"
+#include "chips/rv1126b_aarch64.config"
+#include "multimedia/mpp.config"
+#include "multimedia/audio.config"
+#include "multimedia/camera.config"
+# BR2_PACKAGE_ALSA_UCM_CONF is reset to default
+# BR2_PACKAGE_ALSA_UTILS is reset to default
+BR2_PACKAGE_CAMERA_ENGINE=y
+BR2_PACKAGE_COMMON_ALGORITHM=y
+BR2_PACKAGE_IPC_DRV_KO=y
+BR2_PACKAGE_IVA=y
+BR2_PACKAGE_IVA_RV1126B=y
+# BR2_PACKAGE_LIBMAD is reset to default
+BR2_PACKAGE_LIBSNDFILE=y
+BR2_PACKAGE_LIBTOOL=y
+# BR2_PACKAGE_PULSEAUDIO is reset to default
+BR2_PACKAGE_RKFSMK=y
+BR2_PACKAGE_RKIPC=y
+BR2_PACKAGE_RKIPC_RV1126B=y
