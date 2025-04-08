@@ -134,7 +134,7 @@ static const struct str_len_s unsafe_paths[] = {
 	{ NULL, 0 },
 };
 
-/* Unsafe options are options that specify a potentialy unsafe path,
+/* Unsafe options are options that specify a potentially unsafe path,
  * that will be checked by check_unsafe_path(), below.
  */
 static const struct str_len_s unsafe_opts[] = {
@@ -245,7 +245,7 @@ int main(int argc, char **argv)
 	char *progpath = argv[0];
 	char *basename;
 	char *env_debug;
-	int ret, i, count = 0, debug = 0, found_shared = 0, linker_args = 1;
+	int ret, i, count = 0, debug = 0, found_shared = 0, found_nonoption = 0;
 
 	/* Debug the wrapper to see arguments it was called with.
 	 * If environment variable BR2_DEBUG_WRAPPER is:
@@ -298,25 +298,6 @@ int main(int argc, char **argv)
 		return 2;
 	}
 
-	/* clang/clang++ doesn't like linker input when no linking */
-	for (i = 1; i < argc; i++) {
-		if (!strcmp(argv[i], "-c") || !strcmp(argv[i], "-E") ||
-		    !strcmp(argv[i], "-s") ||
-		    !strcmp(argv[i], "--precompile")) {
-			if (!strncmp(basename, "clang", strlen("clang")))
-				linker_args = 0;
-			break;
-		}
-	}
-
-	/**
-	 * Toolchains don't like linker input for '-v' without sources.
-	 * It's to hard to handle all those cases, let's focus on a single
-	 * '-v' here, since people might use "$CC -v" to dump spec.
-	 */
-	if (argc == 2 && !strcmp(argv[1], "-v"))
-		linker_args = 0;
-
 	/* Fill in the relative paths */
 #ifdef BR_CROSS_PATH_REL
 	ret = snprintf(path, sizeof(path), "%s/" BR_CROSS_PATH_REL "/%s" BR_CROSS_PATH_SUFFIX, absbasedir, basename);
@@ -329,6 +310,15 @@ int main(int argc, char **argv)
 		perror(__FILE__ ": overflow");
 		return 3;
 	}
+
+	/* any non-option (E.G. source / object files) arguments passed? */
+	for (i = 1; i < argc; i++) {
+		if (argv[i][0] != '-') {
+			found_nonoption = 1;
+			break;
+		}
+	}
+
 #ifdef BR_CCACHE
 	ret = snprintf(ccache_path, sizeof(ccache_path), "%s/bin/ccache", absbasedir);
 	if (ret >= sizeof(ccache_path)) {
@@ -350,8 +340,11 @@ int main(int argc, char **argv)
 	}
 
 	/* start with predefined args */
-	memcpy(cur, predef_args, sizeof(predef_args));
-	cur += sizeof(predef_args) / sizeof(predef_args[0]);
+	for (i = 0; i < sizeof(predef_args) / sizeof(predef_args[0]); i++) {
+		/* skip linker flags when we know we are not linking */
+		if (found_nonoption || strncmp(predef_args[i], "-Wl,", strlen("-Wl,")))
+			*cur++ = predef_args[i];
+	}
 
 #ifdef BR_FLOAT_ABI
 	/* add float abi if not overridden in args */
@@ -471,7 +464,7 @@ int main(int argc, char **argv)
 		    !strcmp(argv[i], "-D__UBOOT__"))
 			break;
 	}
-	if (i == argc) {
+	if (i == argc && found_nonoption) {
 		/* https://wiki.gentoo.org/wiki/Hardened/Toolchain#Mark_Read-Only_Appropriate_Sections */
 #ifdef BR2_RELRO_PARTIAL
 		*cur++ = "-Wl,-z,relro";
@@ -480,21 +473,6 @@ int main(int argc, char **argv)
 		*cur++ = "-Wl,-z,now";
 		*cur++ = "-Wl,-z,relro";
 #endif
-	}
-
-	/* filter out linker args */
-	if (!linker_args) {
-		for (i = 0; args + i != cur;) {
-			if (!strncmp(args[i], "-Wl,", strlen("-Wl,")) ||
-			    !strcmp(args[i], "-pie") ||
-			    !strcmp(args[i], "-no-pie")) {
-				cur--;
-				args[i] = *cur;
-				continue;
-			}
-
-			i++;
-		}
 	}
 
 	/* Check for unsafe library and header paths */
