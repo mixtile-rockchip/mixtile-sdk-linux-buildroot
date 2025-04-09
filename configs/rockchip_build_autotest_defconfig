@@ -18,7 +18,7 @@
 #include "multimedia/rockit.config"
 #include "wifibt/bt.config"
 #include "wifibt/wireless.config"
-#include "tee_aarch64_v2.config"
+#include "security/tee_aarch64_v2.config"
 #include "tools/benchmark.config"
 #include "tools/common.config"
 #include "tools/test.config"
