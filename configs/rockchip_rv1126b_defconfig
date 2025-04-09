@@ -13,6 +13,7 @@
 #include "multimedia/gst/rtsp.config"
 #include "multimedia/gst/video.config"
 #include "multimedia/mpp.config"
+#include "npu2.config"
 #include "tools/benchmark.config"
 #include "tools/common.config"
 #include "tools/test.config"
