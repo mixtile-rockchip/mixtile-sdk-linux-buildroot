@@ -4,3 +4,16 @@ config BR2_PACKAGE_ROCKIT
 	default n
 	help
 		rockit
+
+choice
+prompt "Platform type"
+	default BR2_PACKAGE_ROCKIT_RV1126B
+	help
+	  Select a platform type.
+
+config BR2_PACKAGE_ROCKIT_RV1126B
+	bool "Compile for rv1126b rockit"
+	select BR2_PACKAGE_IPC_DRV_KO
+	depends on BR2_PACKAGE_ROCKIT
+endchoice
+
