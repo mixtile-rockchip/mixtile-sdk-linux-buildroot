@@ -13,6 +13,10 @@ ifeq ($(BR2_PACKAGE_RK3576),y)
     RK_MEDIA_CHIP=rk3576
 endif
 
+ifeq ($(BR2_PACKAGE_RV1126B),y)
+    RK_MEDIA_CHIP=rv1126b
+endif
+
 RK_MEDIA_JOBS=65
 RK_MEDIA_SAMPLE_STATIC_LINK=n
 RK_MEDIA_CROSS=$(patsubst %-gcc, %, $(TARGET_CC))
