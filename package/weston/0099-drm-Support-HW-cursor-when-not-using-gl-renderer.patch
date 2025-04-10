@@ -1,17 +1,17 @@
-From d3e9676f71975e589e92ce3d28e200e7e0c6107e Mon Sep 17 00:00:00 2001
+From 485df147f8a117284aaee4878a0f84c65f103fce Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 22 Jan 2025 16:32:10 +0800
 Subject: [PATCH 099/104] drm: Support HW cursor when not using gl-renderer
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---
- libweston/backend-drm/drm-gbm.c       | 69 -------------------------
+ libweston/backend-drm/drm-gbm.c       | 69 ------------------------
  libweston/backend-drm/drm-internal.h  | 19 +------
- libweston/backend-drm/drm.c           | 69 +++++++++++++++++--------
- libweston/backend-drm/fb.c            | 72 ++++++++++++++++-----------
+ libweston/backend-drm/drm.c           | 69 ++++++++++++++++--------
+ libweston/backend-drm/fb.c            | 76 ++++++++++++++++-----------
  libweston/backend-drm/kms.c           |  4 +-
- libweston/backend-drm/state-propose.c | 23 +--------
- 6 files changed, 98 insertions(+), 158 deletions(-)
+ libweston/backend-drm/state-propose.c | 23 +-------
+ 6 files changed, 100 insertions(+), 160 deletions(-)
 
 diff --git a/libweston/backend-drm/drm-gbm.c b/libweston/backend-drm/drm-gbm.c
 index 27c76d71d..bbe0a6af3 100644
@@ -287,7 +287,7 @@ index 1c5dc6064..c0031d5c1 100644
  	drm_output_detach_crtc(output);
  
 diff --git a/libweston/backend-drm/fb.c b/libweston/backend-drm/fb.c
-index cbfaf1e65..f67eb3885 100644
+index cbfaf1e65..c699865c6 100644
 --- a/libweston/backend-drm/fb.c
 +++ b/libweston/backend-drm/fb.c
 @@ -364,23 +364,27 @@ drm_fb_destroy_gbm(struct gbm_bo *bo, void *data)
@@ -414,7 +414,27 @@ index cbfaf1e65..f67eb3885 100644
  struct drm_fb *
  drm_fb_get_from_bo(struct gbm_bo *bo, struct drm_device *device,
  		   bool is_opaque, enum drm_fb_type type)
-@@ -618,7 +636,6 @@ drm_fb_unref(struct drm_fb *fb)
+@@ -600,25 +618,24 @@ drm_fb_unref(struct drm_fb *fb)
+ 	case BUFFER_PIXMAN_DUMB:
+ 		drm_fb_destroy_dumb(fb);
+ 		break;
+-#ifdef BUILD_DRM_GBM
+ 	case BUFFER_CURSOR:
++#ifdef BUILD_DRM_GBM
+ 	case BUFFER_CLIENT:
+ 		gbm_bo_destroy(fb->bo);
+ 		break;
+ 	case BUFFER_GBM_SURFACE:
+ 		gbm_surface_release_buffer(fb->gbm_surface, fb->bo);
+ 		break;
++#endif
+ 	case BUFFER_DMABUF:
+ 		drm_fb_destroy_dmabuf(fb);
+ 		break;
+-#endif
+ 	default:
+ 		assert(NULL);
+ 		break;
  	}
  }
  
