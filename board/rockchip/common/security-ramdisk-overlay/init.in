@@ -115,8 +115,8 @@ check_block_ready() {
 	for i in $1
 	do
 		if [ ! -b "/dev/block/by-name/$i" ]; then
-			DEBUG "Can't get $i by name"
-			REBOOT
+			echo "Can't get $i by name"
+			return 0
 		fi
 	done
 	return 0
