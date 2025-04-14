@@ -1,0 +1,47 @@
+From 0f3f7154c37ee80f5222e02468a3262fa8df630b Mon Sep 17 00:00:00 2001
+From: Jiajian Wu <jair.wu@rock-chips.com>
+Date: Mon, 14 Apr 2025 16:50:25 +0800
+Subject: [PATCH] fix(conf): move lv_conf_kconfig.h after lv_conf.h
+
+Signed-off-by: Jiajian Wu <jair.wu@rock-chips.com>
+---
+ src/lv_conf_internal.h | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
+
+diff --git a/src/lv_conf_internal.h b/src/lv_conf_internal.h
+index 6d068a0cf..b5841a00b 100644
+--- a/src/lv_conf_internal.h
++++ b/src/lv_conf_internal.h
+@@ -29,14 +29,6 @@
+ #define LV_DRAW_SW_ASM_HELIUM       2
+ #define LV_DRAW_SW_ASM_CUSTOM       255
+ 
+-/* Handle special Kconfig options */
+-#ifndef LV_KCONFIG_IGNORE
+-    #include "lv_conf_kconfig.h"
+-    #ifdef CONFIG_LV_CONF_SKIP
+-        #define LV_CONF_SKIP
+-    #endif
+-#endif
+-
+ /*If "lv_conf.h" is available from here try to use it later.*/
+ #ifdef __has_include
+     #if __has_include("lv_conf.h")
+@@ -66,6 +58,14 @@
+     #endif
+ #endif
+ 
++/* Handle special Kconfig options */
++#ifndef LV_KCONFIG_IGNORE
++    #include "lv_conf_kconfig.h"
++    #ifdef CONFIG_LV_CONF_SKIP
++        #define LV_CONF_SKIP
++    #endif
++#endif
++
+ #ifdef CONFIG_LV_COLOR_DEPTH
+     #define _LV_KCONFIG_PRESENT
+ #endif
+-- 
+2.25.1
+
