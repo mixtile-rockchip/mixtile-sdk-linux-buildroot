@@ -30,8 +30,10 @@ PERF_MAKE_FLAGS = \
 	NO_LIBBIONIC=1 \
 	NO_LIBTRACEEVENT=1
 
+PERF_LDFLAGS=$(TARGET_LDFLAGS)
+
 ifeq ($(BR2_PACKAGE_LINUX_TOOLS_PERF_STATIC),y)
-PERF_MAKE_FLAGS += LDFLAGS="$(TARGET_LDFLAGS) -static"
+PERF_LDFLAGS += -static
 endif
 
 # We need to pass an argument to ld for setting the emulation when
@@ -86,7 +88,7 @@ PERF_DEPENDENCIES += libunwind
 
 ifeq ($(BR2_aarch64)$(BR2_PACKAGE_LINUX_TOOLS_PERF_STATIC)$(BR2_PACKAGE_XZ),yyy)
 # libunwind-aarch64.a requires symbols from liblzma.a
-PERF_MAKE_FLAGS += LIBUNWIND_LDFLAGS="-lunwind-aarch64 -llzma"
+PERF_LDFLAGS += -lunwind-aarch64 -llzma
 endif
 
 else
@@ -136,6 +138,8 @@ PERF_MAKE_FLAGS += CORESIGHT=1
 # There is no "else CORESIGHT=0" case, because "perf" Makefile uses
 # bare "ifdef CORESIGHT" constructs.
 endif
+
+PERF_MAKE_FLAGS += LDFLAGS="$(PERF_LDFLAGS)"
 
 # We really do not want to build the perf documentation, because it
 # has stringent requirement on the documentation generation tools,
