@@ -15,5 +15,10 @@ config BR2_PACKAGE_ROCKIT_RV1126B
 	bool "Compile for rv1126b rockit"
 	select BR2_PACKAGE_IPC_DRV_KO
 	depends on BR2_PACKAGE_ROCKIT
+
+config BR2_PACKAGE_ROCKIT_RK3506
+	bool "Compile for rk3506 rockit"
+	depends on BR2_PACKAGE_ROCKIT
+
 endchoice
 
