@@ -189,7 +189,7 @@ endif
 
 ifeq ($(BR2_PACKAGE_WESTON_DEMO_CLIENTS),y)
 WESTON_CONF_OPTS += -Ddemo-clients=true
-WESTON_DEPENDENCIES += pango
+WESTON_DEPENDENCIES += pango gst1-plugins-base
 else
 WESTON_CONF_OPTS += -Ddemo-clients=false
 endif
