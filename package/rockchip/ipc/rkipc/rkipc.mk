@@ -5,6 +5,12 @@ RKIPC_LICENSE_FILES = LICENSE
 
 RKIPC_DEPENDENCIES = camera-engine-rkaiq wpa_supplicant freetype common_algorithm
 
+ifeq ($(call qstrip,$(BR2_ARCH)), arm)
+RKIPC_ARCH = arm
+else ifeq ($(call qstrip, $(BR2_ARCH)), aarch64)
+RKIPC_ARCH = arm64
+endif
+
 ifeq ($(BR2_PACKAGE_RKIPC_RK3576), y)
     RKIPC_DEPENDENCIES += rkfsmk rockit rockchip-rga
     RKIPC_CONF_OPTS += -DCOMPILE_FOR_RK3576=ON
@@ -48,7 +54,7 @@ endif
 ifeq ($(BR2_PACKAGE_RKIPC_RV1126B), y)
     RKIPC_DEPENDENCIES += rkfsmk rockit rockchip-rga iva camera-engine-rkaiq
     RKIPC_CONF_OPTS += -DCOMPILE_FOR_RV1126B=ON
-    RKIPC_CONF_OPTS += -DRK_APP_ARCH_TYPE=arm64
+    RKIPC_CONF_OPTS += -DRK_APP_ARCH_TYPE=$(RKIPC_ARCH)
     RKIPC_CONF_OPTS += -DCOMPILE_FOR_BUILDROOT=ON
 endif
 
