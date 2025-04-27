@@ -13,10 +13,12 @@ export SECURITY_STORAGE=RPMB
 HASH=
 CIPHER=
 ENC_EN=
+ENC_EN_BY_OPENSSL=
 FORCE_KEY_WRITE=false
 
 SLOT_SUFIX=
 SYSTEM_NAME=rootfs
+SYSTEM_SIZE=
 BLOCK_PATH=/sys/class/block
 DO_RESIZE=y
 MOUNT_OPT=
@@ -123,16 +125,30 @@ check_block_ready() {
 	return 0
 }
 
+wait_for_files() {
+    until all_files_exist "$@"; do
+        usleep 10000
+        echo .
+    done
+}
+
+all_files_exist() {
+    for file do
+        [ ! -e "$file" ] && return 1
+    done
+    return 0
+}
+
 DEBUG "--------------------------"
 DEBUG "Debug For Security Ramboot"
 DEBUG "--------------------------"
 
 # make sure /dev/ has mounted
-while [ ! -e /dev/mapper/control -o ! -e /proc/mounts ]
-do
-	usleep 10000
-	echo .
-done
+if [ "$ENC_EN_BY_OPENSSL" = "true" ]; then
+    wait_for_files "/proc/mounts"
+else
+    wait_for_files "/dev/mapper/control" "/proc/mounts"
+fi
 
 # check a/b system
 if [ ! -z "$(cat /proc/cmdline | grep "androidboot.slot_suffix")" ]; then
@@ -184,13 +200,26 @@ if [ "${ENC_EN}" = "true" ]; then
 	/usr/sbin/dmsetup $DM_OPT create vroot --table "0 ${OFFSET} crypt ${CIPHER} ${KEY} 0 /dev/block/by-name/$SYSTEM_NAME 0 1 allow_discards"
 	echo None > /tmp/syspw
 	killall tee-supplicant
+elif [ "$ENC_EN_BY_OPENSSL" = "true" ]; then
+	/usr/bin/tee-supplicant &
+	mount -t tmpfs -o size=$((2 * ${SYSTEM_SIZE} + 1024)) tmpfs /tmp
+	/usr/sbin/librkcrypto_test -dec_rootfs /dev/block/by-name/$SYSTEM_NAME ${SYSTEM_SIZE} > /dev/console 2>&1
+	MOUNT_OPT=" -o ro"
+	DO_RESIZE=n
+	killall tee-supplicant
 else
 	/usr/sbin/veritysetup --hash-offset=${OFFSET} create vroot /dev/block/by-name/$SYSTEM_NAME  /dev/block/by-name/$SYSTEM_NAME ${HASH} > /dev/null 2>&1
 	MOUNT_OPT=" -o ro"
 	DO_RESIZE=n
 fi
 
-mount $MOUNT_OPT /dev/mapper/vroot /mnt
+if [ "$ENC_EN_BY_OPENSSL" = "true" ]; then
+	loop_device=$(losetup -a | awk -F: '{print $1}')
+	mount $MOUNT_OPT $loop_device /mnt
+else
+	mount $MOUNT_OPT /dev/mapper/vroot /mnt
+fi
+
 if [ "$DO_RESIZE" == "y" ]; then
 	LABLE=$(dumpe2fs -h /dev/mapper/vroot | grep name | xargs -n 1 | tail -1)
 

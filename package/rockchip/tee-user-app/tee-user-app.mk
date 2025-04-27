@@ -33,6 +33,12 @@ define TEE_USER_APP_BUILD_CMDS
 	cd $(@D)/rk_tee_user/$(BR2_PACKAGE_TEE_USER_APP_TEE_VERSION) ; \
 	AARCH64_TOOLCHAIN=$(TEE_USER_APP_TOOLCHAIN_64) ARM32_TOOLCHAIN=$(TEE_USER_APP_TOOLCHAIN_32) \
 			  ./build.sh $(BR2_PACKAGE_TEE_USER_APP_COMPILE_CMD)
+	cd $(@D)/librkcrypto/ ; \
+	CROSS_COMPILE64=$(TEE_USER_APP_TOOLCHAIN_64)gcc \
+	CROSS_COMPILE32=$(TEE_USER_APP_TOOLCHAIN_32)gcc \
+	CROSS_COMPILE32_GXX=$(TEE_USER_APP_TOOLCHAIN_32)g++ \
+	CROSS_COMPILE64_GXX=$(TEE_USER_APP_TOOLCHAIN_64)g++ \
+			  ./build.sh $(BR2_PACKAGE_LIBRKCRYPTO_COMPILE_CMD)
 endef
 
 define TEE_USER_APP_INSTALL_TARGET_CMDS
@@ -41,6 +47,8 @@ define TEE_USER_APP_INSTALL_TARGET_CMDS
 	$(INSTALL) -D -m 755 $(TEE_USER_APP_OUTPUT)/ta/extra_app/*.ta $(TARGET_DIR)/lib/optee_armtz/
 	$(INSTALL) -D -m 755 $(TEE_USER_APP_PRE_BIN)/lib/arm$(TEE_USER_APP_ARCH)/tee-supplicant $(TARGET_DIR)/usr/bin/
 	$(INSTALL) -D -m 755 $(TEE_USER_APP_PRE_BIN)/lib/arm$(TEE_USER_APP_ARCH)/libteec.so* $(TARGET_DIR)/usr/lib/
+	$(INSTALL) -D -m 755 $(@D)/librkcrypto/out/target/lib/arm$(TEE_USER_APP_ARCH)/librkcrypto.so $(TARGET_DIR)/usr/lib/
+	$(INSTALL) -D -m 755 $(@D)/librkcrypto/out/target/bin/arm$(TEE_USER_APP_ARCH)/librkcrypto_test $(TARGET_DIR)/usr/sbin/
 endef
 
 $(eval $(generic-package))

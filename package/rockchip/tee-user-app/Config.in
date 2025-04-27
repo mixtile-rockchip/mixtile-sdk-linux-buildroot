@@ -11,6 +11,12 @@ config BR2_PACKAGE_TEE_USER_APP_COMPILE_CMD
 	help
 	  Rockchip rk_tee_user compile cammad.
 
+config BR2_PACKAGE_LIBRKCRYPTO_COMPILE_CMD
+	string "compile command"
+	default "64"
+	help
+	  Rockchip librkcrypto compile cammad.
+
 config BR2_PACKAGE_TEE_USER_APP_TEE_VERSION
 	string "TEE version"
 	default "v2"
