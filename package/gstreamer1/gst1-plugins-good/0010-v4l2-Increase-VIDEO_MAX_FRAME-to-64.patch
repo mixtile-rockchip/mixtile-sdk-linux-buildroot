@@ -1,4 +1,4 @@
-From 80bc84bc3b5583556fb5d2c711b85f169478f38a Mon Sep 17 00:00:00 2001
+From bc329771cb6de46b9ca81c5bef05b5fbd5bf94fc Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 23 Jun 2022 16:01:56 +0800
 Subject: [PATCH 10/13] v4l2: Increase VIDEO_MAX_FRAME to 64
@@ -12,7 +12,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/sys/v4l2/ext/videodev2.h b/sys/v4l2/ext/videodev2.h
-index 16a9494..c3ccddc 100644
+index 2ceb1ca..0e71787 100644
 --- a/sys/v4l2/ext/videodev2.h
 +++ b/sys/v4l2/ext/videodev2.h
 @@ -68,7 +68,7 @@

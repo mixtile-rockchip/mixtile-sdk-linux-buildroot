@@ -1,7 +1,7 @@
-From 2b8b0558fcdb5baec63c990e796baaa69ca629fa Mon Sep 17 00:00:00 2001
+From 2e2bd3ff546c3a6272e5ddd85965820a07d8f9f8 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 29 Nov 2021 14:49:25 +0800
-Subject: [PATCH 2/4] HACK: gstpad: Add 1 sec timeout for activation
+Subject: [PATCH 2/3] HACK: gstpad: Add 1 sec timeout for activation
 
 When using ghost pad, changing the activation mode might cause
 recursive waiting and hang the pipeline.
@@ -15,7 +15,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 22 insertions(+)
 
 diff --git a/gst/gstpad.c b/gst/gstpad.c
-index 276c733..7419640 100644
+index 2341808..c244bb2 100644
 --- a/gst/gstpad.c
 +++ b/gst/gstpad.c
 @@ -972,6 +972,18 @@ gst_pad_mode_get_name (GstPadMode mode)

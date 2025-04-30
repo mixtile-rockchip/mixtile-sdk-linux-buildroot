@@ -1,4 +1,4 @@
-From 0043fefd76084eb4e26c2ddd7152a03ef7a2d309 Mon Sep 17 00:00:00 2001
+From 40609bd451f2c63edfaa04611e7e81f25a3ed06f Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 28 Apr 2023 18:34:49 +0800
 Subject: [PATCH 16/22] xvimagesink: Apply toplevel window's position
@@ -15,7 +15,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  4 files changed, 64 insertions(+), 24 deletions(-)
 
 diff --git a/sys/xvimage/xvcontext.c b/sys/xvimage/xvcontext.c
-index 97962d9..88aa679 100644
+index 33057ca..9d9d8ea 100644
 --- a/sys/xvimage/xvcontext.c
 +++ b/sys/xvimage/xvcontext.c
 @@ -1048,19 +1048,21 @@ gst_xv_touchdevice_free (GstXvTouchDevice * device)
@@ -34,7 +34,7 @@ index 97962d9..88aa679 100644
  
    g_return_val_if_fail (GST_IS_XVCONTEXT (context), NULL);
  
-   window = g_slice_new0 (GstXWindow);
+   window = g_new0 (GstXWindow, 1);
  
    window->context = gst_xvcontext_ref (context);
 -  window->render_rect.x = window->render_rect.y = 0;
@@ -77,7 +77,7 @@ index 1fb7614..9f535ae 100644
                                                   gboolean decorations);
  GstXWindow *   gst_xvcontext_create_xwindow_from_xid (GstXvContext * context, XID xid);
 diff --git a/sys/xvimage/xvimageallocator.c b/sys/xvimage/xvimageallocator.c
-index a6d8432..b82c3c7 100644
+index 2107d30..71c093d 100644
 --- a/sys/xvimage/xvimageallocator.c
 +++ b/sys/xvimage/xvimageallocator.c
 @@ -590,46 +590,48 @@ xattach_failed:

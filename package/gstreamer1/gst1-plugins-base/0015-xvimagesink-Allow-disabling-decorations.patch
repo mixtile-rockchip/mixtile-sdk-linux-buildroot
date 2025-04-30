@@ -1,4 +1,4 @@
-From f1977414a5bbca908877c9a079737223620386ad Mon Sep 17 00:00:00 2001
+From c19ab35fa2c6000645567a036d8f1b2a7c29d8a4 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 28 Apr 2023 17:09:54 +0800
 Subject: [PATCH 15/22] xvimagesink: Allow disabling decorations
@@ -15,7 +15,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  4 files changed, 23 insertions(+), 4 deletions(-)
 
 diff --git a/sys/xvimage/xvcontext.c b/sys/xvimage/xvcontext.c
-index 975c3a9..97962d9 100644
+index a393700..33057ca 100644
 --- a/sys/xvimage/xvcontext.c
 +++ b/sys/xvimage/xvcontext.c
 @@ -1048,7 +1048,8 @@ gst_xv_touchdevice_free (GstXvTouchDevice * device)

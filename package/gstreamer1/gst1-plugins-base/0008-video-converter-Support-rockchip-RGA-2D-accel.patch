@@ -1,4 +1,4 @@
-From 874902e8667943feaa576ba0bb64e9a9b44b9041 Mon Sep 17 00:00:00 2001
+From 6e5a5f245328cfcd5cb1604b6d4654c7d6271392 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 31 Oct 2019 18:45:19 +0800
 Subject: [PATCH 08/22] video-converter: Support rockchip RGA 2D accel
@@ -13,10 +13,10 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  3 files changed, 184 insertions(+), 1 deletion(-)
 
 diff --git a/gst-libs/gst/video/meson.build b/gst-libs/gst/video/meson.build
-index cc5b241..615444d 100644
+index 1b492fd..1bdc14d 100644
 --- a/gst-libs/gst/video/meson.build
 +++ b/gst-libs/gst/video/meson.build
-@@ -113,7 +113,7 @@ gstvideo_h = video_enums[1]
+@@ -115,7 +115,7 @@ gstvideo_h = video_enums[1]
  video_gen_sources = [gstvideo_h]
  
  orcsrc = 'video-orc'
@@ -26,7 +26,7 @@ index cc5b241..615444d 100644
    gstvideo_deps += [orc_dep]
    orc_h = custom_target(orcsrc + '.h',
 diff --git a/gst-libs/gst/video/video-converter.c b/gst-libs/gst/video/video-converter.c
-index 9b77eab..c49d9a0 100644
+index 435c7a2..6c1a0da 100644
 --- a/gst-libs/gst/video/video-converter.c
 +++ b/gst-libs/gst/video/video-converter.c
 @@ -38,6 +38,11 @@
@@ -41,7 +41,7 @@ index 9b77eab..c49d9a0 100644
  /**
   * SECTION:videoconverter
   * @title: GstVideoConverter
-@@ -2742,6 +2747,169 @@ gst_video_converter_get_config (GstVideoConverter * convert)
+@@ -2738,6 +2743,169 @@ gst_video_converter_get_config (GstVideoConverter * convert)
    return convert->config;
  }
  
@@ -211,7 +211,7 @@ index 9b77eab..c49d9a0 100644
  /**
   * gst_video_converter_frame:
   * @convert: a #GstVideoConverter
-@@ -2789,6 +2957,12 @@ gst_video_converter_frame (GstVideoConverter * convert,
+@@ -2785,6 +2953,12 @@ gst_video_converter_frame (GstVideoConverter * convert,
            convert->out_width == 0 || convert->out_height == 0))
      return;
  
@@ -224,7 +224,7 @@ index 9b77eab..c49d9a0 100644
    convert->convert (convert, src, dest);
  }
  
-@@ -7218,6 +7392,12 @@ convert_scale_planes (GstVideoConverter * convert,
+@@ -7214,6 +7388,12 @@ convert_scale_planes (GstVideoConverter * convert,
  {
    int i, n_planes;
  
@@ -238,12 +238,12 @@ index 9b77eab..c49d9a0 100644
    for (i = 0; i < n_planes; i++) {
      if (convert->fconvert[i])
 diff --git a/meson.build b/meson.build
-index 194de8c..b44e7ac 100644
+index 919a311..3b231a9 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -305,6 +305,9 @@ if get_option('default_library') == 'static'
-   gst_plugins_base_args += ['-DGST_STATIC_COMPILATION']
- endif
+@@ -314,6 +314,9 @@ libdrm_dep = dependency('libdrm', version : '>= 2.4.98',
+ 
+ core_conf.set('HAVE_LIBDRM', libdrm_dep.found())
  
 +rga_dep = dependency('librga', required: false)
 +core_conf.set('HAVE_RGA', rga_dep.found())

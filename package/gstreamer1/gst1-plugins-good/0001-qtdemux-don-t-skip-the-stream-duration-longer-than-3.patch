@@ -1,4 +1,4 @@
-From cc01da9bb54b34e90a6f00a26ccc3895ce7b462b Mon Sep 17 00:00:00 2001
+From 3bed531b1e41ddfb5bb4ad740f52c1403509a612 Mon Sep 17 00:00:00 2001
 From: Randy Li <randy.li@rock-chips.com>
 Date: Fri, 21 Jul 2017 10:24:01 +0800
 Subject: [PATCH 01/13] qtdemux: don't skip the stream duration longer than 30s
@@ -12,10 +12,10 @@ Signed-off-by: Randy Li <randy.li@rock-chips.com>
  1 file changed, 2 insertions(+), 1 deletion(-)
 
 diff --git a/gst/isomp4/qtdemux.c b/gst/isomp4/qtdemux.c
-index a53d61e..0e37fef 100644
+index d1aaae8..4cc537e 100644
 --- a/gst/isomp4/qtdemux.c
 +++ b/gst/isomp4/qtdemux.c
-@@ -11267,7 +11267,8 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
+@@ -11889,7 +11889,8 @@ qtdemux_parse_trak (GstQTDemux * qtdemux, GNode * trak)
       * some of those trailers, nowadays, have prologue images that are
       * themselves video tracks as well. I haven't really found a way to
       * identify those yet, except for just looking at their duration. */

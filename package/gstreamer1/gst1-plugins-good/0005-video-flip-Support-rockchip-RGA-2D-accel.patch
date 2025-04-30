@@ -1,4 +1,4 @@
-From 7f45569dfadb3ec184f23c7dd071dce393dcc6ef Mon Sep 17 00:00:00 2001
+From a6a902297d89dfb4eaa087fbd06e813abdd9d427 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 8 Nov 2019 17:36:20 +0800
 Subject: [PATCH 05/13] video-flip: Support rockchip RGA 2D accel
@@ -13,7 +13,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  3 files changed, 223 insertions(+), 3 deletions(-)
 
 diff --git a/gst/videofilter/gstvideoflip.c b/gst/videofilter/gstvideoflip.c
-index 718ab45..af9f74f 100644
+index 7995135..aa36931 100644
 --- a/gst/videofilter/gstvideoflip.c
 +++ b/gst/videofilter/gstvideoflip.c
 @@ -48,6 +48,11 @@
@@ -293,10 +293,10 @@ index d7b6788..1a594c6 100644
    install_dir : plugins_install_dir,
  )
 diff --git a/meson.build b/meson.build
-index 22689df..cb086e9 100644
+index 72f7750..99414ef 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -391,6 +391,9 @@ gst_plugins_good_args = ['-DHAVE_CONFIG_H']
+@@ -389,6 +389,9 @@ gst_plugins_good_args = ['-DHAVE_CONFIG_H']
  configinc = include_directories('.')
  libsinc = include_directories('gst-libs')
  

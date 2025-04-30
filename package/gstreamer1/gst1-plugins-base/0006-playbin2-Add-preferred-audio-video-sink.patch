@@ -1,4 +1,4 @@
-From e59b784b30887abc3b4a0d1c6f9a62d04f307bab Mon Sep 17 00:00:00 2001
+From 3728745e1143c31ae9294c0a2bcc09e2d2cecd1f Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 14 Jun 2019 12:02:05 +0800
 Subject: [PATCH 06/22] playbin2: Add preferred audio/video sink
@@ -12,7 +12,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 31 insertions(+)
 
 diff --git a/gst/playback/gstplaybin2.c b/gst/playback/gstplaybin2.c
-index cbd8e08..8561792 100644
+index 8c1e518..4570be4 100644
 --- a/gst/playback/gstplaybin2.c
 +++ b/gst/playback/gstplaybin2.c
 @@ -204,6 +204,7 @@
@@ -33,7 +33,7 @@ index cbd8e08..8561792 100644
  };
  
  struct _GstPlayBinClass
-@@ -1585,6 +1589,9 @@ gst_play_bin_init (GstPlayBin * playbin)
+@@ -1591,6 +1595,9 @@ gst_play_bin_init (GstPlayBin * playbin)
  
    playbin->multiview_mode = GST_VIDEO_MULTIVIEW_FRAME_PACKING_NONE;
    playbin->multiview_flags = GST_VIDEO_MULTIVIEW_FLAGS_NONE;
@@ -43,7 +43,7 @@ index cbd8e08..8561792 100644
  }
  
  static void
-@@ -4702,6 +4709,7 @@ autoplug_select_cb (GstElement * decodebin, GstPad * pad,
+@@ -4728,6 +4735,7 @@ autoplug_select_cb (GstElement * decodebin, GstPad * pad,
    GSequence *ave_seq = NULL;
    GSequenceIter *seq_iter;
    gboolean created_sink = FALSE;
@@ -51,7 +51,7 @@ index cbd8e08..8561792 100644
  
    playbin = group->playbin;
  
-@@ -4764,6 +4772,29 @@ autoplug_select_cb (GstElement * decodebin, GstPad * pad,
+@@ -4790,6 +4798,29 @@ autoplug_select_cb (GstElement * decodebin, GstPad * pad,
        ave_list = g_list_prepend (ave_list, NULL);
      }
  

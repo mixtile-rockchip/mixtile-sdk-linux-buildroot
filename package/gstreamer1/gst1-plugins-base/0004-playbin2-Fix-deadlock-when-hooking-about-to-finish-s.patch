@@ -1,4 +1,4 @@
-From a5a8541fcc8562349d0f0a4825b02f74b4096400 Mon Sep 17 00:00:00 2001
+From 3a3f32947e478c93e36df4aedf64a1df23da2dc7 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 26 Nov 2021 17:41:47 +0800
 Subject: [PATCH 04/22] playbin2: Fix deadlock when hooking about-to-finish
@@ -14,7 +14,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 21 insertions(+)
 
 diff --git a/gst/playback/gstplaybin2.c b/gst/playback/gstplaybin2.c
-index 4098fb9..cbd8e08 100644
+index 18e3131..8c1e518 100644
 --- a/gst/playback/gstplaybin2.c
 +++ b/gst/playback/gstplaybin2.c
 @@ -389,6 +389,11 @@ G_STMT_START {                                          \
@@ -39,7 +39,7 @@ index 4098fb9..cbd8e08 100644
    GMutex elements_lock;
    guint32 elements_cookie;
    GList *elements;              /* factories we can use for selecting elements */
-@@ -1537,6 +1545,7 @@ gst_play_bin_init (GstPlayBin * playbin)
+@@ -1543,6 +1551,7 @@ gst_play_bin_init (GstPlayBin * playbin)
  {
    g_rec_mutex_init (&playbin->lock);
    g_mutex_init (&playbin->dyn_lock);
@@ -47,7 +47,7 @@ index 4098fb9..cbd8e08 100644
  
    /* assume we can create an input-selector */
    playbin->have_selector = TRUE;
-@@ -1633,6 +1642,7 @@ gst_play_bin_finalize (GObject * object)
+@@ -1639,6 +1648,7 @@ gst_play_bin_finalize (GObject * object)
    g_list_free_full (playbin->contexts, (GDestroyNotify) gst_context_unref);
  
    g_rec_mutex_clear (&playbin->lock);
@@ -55,7 +55,7 @@ index 4098fb9..cbd8e08 100644
    g_mutex_clear (&playbin->dyn_lock);
    g_mutex_clear (&playbin->elements_lock);
  
-@@ -3112,7 +3122,14 @@ combiner_active_pad_changed (GObject * combiner, GParamSpec * pspec,
+@@ -3138,7 +3148,14 @@ combiner_active_pad_changed (GObject * combiner, GParamSpec * pspec,
    GstSourceCombine *combine = NULL;
    int i;
  
@@ -70,7 +70,7 @@ index 4098fb9..cbd8e08 100644
    group = get_group (playbin);
  
    for (i = 0; i < PLAYBIN_STREAM_LAST; i++) {
-@@ -3929,7 +3946,11 @@ drained_cb (GstElement * decodebin, GstSourceGroup * group)
+@@ -3955,7 +3972,11 @@ drained_cb (GstElement * decodebin, GstSourceGroup * group)
  
    /* now activate the next group. If the app did not set a uri, this will
     * fail and we can do EOS */

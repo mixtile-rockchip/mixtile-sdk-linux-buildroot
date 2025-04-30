@@ -1,4 +1,4 @@
-From 48281c141a0f3d6e5999724bc9b213b81c553802 Mon Sep 17 00:00:00 2001
+From 0bf57d04f38676364b4bbfc856ce608722e6cf10 Mon Sep 17 00:00:00 2001
 From: Jiajian Wu <jair.wu@rock-chips.com>
 Date: Tue, 11 Oct 2022 09:21:10 +0800
 Subject: [PATCH 14/22] riff: Fix bps caculation error for ADPCM
@@ -15,10 +15,10 @@ Signed-off-by: Jiajian Wu <jair.wu@rock-chips.com>
  1 file changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/gst-libs/gst/riff/riff-media.c b/gst-libs/gst/riff/riff-media.c
-index 74f99d6..6298884 100644
+index bfe1fe5..e123c6f 100644
 --- a/gst-libs/gst/riff/riff-media.c
 +++ b/gst-libs/gst/riff/riff-media.c
-@@ -1310,7 +1310,7 @@ gst_riff_create_audio_caps (guint16 codec_id,
+@@ -1324,7 +1324,7 @@ gst_riff_create_audio_caps (guint16 codec_id,
           * would probably confuse timing */
          strf->av_bps = 0;
          if (strf->channels != 0 && strf->rate != 0 && strf->blockalign != 0) {
@@ -27,7 +27,7 @@ index 74f99d6..6298884 100644
            strf->av_bps =
                gst_util_uint64_scale_int (strf->rate, strf->blockalign, spb);
            GST_DEBUG ("fixing av_bps to calculated value %d of MS ADPCM",
-@@ -1432,7 +1432,7 @@ gst_riff_create_audio_caps (guint16 codec_id,
+@@ -1446,7 +1446,7 @@ gst_riff_create_audio_caps (guint16 codec_id,
           * as this would probably confuse timing */
          strf->av_bps = 0;
          if (strf->channels != 0 && strf->rate != 0 && strf->blockalign != 0) {
