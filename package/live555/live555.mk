@@ -4,9 +4,9 @@
 #
 ################################################################################
 
-LIVE555_VERSION = 2021.05.03
+LIVE555_VERSION = 2024.05.15
 LIVE555_SOURCE = live.$(LIVE555_VERSION).tar.gz
-LIVE555_SITE = http://www.live555.com/liveMedia/public
+LIVE555_SITE = https://download.videolan.org/pub/contrib/live555
 # There is a COPYING file with the GPL-3.0 license text, but none of
 # the source files appear to be released under GPL-3.0, and the
 # project web site says it's licensed under the LGPL:
@@ -18,6 +18,7 @@ LIVE555_CPE_ID_PRODUCT = streaming_media
 LIVE555_INSTALL_STAGING = YES
 
 LIVE555_CFLAGS = $(TARGET_CFLAGS)
+LIVE555_CFLAGS += -DNO_STD_LIB
 
 ifeq ($(BR2_STATIC_LIBS),y)
 LIVE555_CONFIG_TARGET = linux
