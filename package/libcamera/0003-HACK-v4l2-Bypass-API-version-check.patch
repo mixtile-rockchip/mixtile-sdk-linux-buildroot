@@ -1,7 +1,7 @@
-From 16d385e0b461944a654ea32da2389b7c0b996f9e Mon Sep 17 00:00:00 2001
+From 6f16200e69e3b86de8de96b3a51ec12c683d6610 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 29 Nov 2022 17:17:27 +0800
-Subject: [PATCH 1/2] HACK: v4l2: Bypass API version check
+Subject: [PATCH 3/4] HACK: v4l2: Bypass API version check
 
 Some drivers overrides it to their private versions.
 
@@ -11,7 +11,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 2 insertions(+)
 
 diff --git a/src/libcamera/v4l2_videodevice.cpp b/src/libcamera/v4l2_videodevice.cpp
-index a5cf678..bd3f6f1 100644
+index f5b3fa0..a7898e9 100644
 --- a/src/libcamera/v4l2_videodevice.cpp
 +++ b/src/libcamera/v4l2_videodevice.cpp
 @@ -582,6 +582,7 @@ int V4L2VideoDevice::open()

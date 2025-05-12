@@ -1,7 +1,7 @@
-From 37a459995d943facc58e38bd452f1c46a35ea054 Mon Sep 17 00:00:00 2001
+From 34c2115ae8636120cc1ffa825491bf4e804c58cd Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 29 Nov 2022 17:18:23 +0800
-Subject: [PATCH 2/2] HACK: pipeline: Support custom pipeline
+Subject: [PATCH 4/4] HACK: pipeline: Support custom pipeline
 
 Tested on RK3588 EVB with:
 export LIBCAMERA_CUSTOM_DRIVERS=has:rkisp
@@ -13,40 +13,38 @@ gst-launch-1.0 libcamerasrc ! waylandsink
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---
  meson.build                               |   1 +
- meson_options.txt                         |   3 +-
+ meson_options.txt                         |   1 +
  src/libcamera/device_enumerator.cpp       |   7 +-
  src/libcamera/pipeline/custom/custom.cpp  | 427 ++++++++++++++++++++++
  src/libcamera/pipeline/custom/meson.build |   5 +
- 5 files changed, 440 insertions(+), 3 deletions(-)
+ 5 files changed, 439 insertions(+), 2 deletions(-)
  create mode 100644 src/libcamera/pipeline/custom/custom.cpp
  create mode 100644 src/libcamera/pipeline/custom/meson.build
 
 diff --git a/meson.build b/meson.build
-index 06b9af9..6bef3e1 100644
+index 9ba5e2c..3e16ae9 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -214,6 +214,7 @@ pipelines_support = {
-     'mali-c55':     arch_arm,
-     'rkisp1':       arch_arm,
+@@ -219,6 +219,7 @@ pipelines_support = {
      'rpi/vc4':      arch_arm,
-+    'custom':       arch_arm,
      'simple':       ['any'],
      'uvcvideo':     ['any'],
++    'custom':       arch_arm,
      'vimc':         ['test'],
+     'virtual':      ['test'],
+ }
 diff --git a/meson_options.txt b/meson_options.txt
-index 1dc3b4c..8b29e94 100644
+index 1877d80..2c2efb9 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
-@@ -54,7 +54,8 @@ option('pipelines',
+@@ -55,6 +55,7 @@ option('pipelines',
+             'rpi/vc4',
              'simple',
              'uvcvideo',
-             'vimc',
--            'virtual'
-+            'virtual',
 +            'custom',
+             'vimc',
+             'virtual'
          ],
-         description : 'Select which pipeline handlers to build. If this is set to "auto", all the pipelines applicable to the target architecture will be built. If this is set to "all", all the pipelines will be built. If both are selected then "all" will take precedence.')
- 
 diff --git a/src/libcamera/device_enumerator.cpp b/src/libcamera/device_enumerator.cpp
 index ae17862..1d6b66a 100644
 --- a/src/libcamera/device_enumerator.cpp
@@ -67,7 +65,7 @@ index ae17862..1d6b66a 100644
  		bool found = false;
 diff --git a/src/libcamera/pipeline/custom/custom.cpp b/src/libcamera/pipeline/custom/custom.cpp
 new file mode 100644
-index 0000000..c8989c3
+index 0000000..f146198
 --- /dev/null
 +++ b/src/libcamera/pipeline/custom/custom.cpp
 @@ -0,0 +1,427 @@
@@ -495,18 +493,18 @@ index 0000000..c8989c3
 +	pipe()->completeRequest(request);
 +}
 +
-+REGISTER_PIPELINE_HANDLER(PipelineHandlerCustom)
++REGISTER_PIPELINE_HANDLER(PipelineHandlerCustom, "custom")
 +
 +} /* namespace libcamera */
 diff --git a/src/libcamera/pipeline/custom/meson.build b/src/libcamera/pipeline/custom/meson.build
 new file mode 100644
-index 0000000..9d2ee94
+index 0000000..e3b881a
 --- /dev/null
 +++ b/src/libcamera/pipeline/custom/meson.build
 @@ -0,0 +1,5 @@
 +# SPDX-License-Identifier: CC0-1.0
 +
-+libcamera_sources += files([
++libcamera_internal_sources += files([
 +    'custom.cpp',
 +])
 -- 
