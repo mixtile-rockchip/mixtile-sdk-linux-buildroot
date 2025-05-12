@@ -1,4 +1,4 @@
-From 48ec91f51da97b46a3f47eda70e86ceb366d70c9 Mon Sep 17 00:00:00 2001
+From 97023a2d8c14bc0833eff84c9f969f7ff53e3a66 Mon Sep 17 00:00:00 2001
 From: "vicent.chi" <vicent.chi@rock-chips.com>
 Date: Sat, 28 Mar 2020 18:03:57 +0800
 Subject: [PATCH 4/7] libv4l mplane plugin add exbuf_ioctl for dmabuf
@@ -9,10 +9,10 @@ Signed-off-by: vicent.chi <vicent.chi@rock-chips.com>
  1 file changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/lib/libv4l-mplane/libv4l-mplane.c b/lib/libv4l-mplane/libv4l-mplane.c
-index ff15e51..cf31e04 100644
+index 25c66f5..12d7803 100644
 --- a/lib/libv4l-mplane/libv4l-mplane.c
 +++ b/lib/libv4l-mplane/libv4l-mplane.c
-@@ -538,6 +538,17 @@ static int buf_ioctl(int fd, unsigned long int cmd, struct v4l2_buffer *arg)
+@@ -540,6 +540,17 @@ static int buf_ioctl(int fd, unsigned long int cmd, struct v4l2_buffer *arg)
  	return ret;
  }
  
@@ -30,7 +30,7 @@ index ff15e51..cf31e04 100644
  static int plugin_ioctl(void *dev_ops_priv, int fd,
  			unsigned long int cmd, void *arg)
  {
-@@ -579,7 +590,8 @@ static int plugin_ioctl(void *dev_ops_priv, int fd,
+@@ -581,7 +592,8 @@ static int plugin_ioctl(void *dev_ops_priv, int fd,
  
  		return SYS_IOCTL(fd, cmd, &type);
  	}

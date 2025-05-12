@@ -1,4 +1,4 @@
-From 416a771acc5758a7254b17cc8160971761ba6c67 Mon Sep 17 00:00:00 2001
+From ab85d20f518eabbc2c337b5554a6d1f851d3b6b5 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 27 Sep 2019 18:52:24 +0800
 Subject: [PATCH 2/7] libv4l: mplane: Filter out multiplane formats
@@ -8,11 +8,11 @@ userspace might cause unexpected results.
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---
- lib/libv4l-mplane/libv4l-mplane.c | 149 ++++++++++++++++++++++++++++--
- 1 file changed, 141 insertions(+), 8 deletions(-)
+ lib/libv4l-mplane/libv4l-mplane.c | 151 ++++++++++++++++++++++++++++--
+ 1 file changed, 143 insertions(+), 8 deletions(-)
 
 diff --git a/lib/libv4l-mplane/libv4l-mplane.c b/lib/libv4l-mplane/libv4l-mplane.c
-index 071e9bc..ff15e51 100644
+index 071e9bc..25c66f5 100644
 --- a/lib/libv4l-mplane/libv4l-mplane.c
 +++ b/lib/libv4l-mplane/libv4l-mplane.c
 @@ -48,6 +48,15 @@
@@ -121,7 +121,7 @@ index 071e9bc..ff15e51 100644
  	/* Device doesn't need it. return NULL to disable the plugin */
  	if (!plugin.mplane)
  		return NULL;
-@@ -174,6 +243,39 @@ static int convert_type(int type)
+@@ -174,6 +243,41 @@ static int convert_type(int type)
  	}
  }
  
@@ -147,8 +147,10 @@ index 071e9bc..ff15e51 100644
 +		return SYS_IOCTL(fd, cmd, arg);
 +	}
 +
-+	if (arg->index >= formats->num_formats)
-+		return -EINVAL;
++	if (arg->index >= formats->num_formats) {
++		errno = EINVAL;
++		return -1;
++	}
 +
 +	index = arg->index;
 +	arg->index = formats->index_map[index];
@@ -161,7 +163,7 @@ index 071e9bc..ff15e51 100644
  static void sanitize_format(struct v4l2_format *fmt)
  {
  	unsigned int offset;
-@@ -200,19 +302,23 @@ static void sanitize_format(struct v4l2_format *fmt)
+@@ -200,19 +304,23 @@ static void sanitize_format(struct v4l2_format *fmt)
  	       sizeof(fmt->fmt.pix) - offset);
  }
  
@@ -187,7 +189,7 @@ index 071e9bc..ff15e51 100644
  		break;
  	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
  	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
-@@ -222,6 +328,15 @@ static int try_set_fmt_ioctl(int fd, unsigned long int cmd,
+@@ -222,6 +330,15 @@ static int try_set_fmt_ioctl(int fd, unsigned long int cmd,
  		return SYS_IOCTL(fd, cmd, arg);
  	}
  
@@ -203,7 +205,7 @@ index 071e9bc..ff15e51 100644
  	sanitize_format(org);
  
  	fmt.fmt.pix_mp.width = org->fmt.pix.width;
-@@ -253,6 +368,10 @@ static int try_set_fmt_ioctl(int fd, unsigned long int cmd,
+@@ -253,6 +370,10 @@ static int try_set_fmt_ioctl(int fd, unsigned long int cmd,
  	org->fmt.pix.sizeimage = fmt.fmt.pix_mp.plane_fmt[0].sizeimage;
  	org->fmt.pix.flags = fmt.fmt.pix_mp.flags;
  
@@ -214,7 +216,7 @@ index 071e9bc..ff15e51 100644
  	return 0;
  }
  
-@@ -315,8 +434,10 @@ static int create_bufs_ioctl(int fd, unsigned long int cmd,
+@@ -315,8 +436,10 @@ static int create_bufs_ioctl(int fd, unsigned long int cmd,
  	return ret;
  }
  
@@ -226,7 +228,7 @@ index 071e9bc..ff15e51 100644
  	struct v4l2_format fmt = { 0 };
  	struct v4l2_format *org = arg;
  	int ret;
-@@ -324,9 +445,11 @@ static int get_fmt_ioctl(int fd, unsigned long int cmd, struct v4l2_format *arg)
+@@ -324,9 +447,11 @@ static int get_fmt_ioctl(int fd, unsigned long int cmd, struct v4l2_format *arg)
  	switch (arg->type) {
  	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
  		fmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
@@ -238,7 +240,7 @@ index 071e9bc..ff15e51 100644
  		break;
  	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
  	case V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE:
-@@ -336,10 +459,18 @@ static int get_fmt_ioctl(int fd, unsigned long int cmd, struct v4l2_format *arg)
+@@ -336,10 +461,18 @@ static int get_fmt_ioctl(int fd, unsigned long int cmd, struct v4l2_format *arg)
  		return SYS_IOCTL(fd, cmd, arg);
  	}
  
@@ -257,7 +259,7 @@ index 071e9bc..ff15e51 100644
  	memset(&org->fmt.pix, 0, sizeof(org->fmt.pix));
  	org->fmt.pix.width = fmt.fmt.pix_mp.width;
  	org->fmt.pix.height = fmt.fmt.pix_mp.height;
-@@ -410,16 +541,18 @@ static int buf_ioctl(int fd, unsigned long int cmd, struct v4l2_buffer *arg)
+@@ -410,16 +543,18 @@ static int buf_ioctl(int fd, unsigned long int cmd, struct v4l2_buffer *arg)
  static int plugin_ioctl(void *dev_ops_priv, int fd,
  			unsigned long int cmd, void *arg)
  {

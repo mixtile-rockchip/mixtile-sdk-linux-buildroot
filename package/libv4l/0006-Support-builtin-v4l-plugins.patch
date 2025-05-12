@@ -1,4 +1,4 @@
-From f8638d45370d682587fd94db6c028ac857a70aa9 Mon Sep 17 00:00:00 2001
+From 2a49e3b0dac8ababcea45f41fa4276dd9d5b603b Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 14 Dec 2021 17:09:52 +0800
 Subject: [PATCH 6/7] Support builtin v4l plugins
@@ -21,10 +21,10 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  9 files changed, 113 insertions(+), 16 deletions(-)
 
 diff --git a/lib/libv4l-mplane/libv4l-mplane.c b/lib/libv4l-mplane/libv4l-mplane.c
-index cf31e04..91f6348 100644
+index 12d7803..ccfbae7 100644
 --- a/lib/libv4l-mplane/libv4l-mplane.c
 +++ b/lib/libv4l-mplane/libv4l-mplane.c
-@@ -608,7 +608,11 @@ static ssize_t plugin_write(void *dev_ops_priv, int fd, const void *buf,
+@@ -610,7 +610,11 @@ static ssize_t plugin_write(void *dev_ops_priv, int fd, const void *buf,
  	return SYS_WRITE(fd, buf, len);
  }
  
