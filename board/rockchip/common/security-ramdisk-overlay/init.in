@@ -23,6 +23,7 @@ MOUNT_OPT=
 DM_OPT=
 BLOCK_TYPE_SUPPORTED="
 mmcblk
+nvme
 flash
 mtdblock
 ubiblock" # The handing of ubiblock must occur after mtdblock
