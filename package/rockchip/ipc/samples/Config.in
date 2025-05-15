@@ -26,8 +26,8 @@ config BR2_PACKAGE_SAMPLES_RK3576
 	depends on BR2_PACKAGE_SAMPLES
 
 config BR2_PACKAGE_SAMPLES_RV1126B
-        bool "Compile for rv1126b samples"
-        select BR2_PACKAGE_ROCKIT
-        select BR2_PACKAGE_ROCKCHIP_RGA
-        depends on BR2_PACKAGE_SAMPLES
+	bool "Compile for rv1126b samples"
+	select BR2_PACKAGE_ROCKIT
+	select BR2_PACKAGE_ROCKCHIP_RGA
+	depends on BR2_PACKAGE_SAMPLES
 endchoice
