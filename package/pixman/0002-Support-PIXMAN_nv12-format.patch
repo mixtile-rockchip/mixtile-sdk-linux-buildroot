@@ -1,7 +1,7 @@
-From 70c3fa67bbe4665578b153e31763a575aa9bcee5 Mon Sep 17 00:00:00 2001
+From 76b9f7475118ae6097622d9d5c55d9df22bb2999 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 4 Nov 2019 11:11:59 +0800
-Subject: [PATCH 1/5] Support PIXMAN_nv12 format
+Subject: [PATCH 2/6] Support PIXMAN_nv12 format
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---
@@ -129,10 +129,10 @@ index 7bd7a5a..794263e 100644
  };
  
 diff --git a/pixman/pixman.c b/pixman/pixman.c
-index 82ec236..3e0f3a8 100644
+index 26e5008..cfd9018 100644
 --- a/pixman/pixman.c
 +++ b/pixman/pixman.c
-@@ -1071,6 +1071,7 @@ pixman_format_supported_source (pixman_format_code_t format)
+@@ -1086,6 +1086,7 @@ pixman_format_supported_source (pixman_format_code_t format)
      /* YUV formats */
      case PIXMAN_yuy2:
      case PIXMAN_yv12:
@@ -140,7 +140,7 @@ index 82ec236..3e0f3a8 100644
  	return TRUE;
  
      default:
-@@ -1093,7 +1094,7 @@ PIXMAN_EXPORT pixman_bool_t
+@@ -1108,7 +1109,7 @@ PIXMAN_EXPORT pixman_bool_t
  pixman_format_supported_destination (pixman_format_code_t format)
  {
      /* YUV formats cannot be written to at the moment */

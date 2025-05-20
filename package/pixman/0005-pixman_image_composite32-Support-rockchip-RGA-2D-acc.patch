@@ -1,7 +1,7 @@
-From 451b1f7a732e24252cfce73ec1b81b1cc5cb34d6 Mon Sep 17 00:00:00 2001
+From aa23c8eb4e5fb9b79714530ea0cffb1ac9ff7fe6 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 1 Nov 2019 17:55:06 +0800
-Subject: [PATCH 4/5] pixman_image_composite32: Support rockchip RGA 2D accel
+Subject: [PATCH 5/6] pixman_image_composite32: Support rockchip RGA 2D accel
 
 Disabled by default, set env PIXMAN_USE_RGA=1 to enable.
 
@@ -13,10 +13,10 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  3 files changed, 284 insertions(+), 1 deletion(-)
 
 diff --git a/meson.build b/meson.build
-index e297840..dd67cc8 100644
+index cb10931..de840b0 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -501,6 +501,11 @@ if pthreads_found
+@@ -488,6 +488,11 @@ if pthreads_found
    config.set('HAVE_PTHREADS', 1)
  endif
  
@@ -29,7 +29,7 @@ index e297840..dd67cc8 100644
  # mingw claimes to have posix_memalign, but it doesn't
  if host_machine.system() != 'windows'
 diff --git a/pixman/meson.build b/pixman/meson.build
-index 62ec66b..e58f42f 100644
+index fd41288..1c2bc3a 100644
 --- a/pixman/meson.build
 +++ b/pixman/meson.build
 @@ -123,7 +123,7 @@ libpixman = library(
@@ -42,7 +42,7 @@ index 62ec66b..e58f42f 100644
    version : meson.project_version(),
    install : true,
 diff --git a/pixman/pixman.c b/pixman/pixman.c
-index 422d4c2..ece358a 100644
+index e05b759..2462cb6 100644
 --- a/pixman/pixman.c
 +++ b/pixman/pixman.c
 @@ -28,8 +28,19 @@
@@ -65,7 +65,7 @@ index 422d4c2..ece358a 100644
  pixman_implementation_t *global_implementation;
  
  #ifdef TOOLCHAIN_SUPPORTS_ATTRIBUTE_CONSTRUCTOR
-@@ -540,6 +551,267 @@ analyze_extent (pixman_image_t       *image,
+@@ -555,6 +566,267 @@ analyze_extent (pixman_image_t       *image,
      return TRUE;
  }
  
@@ -333,7 +333,7 @@ index 422d4c2..ece358a 100644
  /*
   * Work around GCC bug causing crashes in Mozilla with SSE2
   *
-@@ -686,6 +958,12 @@ pixman_image_composite32 (pixman_op_t      op,
+@@ -701,6 +973,12 @@ pixman_image_composite32 (pixman_op_t      op,
  
      pbox = pixman_region32_rectangles (&region, &n);
  

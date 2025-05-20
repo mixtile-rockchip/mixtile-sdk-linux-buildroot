@@ -1,7 +1,7 @@
-From f00964e1d70a495181e2b8668ea73a61dc6118f7 Mon Sep 17 00:00:00 2001
+From 17f99a084ad378f87d90bf36b01baba65ccc1c00 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 4 Nov 2019 11:11:59 +0800
-Subject: [PATCH 2/5] Support PIXMAN_i420 format
+Subject: [PATCH 3/6] Support PIXMAN_i420 format
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---
@@ -120,10 +120,10 @@ index 794263e..198bc1a 100644
      { PIXMAN_nv12,
        fetch_scanline_nv12, fetch_scanline_generic_float,
 diff --git a/pixman/pixman.c b/pixman/pixman.c
-index 3e0f3a8..db5cffa 100644
+index cfd9018..a685129 100644
 --- a/pixman/pixman.c
 +++ b/pixman/pixman.c
-@@ -1071,6 +1071,7 @@ pixman_format_supported_source (pixman_format_code_t format)
+@@ -1086,6 +1086,7 @@ pixman_format_supported_source (pixman_format_code_t format)
      /* YUV formats */
      case PIXMAN_yuy2:
      case PIXMAN_yv12:
@@ -131,7 +131,7 @@ index 3e0f3a8..db5cffa 100644
      case PIXMAN_nv12:
  	return TRUE;
  
-@@ -1094,7 +1095,8 @@ PIXMAN_EXPORT pixman_bool_t
+@@ -1109,7 +1110,8 @@ PIXMAN_EXPORT pixman_bool_t
  pixman_format_supported_destination (pixman_format_code_t format)
  {
      /* YUV formats cannot be written to at the moment */
