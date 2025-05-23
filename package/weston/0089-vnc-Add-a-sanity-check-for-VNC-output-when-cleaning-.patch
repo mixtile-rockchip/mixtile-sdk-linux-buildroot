@@ -1,7 +1,7 @@
-From 2c993d6527f372c39ae0af73390db4cb73ba7ef6 Mon Sep 17 00:00:00 2001
+From 781b571be4aae9b4cd84b8cf9488eecd79ae97b4 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 12 Nov 2024 08:27:08 +0800
-Subject: [PATCH 089/100] vnc: Add a sanity check for VNC output when cleaning
+Subject: [PATCH 089/105] vnc: Add a sanity check for VNC output when cleaning
  up VNC clients
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
@@ -10,7 +10,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 6 insertions(+), 3 deletions(-)
 
 diff --git a/libweston/backend-vnc/vnc.c b/libweston/backend-vnc/vnc.c
-index bdbc66348..eed62ee18 100644
+index bdbc6634..eed62ee1 100644
 --- a/libweston/backend-vnc/vnc.c
 +++ b/libweston/backend-vnc/vnc.c
 @@ -540,10 +540,13 @@ vnc_client_cleanup(struct nvnc_client *client)

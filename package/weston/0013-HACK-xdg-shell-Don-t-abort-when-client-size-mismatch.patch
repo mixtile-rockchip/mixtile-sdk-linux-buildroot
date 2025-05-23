@@ -1,7 +1,7 @@
-From aebd15a876f9c8a2e57b70c51ae0f99d00a65698 Mon Sep 17 00:00:00 2001
+From c44ca9b80c76777b44a0bc97078fdeaef460c1ee Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 19 Oct 2020 18:13:23 +0800
-Subject: [PATCH 13/95] HACK: xdg-shell: Don't abort when client size
+Subject: [PATCH 013/105] HACK: xdg-shell: Don't abort when client size
  mismatched
 
 There's a race in qtwayland might causing size mismatch, let's
@@ -13,7 +13,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 12 insertions(+), 26 deletions(-)
 
 diff --git a/libweston/desktop/xdg-shell.c b/libweston/desktop/xdg-shell.c
-index 56dc5a8..a657bd2 100644
+index f1942663..6cad04c8 100644
 --- a/libweston/desktop/xdg-shell.c
 +++ b/libweston/desktop/xdg-shell.c
 @@ -753,37 +753,23 @@ weston_desktop_xdg_toplevel_committed(struct weston_desktop_xdg_toplevel *toplev

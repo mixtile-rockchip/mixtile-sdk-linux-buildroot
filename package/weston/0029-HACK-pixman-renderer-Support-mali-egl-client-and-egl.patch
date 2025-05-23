@@ -1,7 +1,7 @@
-From fd25e3c0182ab623c69ebe5633b838cd5a99a1e4 Mon Sep 17 00:00:00 2001
+From 36481b7eeb2f0e3e7ae999075f8ad5e86d909bbc Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 3 Jul 2020 14:53:52 +0800
-Subject: [PATCH 029/104] HACK: pixman-renderer: Support mali egl client and
+Subject: [PATCH 029/105] HACK: pixman-renderer: Support mali egl client and
  egl buffer attaching
 
 The mali clients requires mali_buffer_sharing extension, and it needs
@@ -16,7 +16,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  4 files changed, 327 insertions(+), 44 deletions(-)
 
 diff --git a/libweston/backend-drm/drm-internal.h b/libweston/backend-drm/drm-internal.h
-index a1768200a..d4f4fdf15 100644
+index a1768200..d4f4fdf1 100644
 --- a/libweston/backend-drm/drm-internal.h
 +++ b/libweston/backend-drm/drm-internal.h
 @@ -62,6 +62,7 @@
@@ -36,7 +36,7 @@ index a1768200a..d4f4fdf15 100644
  #ifndef DRM_PLANE_ZPOS_INVALID_PLANE
  #define DRM_PLANE_ZPOS_INVALID_PLANE	0xffffffffffffffffULL
 diff --git a/libweston/meson.build b/libweston/meson.build
-index fc904eefd..c1c903c52 100644
+index fc904eef..c1c903c5 100644
 --- a/libweston/meson.build
 +++ b/libweston/meson.build
 @@ -7,6 +7,7 @@ deps_libweston = [
@@ -58,7 +58,7 @@ index fc904eefd..c1c903c52 100644
  if get_option('backend-vnc')
  	dep_pam = dependency('pam', required: false)
 diff --git a/libweston/pixman-renderer.c b/libweston/pixman-renderer.c
-index 82854a226..c348ef461 100644
+index 82854a22..c348ef46 100644
 --- a/libweston/pixman-renderer.c
 +++ b/libweston/pixman-renderer.c
 @@ -48,6 +48,29 @@
@@ -573,7 +573,7 @@ index 82854a226..c348ef461 100644
  }
  
 diff --git a/meson.build b/meson.build
-index 7b46ff329..71a5b934a 100644
+index 3d9102cc..85a3fd58 100644
 --- a/meson.build
 +++ b/meson.build
 @@ -185,15 +185,23 @@ deps_for_libweston_users = [

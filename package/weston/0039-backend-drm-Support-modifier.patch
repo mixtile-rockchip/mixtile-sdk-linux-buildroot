@@ -1,7 +1,7 @@
-From 1209efc7cd59e983a4d450e7c4cb22981c9261ab Mon Sep 17 00:00:00 2001
+From a3bc5dc3e35190d7685a8becc5d341f7f20f34e2 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 6 Jan 2021 04:11:48 +0800
-Subject: [PATCH 039/104] backend-drm: Support modifier
+Subject: [PATCH 039/105] backend-drm: Support modifier
 
 Tested on rk3588 with:
 unset WESTON_DISABLE_ATOMIC
@@ -20,7 +20,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  5 files changed, 97 insertions(+), 26 deletions(-)
 
 diff --git a/libweston/backend-drm/drm-gbm.c b/libweston/backend-drm/drm-gbm.c
-index 70924cf3e..055ef0baf 100644
+index 70924cf3..055ef0ba 100644
 --- a/libweston/backend-drm/drm-gbm.c
 +++ b/libweston/backend-drm/drm-gbm.c
 @@ -184,6 +184,7 @@ create_gbm_surface(struct gbm_device *gbm, struct drm_output *output)
@@ -54,7 +54,7 @@ index 70924cf3e..055ef0baf 100644
  			gbm_surface_create_with_modifiers(gbm,
  							  mode->width, mode->height,
 diff --git a/libweston/backend-drm/drm-internal.h b/libweston/backend-drm/drm-internal.h
-index d4f4fdf15..c4fa3dd25 100644
+index d4f4fdf1..c4fa3dd2 100644
 --- a/libweston/backend-drm/drm-internal.h
 +++ b/libweston/backend-drm/drm-internal.h
 @@ -465,6 +465,7 @@ struct drm_plane {
@@ -66,7 +66,7 @@ index d4f4fdf15..c4fa3dd25 100644
  
  struct drm_connector {
 diff --git a/libweston/backend-drm/drm.c b/libweston/backend-drm/drm.c
-index 1511193e4..89dcdfaba 100644
+index 1511193e..89dcdfab 100644
 --- a/libweston/backend-drm/drm.c
 +++ b/libweston/backend-drm/drm.c
 @@ -1507,6 +1507,42 @@ err:
@@ -234,7 +234,7 @@ index 1511193e4..89dcdfaba 100644
  			    compositor, b->udev, seat_id,
  			    config->configure_device) < 0) {
 diff --git a/libweston/backend-drm/kms.c b/libweston/backend-drm/kms.c
-index 2dbe0ee0b..bcb9a38d0 100644
+index 2dbe0ee0..bcb9a38d 100644
 --- a/libweston/backend-drm/kms.c
 +++ b/libweston/backend-drm/kms.c
 @@ -38,6 +38,7 @@
@@ -264,7 +264,7 @@ index 2dbe0ee0b..bcb9a38d0 100644
  		if (ret == 0)
  			device->fb_modifiers = cap;
 diff --git a/libweston/pixel-formats.c b/libweston/pixel-formats.c
-index b35063827..0fe329be9 100644
+index b3506382..0fe329be 100644
 --- a/libweston/pixel-formats.c
 +++ b/libweston/pixel-formats.c
 @@ -272,6 +272,7 @@ static const struct pixel_format_info pixel_format_table[] = {

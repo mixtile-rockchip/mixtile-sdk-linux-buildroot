@@ -1,7 +1,7 @@
-From 10ae60910ca85d7484a5caf2eac712cd4198c004 Mon Sep 17 00:00:00 2001
+From adb2b5fabb858177535a3579d2f1ebdf417b069e Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 11 Dec 2023 18:06:01 +0800
-Subject: [PATCH 11/95] HACK: Disable libseat
+Subject: [PATCH 011/105] HACK: Disable libseat
 
 We are using launcher-direct now.
 
@@ -12,7 +12,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  2 files changed, 4 deletions(-)
 
 diff --git a/libweston/launcher-util.c b/libweston/launcher-util.c
-index 64ce420..6ee86ed 100644
+index 64ce420e..6ee86eda 100644
 --- a/libweston/launcher-util.c
 +++ b/libweston/launcher-util.c
 @@ -37,7 +37,6 @@
@@ -24,7 +24,7 @@ index 64ce420..6ee86ed 100644
  	NULL,
  };
 diff --git a/libweston/meson.build b/libweston/meson.build
-index 75dab88..fc904ee 100644
+index 75dab88a..fc904eef 100644
 --- a/libweston/meson.build
 +++ b/libweston/meson.build
 @@ -162,15 +162,12 @@ pkgconfig.generate(

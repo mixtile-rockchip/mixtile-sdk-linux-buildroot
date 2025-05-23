@@ -1,7 +1,7 @@
-From bc7dd28159624d8c806541e2fc805e4932af091a Mon Sep 17 00:00:00 2001
+From c8a9a91f644cb8e80db1b6fc46e50b1129a64df3 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 4 Aug 2023 11:00:11 +0800
-Subject: [PATCH 067/100] HACK: meson_options: Disable backend-vnc by default
+Subject: [PATCH 067/105] HACK: meson_options: Disable backend-vnc by default
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---
@@ -9,7 +9,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/meson_options.txt b/meson_options.txt
-index 0fbd42a9f..d70af9dc4 100644
+index 0fbd42a9..d70af9dc 100644
 --- a/meson_options.txt
 +++ b/meson_options.txt
 @@ -41,7 +41,7 @@ option(

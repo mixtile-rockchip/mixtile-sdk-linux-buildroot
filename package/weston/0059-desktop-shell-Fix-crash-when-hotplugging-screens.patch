@@ -1,7 +1,7 @@
-From 14b341d3d701c6276a317e0df1e837b9002b9e1a Mon Sep 17 00:00:00 2001
+From a3ad08f1af7f782e426c7ff4896ea4c679448f76 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 3 Oct 2022 21:03:04 +0800
-Subject: [PATCH 059/101] desktop-shell: Fix crash when hotplugging screens
+Subject: [PATCH 059/105] desktop-shell: Fix crash when hotplugging screens
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---
@@ -12,7 +12,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  4 files changed, 34 insertions(+), 4 deletions(-)
 
 diff --git a/desktop-shell/input-panel.c b/desktop-shell/input-panel.c
-index 9b5d3b20a..c4f9c277c 100644
+index 9b5d3b20..c4f9c277 100644
 --- a/desktop-shell/input-panel.c
 +++ b/desktop-shell/input-panel.c
 @@ -65,6 +65,9 @@ calc_input_panel_position(struct input_panel_surface *ip_surface, struct weston_
@@ -26,7 +26,7 @@ index 9b5d3b20a..c4f9c277c 100644
  		struct weston_view *view = get_default_view(shell->text_input.surface);
  		if (view == NULL)
 diff --git a/desktop-shell/shell.c b/desktop-shell/shell.c
-index 576d2c4ff..eda84aa88 100644
+index 576d2c4f..eda84aa8 100644
 --- a/desktop-shell/shell.c
 +++ b/desktop-shell/shell.c
 @@ -2218,6 +2218,7 @@ desktop_surface_removed(struct weston_desktop_surface *desktop_surface,
@@ -98,7 +98,7 @@ index 576d2c4ff..eda84aa88 100644
  				desktop_shell_destroy_surface(shsurf);
  				removed = true;
 diff --git a/libweston/backend-drm/drm.c b/libweston/backend-drm/drm.c
-index 17381ba7a..10d6ae5cb 100644
+index 17381ba7..10d6ae5c 100644
 --- a/libweston/backend-drm/drm.c
 +++ b/libweston/backend-drm/drm.c
 @@ -2753,10 +2753,17 @@ drm_output_destroy(struct weston_output *base)
@@ -120,10 +120,10 @@ index 17381ba7a..10d6ae5cb 100644
  		if (!base->compositor->shutting_down) {
  			/* We are not shutting down, so we can wait for flip
 diff --git a/libweston/compositor.c b/libweston/compositor.c
-index 50d890314..5bb35b0c3 100644
+index 5d47ea76..2fa16489 100644
 --- a/libweston/compositor.c
 +++ b/libweston/compositor.c
-@@ -7862,6 +7862,7 @@ static void
+@@ -7871,6 +7871,7 @@ static void
  weston_compositor_remove_output(struct weston_output *output)
  {
  	struct weston_compositor *compositor = output->compositor;
@@ -131,7 +131,7 @@ index 50d890314..5bb35b0c3 100644
  	struct weston_paint_node *pnode, *pntmp;
  	struct weston_view *view;
  	struct weston_head *head;
-@@ -7876,6 +7877,11 @@ weston_compositor_remove_output(struct weston_output *output)
+@@ -7885,6 +7886,11 @@ weston_compositor_remove_output(struct weston_output *output)
  		output->idle_repaint_source = NULL;
  	}
  

@@ -1,7 +1,7 @@
-From 05b6927aea57500556758f8a4b4f7a2abe484358 Mon Sep 17 00:00:00 2001
+From 6cce7c26e1a9babfdd09abace287901da328a13c Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 23 Sep 2022 17:24:12 +0800
-Subject: [PATCH 060/104] HACK: Honour cursor-size config
+Subject: [PATCH 060/105] HACK: Honour cursor-size config
 
 By scaling the cursor surface.
 
@@ -17,10 +17,10 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  7 files changed, 74 insertions(+), 7 deletions(-)
 
 diff --git a/frontend/main.c b/frontend/main.c
-index d91fd87bb..8a574ac84 100644
+index 177db6ad..ae1af431 100644
 --- a/frontend/main.c
 +++ b/frontend/main.c
-@@ -4809,6 +4809,8 @@ wet_main(int argc, char *argv[], const struct weston_testsuite_data *test_data)
+@@ -4807,6 +4807,8 @@ wet_main(int argc, char *argv[], const struct weston_testsuite_data *test_data)
  	section = weston_config_get_section(config, "shell", NULL, NULL);
  	weston_config_section_get_bool(section, "hide-cursor",
  				       &wet.compositor->hide_cursor, false);
@@ -30,7 +30,7 @@ index d91fd87bb..8a574ac84 100644
  	if (argc > 1 && strcmp(argv[1], "--") == 0) {
  		/* remove the '--' entry and move up the rest */
 diff --git a/include/libweston/libweston.h b/include/libweston/libweston.h
-index 576a34cba..d4ec323dd 100644
+index 576a34cb..d4ec323d 100644
 --- a/include/libweston/libweston.h
 +++ b/include/libweston/libweston.h
 @@ -916,6 +916,8 @@ struct weston_pointer {
@@ -61,7 +61,7 @@ index 576a34cba..d4ec323dd 100644
  		/*
  		 * If src_width != wl_fixed_from_int(-1),
 diff --git a/libweston/backend-drm/drm.c b/libweston/backend-drm/drm.c
-index 10d6ae5cb..87c488b3a 100644
+index 10d6ae5c..87c488b3 100644
 --- a/libweston/backend-drm/drm.c
 +++ b/libweston/backend-drm/drm.c
 @@ -5025,6 +5025,11 @@ drm_backend_create(struct weston_compositor *compositor,
@@ -77,7 +77,7 @@ index 10d6ae5cb..87c488b3a 100644
  	if (!res) {
  		weston_log("Failed to get drmModeRes\n");
 diff --git a/libweston/backend-drm/state-propose.c b/libweston/backend-drm/state-propose.c
-index fae05131d..c71b842fc 100644
+index bd9f8b4c..7df4d6f0 100644
 --- a/libweston/backend-drm/state-propose.c
 +++ b/libweston/backend-drm/state-propose.c
 @@ -215,10 +215,8 @@ drm_output_prepare_cursor_paint_node(struct drm_output_state *output_state,
@@ -140,10 +140,10 @@ index fae05131d..c71b842fc 100644
  	drm_plane_state_put_back(plane_state);
  	return NULL;
 diff --git a/libweston/compositor.c b/libweston/compositor.c
-index 5bb35b0c3..6b8fa6ce4 100644
+index 2fa16489..eb95fa36 100644
 --- a/libweston/compositor.c
 +++ b/libweston/compositor.c
-@@ -2562,7 +2562,7 @@ WESTON_EXPORT_FOR_TESTS void
+@@ -2572,7 +2572,7 @@ WESTON_EXPORT_FOR_TESTS void
  convert_size_by_transform_scale(int32_t *width_out, int32_t *height_out,
  				int32_t width, int32_t height,
  				uint32_t transform,
@@ -153,10 +153,10 @@ index 5bb35b0c3..6b8fa6ce4 100644
  	assert(scale > 0);
  
 diff --git a/libweston/input.c b/libweston/input.c
-index 08c25247b..bf9a86ab7 100644
+index 122d0b72..18575723 100644
 --- a/libweston/input.c
 +++ b/libweston/input.c
-@@ -2194,6 +2194,8 @@ weston_pointer_move_to(struct weston_pointer *pointer,
+@@ -2195,6 +2195,8 @@ weston_pointer_move_to(struct weston_pointer *pointer,
  		struct weston_coord_surface hotspot_inv;
  
  		hotspot_inv = weston_coord_surface_invert(pointer->hotspot);
@@ -165,7 +165,7 @@ index 08c25247b..bf9a86ab7 100644
  		weston_view_set_position_with_offset(pointer->sprite,
  						     pos, hotspot_inv);
  	}
-@@ -3513,6 +3515,29 @@ notify_tablet_tool_frame(struct weston_tablet_tool *tool,
+@@ -3514,6 +3516,29 @@ notify_tablet_tool_frame(struct weston_tablet_tool *tool,
  }
  
  
@@ -195,7 +195,7 @@ index 08c25247b..bf9a86ab7 100644
  static void
  pointer_cursor_surface_committed(struct weston_surface *es,
  				 struct weston_coord_surface new_origin)
-@@ -3525,9 +3550,13 @@ pointer_cursor_surface_committed(struct weston_surface *es,
+@@ -3526,9 +3551,13 @@ pointer_cursor_surface_committed(struct weston_surface *es,
  
  	assert(es == pointer->sprite->surface);
  
@@ -209,7 +209,7 @@ index 08c25247b..bf9a86ab7 100644
  	weston_view_set_position_with_offset(pointer->sprite,
  					     pointer->pos, hotspot_inv);
  
-@@ -4210,6 +4239,8 @@ weston_seat_init_pointer(struct weston_seat *seat)
+@@ -4211,6 +4240,8 @@ weston_seat_init_pointer(struct weston_seat *seat)
  
  	seat_send_updated_caps(seat);
  
@@ -219,7 +219,7 @@ index 08c25247b..bf9a86ab7 100644
  }
  
 diff --git a/libweston/libweston-internal.h b/libweston/libweston-internal.h
-index 0935da89e..0837e0aa6 100644
+index 0935da89..0837e0aa 100644
 --- a/libweston/libweston-internal.h
 +++ b/libweston/libweston-internal.h
 @@ -653,7 +653,7 @@ void

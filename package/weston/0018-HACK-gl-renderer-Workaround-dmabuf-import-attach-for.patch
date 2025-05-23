@@ -1,7 +1,7 @@
-From 2bb443d5759ae98cd22de1709c95f3cf97b1f519 Mon Sep 17 00:00:00 2001
+From e433e80f28508fe6ef330ed165c56694d39c0d9c Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 6 Dec 2018 18:53:05 +0800
-Subject: [PATCH 018/100] HACK: gl-renderer: Workaround dmabuf import/attach
+Subject: [PATCH 018/105] HACK: gl-renderer: Workaround dmabuf import/attach
  for old mali
 
 Tested on px3se with libmali-utgard-400-r7p0-r3p0-wayland.so, the
@@ -14,7 +14,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  2 files changed, 14 insertions(+), 1 deletion(-)
 
 diff --git a/libweston/renderer-gl/gl-renderer-internal.h b/libweston/renderer-gl/gl-renderer-internal.h
-index 938aa30b9..703f88beb 100644
+index 938aa30b..703f88be 100644
 --- a/libweston/renderer-gl/gl-renderer-internal.h
 +++ b/libweston/renderer-gl/gl-renderer-internal.h
 @@ -305,6 +305,8 @@ struct gl_renderer {
@@ -27,7 +27,7 @@ index 938aa30b9..703f88beb 100644
  
  static inline struct gl_renderer *
 diff --git a/libweston/renderer-gl/gl-renderer.c b/libweston/renderer-gl/gl-renderer.c
-index 88aa26ac1..072bac6b6 100644
+index e960954e..4c836ea1 100644
 --- a/libweston/renderer-gl/gl-renderer.c
 +++ b/libweston/renderer-gl/gl-renderer.c
 @@ -3062,6 +3062,14 @@ import_simple_dmabuf(struct gl_renderer *gr,
@@ -54,7 +54,7 @@ index 88aa26ac1..072bac6b6 100644
  		fallback = true;
  	}
  
-@@ -3816,6 +3824,9 @@ log_egl_info(struct gl_renderer *gr, EGLDisplay egldpy)
+@@ -3817,6 +3825,9 @@ log_egl_info(struct gl_renderer *gr, EGLDisplay egldpy)
  	str = eglQueryString(egldpy, EGL_VENDOR);
  	weston_log("EGL vendor: %s\n", str ? str : "(null)");
  

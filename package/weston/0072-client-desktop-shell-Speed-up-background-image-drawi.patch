@@ -1,7 +1,7 @@
-From 872c7c259d2c8a990324a4598cd0c0ba8f1db038 Mon Sep 17 00:00:00 2001
+From 03a46d3a7e982df89f5f4b5fc3bbe5b61f721f97 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 12 Dec 2023 10:21:42 +0800
-Subject: [PATCH 072/100] client: desktop-shell: Speed up background image
+Subject: [PATCH 072/105] client: desktop-shell: Speed up background image
  drawing
 
 Note: The background color been ignored when painting background image.
@@ -12,7 +12,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 13 insertions(+), 16 deletions(-)
 
 diff --git a/clients/desktop-shell.c b/clients/desktop-shell.c
-index fb32632c8..30292dfe2 100644
+index fb32632c..30292dfe 100644
 --- a/clients/desktop-shell.c
 +++ b/clients/desktop-shell.c
 @@ -893,7 +893,6 @@ background_draw(struct widget *widget, void *data)

@@ -1,7 +1,7 @@
-From 7d11d70d9d513c98de484aed952b483647e9b374 Mon Sep 17 00:00:00 2001
+From 901048c023cc1091b50ab8bb498604a59621af75 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 28 Jul 2023 14:54:30 +0800
-Subject: [PATCH 066/100] desktop-shell: Support desktop launchers
+Subject: [PATCH 066/105] desktop-shell: Support desktop launchers
 
 Tested on RK3588 EVB with:
 1/ sed -i "s/\[\(launcher\)/[desktop-\1/" /etc/xdg/weston/weston.ini.d/*
@@ -13,7 +13,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 688 insertions(+), 12 deletions(-)
 
 diff --git a/clients/desktop-shell.c b/clients/desktop-shell.c
-index f88f63e69..fb32632c8 100644
+index f88f63e6..fb32632c 100644
 --- a/clients/desktop-shell.c
 +++ b/clients/desktop-shell.c
 @@ -128,6 +128,8 @@ struct background {

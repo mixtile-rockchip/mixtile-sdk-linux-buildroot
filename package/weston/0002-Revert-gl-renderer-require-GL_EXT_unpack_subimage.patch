@@ -1,7 +1,7 @@
-From 2c1c96a7ae3d5b8b7142bfafe499ae0f1a478ded Mon Sep 17 00:00:00 2001
+From f8f025da26c4721b2203206ab973019c66b3cec9 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 27 Apr 2022 22:59:32 +0800
-Subject: [PATCH 02/98] Revert "gl-renderer: require GL_EXT_unpack_subimage"
+Subject: [PATCH 002/105] Revert "gl-renderer: require GL_EXT_unpack_subimage"
 
 This reverts commit 593d5af43a8e2c2a3371088fa7ae430d0517c82d.
 
@@ -14,7 +14,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  2 files changed, 29 insertions(+), 5 deletions(-)
 
 diff --git a/libweston/renderer-gl/gl-renderer-internal.h b/libweston/renderer-gl/gl-renderer-internal.h
-index 311140893..744b2224c 100644
+index 31114089..744b2224 100644
 --- a/libweston/renderer-gl/gl-renderer-internal.h
 +++ b/libweston/renderer-gl/gl-renderer-internal.h
 @@ -229,6 +229,8 @@ struct gl_renderer {
@@ -27,7 +27,7 @@ index 311140893..744b2224c 100644
  	PFNEGLUNBINDWAYLANDDISPLAYWL unbind_display;
  	PFNEGLQUERYWAYLANDBUFFERWL query_buffer;
 diff --git a/libweston/renderer-gl/gl-renderer.c b/libweston/renderer-gl/gl-renderer.c
-index e694418b9..bc04f9a43 100644
+index 8064b415..c71cbe66 100644
 --- a/libweston/renderer-gl/gl-renderer.c
 +++ b/libweston/renderer-gl/gl-renderer.c
 @@ -2523,6 +2523,7 @@ gl_renderer_flush_damage(struct weston_paint_node *pnode)
@@ -66,7 +66,7 @@ index e694418b9..bc04f9a43 100644
  	if (gb->needs_full_upload || quirks->gl_force_full_upload) {
  		wl_shm_buffer_begin_access(buffer->shm_buffer);
  
-@@ -4754,11 +4776,9 @@ gl_renderer_setup(struct weston_compositor *ec)
+@@ -4755,11 +4777,9 @@ gl_renderer_setup(struct weston_compositor *ec)
  	else
  		ec->read_format = pixel_format_get_info(DRM_FORMAT_ABGR8888);
  
@@ -81,7 +81,7 @@ index e694418b9..bc04f9a43 100644
  
  	if (gr->gl_version >= gr_gl_version(3, 0) ||
  	    weston_check_egl_extension(extensions, "GL_EXT_texture_type_2_10_10_10_REV"))
-@@ -4894,6 +4914,8 @@ gl_renderer_setup(struct weston_compositor *ec)
+@@ -4895,6 +4915,8 @@ gl_renderer_setup(struct weston_compositor *ec)
  			    yesno(gr->has_gl_texture_rg));
  	weston_log_continue(STAMP_SPACE "OES_EGL_image_external: %s\n",
  			    yesno(gr->has_egl_image_external));

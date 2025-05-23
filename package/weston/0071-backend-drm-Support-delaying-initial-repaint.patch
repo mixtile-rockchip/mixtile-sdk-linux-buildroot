@@ -1,7 +1,7 @@
-From a6acfd098841c6ab14a5455adc13120bf9adec08 Mon Sep 17 00:00:00 2001
+From c7d5730bc8ac0237f8ef43cbd5501e8eb7da14b8 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 19 Oct 2023 11:41:06 +0800
-Subject: [PATCH 071/104] backend-drm: Support delaying initial repaint
+Subject: [PATCH 071/105] backend-drm: Support delaying initial repaint
 
 Set env "WESTON_DRM_INITIAL_FREEZE_MS" for the initial freezing.
 
@@ -12,7 +12,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  2 files changed, 27 insertions(+)
 
 diff --git a/libweston/backend-drm/drm-internal.h b/libweston/backend-drm/drm-internal.h
-index ea65ce0c6..28584f12a 100644
+index ea65ce0c..28584f12 100644
 --- a/libweston/backend-drm/drm-internal.h
 +++ b/libweston/backend-drm/drm-internal.h
 @@ -280,6 +280,9 @@ struct drm_backend {
@@ -26,7 +26,7 @@ index ea65ce0c6..28584f12a 100644
  	bool single_head;
  	bool head_fallback;
 diff --git a/libweston/backend-drm/drm.c b/libweston/backend-drm/drm.c
-index 9902c70c8..fd2f17507 100644
+index 9902c70c..fd2f1750 100644
 --- a/libweston/backend-drm/drm.c
 +++ b/libweston/backend-drm/drm.c
 @@ -955,11 +955,15 @@ drm_output_repaint(struct weston_output *output_base)

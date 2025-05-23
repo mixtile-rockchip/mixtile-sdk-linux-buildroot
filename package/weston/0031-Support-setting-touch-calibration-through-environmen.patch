@@ -1,7 +1,7 @@
-From 2afe75b18a20e8dfb4ac6a5855176fd9e7327480 Mon Sep 17 00:00:00 2001
+From 2cafd7c020fee73d9550a55e974c4f7704854938 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 4 Aug 2020 14:30:33 +0800
-Subject: [PATCH 031/100] Support setting touch calibration through environment
+Subject: [PATCH 031/105] Support setting touch calibration through environment
 
 Tested on RK3588 EVB with:
 1/ killall weston
@@ -17,7 +17,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  3 files changed, 46 insertions(+), 4 deletions(-)
 
 diff --git a/clients/calibrator.c b/clients/calibrator.c
-index be65d9bdc..20fc1e792 100644
+index be65d9bd..20fc1e79 100644
 --- a/clients/calibrator.c
 +++ b/clients/calibrator.c
 @@ -106,6 +106,7 @@ finish_calibration (struct calibrator *calibrator)
@@ -44,7 +44,7 @@ index be65d9bdc..20fc1e792 100644
  }
  
 diff --git a/clients/touch-calibrator.c b/clients/touch-calibrator.c
-index a15b94196..815b89a54 100644
+index a15b9419..815b89a5 100644
 --- a/clients/touch-calibrator.c
 +++ b/clients/touch-calibrator.c
 @@ -772,15 +772,19 @@ touch_device_handler(void *data, struct weston_touch_calibration *c,
@@ -72,7 +72,7 @@ index a15b94196..815b89a54 100644
  
  struct weston_touch_calibration_listener touch_calibration_listener = {
 diff --git a/libweston/libinput-device.c b/libweston/libinput-device.c
-index 31b88ac43..0d9ba2e3b 100644
+index 31b88ac4..0d9ba2e3 100644
 --- a/libweston/libinput-device.c
 +++ b/libweston/libinput-device.c
 @@ -887,6 +887,35 @@ evdev_device_set_calibration(struct evdev_device *device)

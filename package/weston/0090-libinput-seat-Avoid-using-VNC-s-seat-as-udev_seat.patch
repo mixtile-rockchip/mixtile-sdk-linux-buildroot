@@ -1,7 +1,7 @@
-From 76fed644f4f4e42558998c5b9795656c66a0dbb8 Mon Sep 17 00:00:00 2001
+From 55858069ac35faaa6cb023c09fc720a85d4c3913 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 10 Jul 2024 16:45:54 +0800
-Subject: [PATCH 090/100] libinput-seat: Avoid using VNC's seat as udev_seat.
+Subject: [PATCH 090/105] libinput-seat: Avoid using VNC's seat as udev_seat.
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---
@@ -9,7 +9,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 34 insertions(+), 9 deletions(-)
 
 diff --git a/libweston/libinput-seat.c b/libweston/libinput-seat.c
-index aaefe6cfc..c160a65a8 100644
+index aaefe6cf..c160a65a 100644
 --- a/libweston/libinput-seat.c
 +++ b/libweston/libinput-seat.c
 @@ -50,6 +50,14 @@ udev_seat_create(struct udev_input *input, const char *seat_name);

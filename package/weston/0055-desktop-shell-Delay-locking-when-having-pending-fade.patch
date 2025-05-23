@@ -1,7 +1,7 @@
-From b59ff4a4d57a5f26389c6934bb7a8f56d81a4646 Mon Sep 17 00:00:00 2001
+From a848a5e79866ae91a5fbbfaa823ac61bb91eed3f Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 1 Jun 2022 11:28:24 +0800
-Subject: [PATCH 055/100] desktop-shell: Delay locking when having pending
+Subject: [PATCH 055/105] desktop-shell: Delay locking when having pending
  fade-out animations
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
@@ -11,7 +11,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  2 files changed, 14 insertions(+), 1 deletion(-)
 
 diff --git a/desktop-shell/shell.c b/desktop-shell/shell.c
-index b8158344d..91063ec4b 100644
+index b8158344..91063ec4 100644
 --- a/desktop-shell/shell.c
 +++ b/desktop-shell/shell.c
 @@ -3906,6 +3906,10 @@ static void
@@ -56,7 +56,7 @@ index b8158344d..91063ec4b 100644
  
  	if (shell->fade.curtain) {
 diff --git a/include/libweston/libweston.h b/include/libweston/libweston.h
-index a286c21f8..576a34cba 100644
+index a286c21f..576a34cb 100644
 --- a/include/libweston/libweston.h
 +++ b/include/libweston/libweston.h
 @@ -1658,6 +1658,8 @@ struct weston_compositor {

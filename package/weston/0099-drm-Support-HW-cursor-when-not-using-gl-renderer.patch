@@ -1,7 +1,7 @@
-From 485df147f8a117284aaee4878a0f84c65f103fce Mon Sep 17 00:00:00 2001
+From 4154d20b819fc95cc950d7dbca9e7c2af735b9e1 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 22 Jan 2025 16:32:10 +0800
-Subject: [PATCH 099/104] drm: Support HW cursor when not using gl-renderer
+Subject: [PATCH 099/105] drm: Support HW cursor when not using gl-renderer
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---
@@ -14,7 +14,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  6 files changed, 100 insertions(+), 160 deletions(-)
 
 diff --git a/libweston/backend-drm/drm-gbm.c b/libweston/backend-drm/drm-gbm.c
-index 27c76d71d..bbe0a6af3 100644
+index 27c76d71..bbe0a6af 100644
 --- a/libweston/backend-drm/drm-gbm.c
 +++ b/libweston/backend-drm/drm-gbm.c
 @@ -117,71 +117,6 @@ init_egl(struct drm_backend *b)
@@ -108,7 +108,7 @@ index 27c76d71d..bbe0a6af3 100644
  
  struct drm_fb *
 diff --git a/libweston/backend-drm/drm-internal.h b/libweston/backend-drm/drm-internal.h
-index 2e52aac92..d26948683 100644
+index 2e52aac9..d2694868 100644
 --- a/libweston/backend-drm/drm-internal.h
 +++ b/libweston/backend-drm/drm-internal.h
 @@ -597,8 +597,8 @@ struct drm_output {
@@ -152,7 +152,7 @@ index 2e52aac92..d26948683 100644
  struct drm_pending_state *
  drm_pending_state_alloc(struct drm_device *device);
 diff --git a/libweston/backend-drm/drm.c b/libweston/backend-drm/drm.c
-index 1c5dc6064..c0031d5c1 100644
+index 1c5dc606..c0031d5c 100644
 --- a/libweston/backend-drm/drm.c
 +++ b/libweston/backend-drm/drm.c
 @@ -921,7 +921,6 @@ err:
@@ -287,7 +287,7 @@ index 1c5dc6064..c0031d5c1 100644
  	drm_output_detach_crtc(output);
  
 diff --git a/libweston/backend-drm/fb.c b/libweston/backend-drm/fb.c
-index cbfaf1e65..c699865c6 100644
+index cbfaf1e6..c699865c 100644
 --- a/libweston/backend-drm/fb.c
 +++ b/libweston/backend-drm/fb.c
 @@ -364,23 +364,27 @@ drm_fb_destroy_gbm(struct gbm_bo *bo, void *data)
@@ -479,7 +479,7 @@ index cbfaf1e65..c699865c6 100644
  }
 -#endif
 diff --git a/libweston/backend-drm/kms.c b/libweston/backend-drm/kms.c
-index a4e55440d..5b9a2235c 100644
+index a4e55440..5b9a2235 100644
 --- a/libweston/backend-drm/kms.c
 +++ b/libweston/backend-drm/kms.c
 @@ -811,10 +811,10 @@ drm_output_set_cursor(struct drm_output_state *output_state)
@@ -496,7 +496,7 @@ index a4e55440d..5b9a2235c 100644
  		if (drmModeSetCursor(device->drm.fd, crtc->crtc_id, handle,
  				     device->cursor_width, device->cursor_height)) {
 diff --git a/libweston/backend-drm/state-propose.c b/libweston/backend-drm/state-propose.c
-index c71b842fc..4f8595081 100644
+index 7df4d6f0..38dc38a3 100644
 --- a/libweston/backend-drm/state-propose.c
 +++ b/libweston/backend-drm/state-propose.c
 @@ -176,7 +176,6 @@ out:

@@ -1,7 +1,7 @@
-From 559548a6f13e1f906fe93b9b8434b3a8416572c0 Mon Sep 17 00:00:00 2001
+From e25402815845052e07bc92ef29ff3a04bbb913e1 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 23 Nov 2022 10:21:13 +0800
-Subject: [PATCH 09/98] gl-renderer: Force using GL_TEXTURE_EXTERNAL_OES for
+Subject: [PATCH 009/105] gl-renderer: Force using GL_TEXTURE_EXTERNAL_OES for
  imported dma-buf
 
 Mali depends on that.
@@ -13,7 +13,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  2 files changed, 3 insertions(+), 99 deletions(-)
 
 diff --git a/libweston/renderer-gl/gl-renderer-internal.h b/libweston/renderer-gl/gl-renderer-internal.h
-index 744b2224c..938aa30b9 100644
+index 744b2224..938aa30b 100644
 --- a/libweston/renderer-gl/gl-renderer-internal.h
 +++ b/libweston/renderer-gl/gl-renderer-internal.h
 @@ -249,8 +249,6 @@ struct gl_renderer {
@@ -26,7 +26,7 @@ index 744b2224c..938aa30b9 100644
  	bool has_texture_type_2_10_10_10_rev;
  	bool has_gl_texture_rg;
 diff --git a/libweston/renderer-gl/gl-renderer.c b/libweston/renderer-gl/gl-renderer.c
-index 4d99e37e5..88aa26ac1 100644
+index 5b5de4fe..e960954e 100644
 --- a/libweston/renderer-gl/gl-renderer.c
 +++ b/libweston/renderer-gl/gl-renderer.c
 @@ -3162,88 +3162,6 @@ import_yuv_dmabuf(struct gl_renderer *gr, struct gl_buffer_state *gb,
@@ -141,7 +141,7 @@ index 4d99e37e5..88aa26ac1 100644
  		ensure_textures(gb, target, gb->num_images);
  
  		return gb;
-@@ -4400,7 +4311,6 @@ static void
+@@ -4401,7 +4312,6 @@ static void
  gl_renderer_destroy(struct weston_compositor *ec)
  {
  	struct gl_renderer *gr = get_renderer(ec);
@@ -149,7 +149,7 @@ index 4d99e37e5..88aa26ac1 100644
  	struct gl_capture_task *gl_task, *tmp;
  
  	wl_signal_emit(&gr->destroy_signal, gr);
-@@ -4423,9 +4333,6 @@ gl_renderer_destroy(struct weston_compositor *ec)
+@@ -4424,9 +4334,6 @@ gl_renderer_destroy(struct weston_compositor *ec)
  		       EGL_NO_SURFACE, EGL_NO_SURFACE,
  		       EGL_NO_CONTEXT);
  
@@ -159,7 +159,7 @@ index 4d99e37e5..88aa26ac1 100644
  	weston_drm_format_array_fini(&gr->supported_formats);
  
  	gl_renderer_allocator_destroy(gr->allocator);
-@@ -4581,7 +4488,6 @@ gl_renderer_display_create(struct weston_compositor *ec,
+@@ -4582,7 +4489,6 @@ gl_renderer_display_create(struct weston_compositor *ec,
  				goto fail_feedback;
  		}
  	}

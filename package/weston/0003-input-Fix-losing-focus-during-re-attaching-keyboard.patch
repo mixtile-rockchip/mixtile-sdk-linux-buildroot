@@ -1,7 +1,7 @@
-From d26e50d725693afcb39b36a55e71007c0e6d7865 Mon Sep 17 00:00:00 2001
+From 3953f354c885e8d5515a36a0d46def24325c88f7 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 12 May 2020 15:35:40 +0800
-Subject: [PATCH 03/98] input: Fix losing focus during re-attaching keyboard
+Subject: [PATCH 003/105] input: Fix losing focus during re-attaching keyboard
 
 Launch the weston-terminal and begin typing into it. Afterward, detach
 and then re-attach the last keyboard. The keyboard focus is lost.
@@ -17,10 +17,10 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  2 files changed, 15 insertions(+), 6 deletions(-)
 
 diff --git a/libweston/input.c b/libweston/input.c
-index 3faa6be42..d1f2aef4e 100644
+index 0aee74d2..2ca6df17 100644
 --- a/libweston/input.c
 +++ b/libweston/input.c
-@@ -2801,9 +2801,11 @@ notify_keyboard_focus_out(struct weston_seat *seat)
+@@ -2802,9 +2802,11 @@ notify_keyboard_focus_out(struct weston_seat *seat)
  		weston_pointer_cancel_grab(pointer);
  
  	if (focus) {
@@ -33,7 +33,7 @@ index 3faa6be42..d1f2aef4e 100644
  		seat->saved_kbd_focus_listener.notify =
  			destroy_device_saved_kbd_focus;
  		wl_signal_add(&focus->destroy_signal,
-@@ -4161,13 +4163,16 @@ weston_keyboard_reset_state(struct weston_keyboard *keyboard)
+@@ -4162,13 +4164,16 @@ weston_keyboard_reset_state(struct weston_keyboard *keyboard)
  WL_EXPORT void
  weston_seat_release_keyboard(struct weston_seat *seat)
  {
@@ -56,7 +56,7 @@ index 3faa6be42..d1f2aef4e 100644
  }
  
 diff --git a/libweston/libinput-seat.c b/libweston/libinput-seat.c
-index 5ecb97413..b7f09bac7 100644
+index 5ecb9741..b7f09bac 100644
 --- a/libweston/libinput-seat.c
 +++ b/libweston/libinput-seat.c
 @@ -145,6 +145,10 @@ device_added(struct udev_input *input, struct libinput_device *libinput_device)

@@ -1,7 +1,7 @@
-From 118aa72abb846b1e17a4c280760a9178f56f1339 Mon Sep 17 00:00:00 2001
+From 0427c594dab81fa323b20fb5ce9bae24b629acd2 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 3 Dec 2018 10:40:16 +0800
-Subject: [PATCH 19/95] compositor: Support freezing display
+Subject: [PATCH 019/105] compositor: Support freezing display
 
 Freeze display when the specified file(from env "WESTON_FREEZE_DISPLAY")
 exists.
@@ -17,10 +17,10 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 7 insertions(+)
 
 diff --git a/libweston/compositor.c b/libweston/compositor.c
-index 4bfa624..cf56e4d 100644
+index 3d9f85ab..85da0d17 100644
 --- a/libweston/compositor.c
 +++ b/libweston/compositor.c
-@@ -3955,6 +3955,12 @@ output_repaint_timer_handler(void *data)
+@@ -3965,6 +3965,12 @@ output_repaint_timer_handler(void *data)
  	struct timespec now;
  	int ret = 0;
  
@@ -33,7 +33,7 @@ index 4bfa624..cf56e4d 100644
  	weston_compositor_read_presentation_clock(compositor, &now);
  	compositor->last_repaint_start = now;
  
-@@ -4011,6 +4017,7 @@ output_repaint_timer_handler(void *data)
+@@ -4021,6 +4027,7 @@ output_repaint_timer_handler(void *data)
  	wl_list_for_each(output, &compositor->output_list, link)
  		output->repainted = false;
  

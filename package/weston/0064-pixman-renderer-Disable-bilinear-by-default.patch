@@ -1,7 +1,7 @@
-From 41549015f258ab88d547d5079d887d5d8a51bec0 Mon Sep 17 00:00:00 2001
+From de4b06aee8573db0515ab377e55e51df3d405a49 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 20 Jul 2023 18:09:50 +0800
-Subject: [PATCH 064/104] pixman-renderer: Disable bilinear by default
+Subject: [PATCH 064/105] pixman-renderer: Disable bilinear by default
 
 It's too slow.
 
@@ -13,7 +13,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/libweston/pixman-renderer.c b/libweston/pixman-renderer.c
-index 26ac6aba1..da0f765a3 100644
+index 26ac6aba..da0f765a 100644
 --- a/libweston/pixman-renderer.c
 +++ b/libweston/pixman-renderer.c
 @@ -407,7 +407,7 @@ repaint_region(struct weston_paint_node *pnode,

@@ -1,7 +1,7 @@
-From 795133394005136d147a9c2f3c8cc2cf201acfa2 Mon Sep 17 00:00:00 2001
+From eb3bb9b4a95e848bdfa06e1ab9cdf0994d7f0023 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 21 Feb 2025 12:45:22 +0800
-Subject: [PATCH 102/103] clients: Add weston-player
+Subject: [PATCH 102/105] clients: Add weston-player
 
 Tested on RK3588 EVB with:
 weston-player "videotestsrc ! waylandsink"
@@ -14,7 +14,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  create mode 100644 clients/player.c
 
 diff --git a/clients/meson.build b/clients/meson.build
-index 5b34df22b..e5014ee2f 100644
+index 5b34df22..e5014ee2 100644
 --- a/clients/meson.build
 +++ b/clients/meson.build
 @@ -346,6 +346,10 @@ demo_clients = [
@@ -30,7 +30,7 @@ index 5b34df22b..e5014ee2f 100644
  if get_option('demo-clients')
 diff --git a/clients/player.c b/clients/player.c
 new file mode 100644
-index 000000000..f9f470ded
+index 00000000..f9f470de
 --- /dev/null
 +++ b/clients/player.c
 @@ -0,0 +1,157 @@

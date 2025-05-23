@@ -1,7 +1,7 @@
-From 7895cc1be2d5c7a8c87e307e721cd3f714c7dd55 Mon Sep 17 00:00:00 2001
+From f67d86377b5617b71785da57be9056e935a94d84 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 23 Oct 2020 17:37:04 +0800
-Subject: [PATCH 037/104] pixman-renderer: Honor gbm_format for shadow
+Subject: [PATCH 037/105] pixman-renderer: Honor gbm_format for shadow
 
 Tested with:
 /etc/xdg/weston/weston.ini:
@@ -16,7 +16,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/libweston/pixman-renderer.c b/libweston/pixman-renderer.c
-index 7c64b09f3..751ff9f3e 100644
+index 7c64b09f..751ff9f3 100644
 --- a/libweston/pixman-renderer.c
 +++ b/libweston/pixman-renderer.c
 @@ -1684,7 +1684,7 @@ pixman_renderer_output_create(struct weston_output *output,

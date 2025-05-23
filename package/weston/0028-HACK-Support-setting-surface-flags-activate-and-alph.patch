@@ -1,7 +1,7 @@
-From 06a2e4fd194842867125fe4fccae78118643dd7e Mon Sep 17 00:00:00 2001
+From ff3e3888f028770b5f10397948c160db2c52a766 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 7 May 2020 08:55:42 +0800
-Subject: [PATCH 028/100] HACK: Support setting surface flags activate and
+Subject: [PATCH 028/105] HACK: Support setting surface flags activate and
  alpha
 
 Support setting surface flags activate and alpha through app_id or
@@ -21,7 +21,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  5 files changed, 267 insertions(+), 12 deletions(-)
 
 diff --git a/desktop-shell/shell.c b/desktop-shell/shell.c
-index e7dca8fd2..971f07cab 100644
+index e7dca8fd..971f07ca 100644
 --- a/desktop-shell/shell.c
 +++ b/desktop-shell/shell.c
 @@ -1711,10 +1711,17 @@ static void
@@ -206,7 +206,7 @@ index e7dca8fd2..971f07cab 100644
  	wl_list_init(&shell->seat_list);
  	wl_list_init(&shell->shsurf_list);
 diff --git a/desktop-shell/shell.h b/desktop-shell/shell.h
-index fc34eb458..055fe9739 100644
+index fc34eb45..055fe973 100644
 --- a/desktop-shell/shell.h
 +++ b/desktop-shell/shell.h
 @@ -97,6 +97,8 @@ struct desktop_shell {
@@ -219,7 +219,7 @@ index fc34eb458..055fe9739 100644
  	struct wl_listener pointer_focus_listener;
  	struct weston_surface *grab_surface;
 diff --git a/include/libweston/libweston.h b/include/libweston/libweston.h
-index e9e74ba79..5342af89d 100644
+index e9e74ba7..5342af89 100644
 --- a/include/libweston/libweston.h
 +++ b/include/libweston/libweston.h
 @@ -1978,6 +1978,15 @@ struct weston_pointer_constraint {
@@ -251,10 +251,10 @@ index e9e74ba79..5342af89d 100644
  
  struct weston_subsurface {
 diff --git a/libweston/compositor.c b/libweston/compositor.c
-index 0a6c447c9..5189f6ff9 100644
+index 83f8ecac..d5e4b4e9 100644
 --- a/libweston/compositor.c
 +++ b/libweston/compositor.c
-@@ -727,7 +727,7 @@ weston_view_create_internal(struct weston_surface *surface)
+@@ -737,7 +737,7 @@ weston_view_create_internal(struct weston_surface *surface)
  
  	pixman_region32_init(&view->visible);
  
@@ -263,7 +263,7 @@ index 0a6c447c9..5189f6ff9 100644
  	pixman_region32_init(&view->transform.opaque);
  
  	wl_list_init(&view->geometry.transformation_list);
-@@ -1032,6 +1032,8 @@ weston_surface_create(struct weston_compositor *compositor)
+@@ -1042,6 +1042,8 @@ weston_surface_create(struct weston_compositor *compositor)
  	surface->compositor = compositor;
  	surface->ref_count = 1;
  
@@ -272,7 +272,7 @@ index 0a6c447c9..5189f6ff9 100644
  	surface->buffer_viewport.buffer.transform = WL_OUTPUT_TRANSFORM_NORMAL;
  	surface->buffer_viewport.buffer.scale = 1;
  	surface->buffer_viewport.buffer.src_width = wl_fixed_from_int(-1);
-@@ -2660,6 +2662,12 @@ weston_compositor_pick_view(struct weston_compositor *compositor,
+@@ -2670,6 +2672,12 @@ weston_compositor_pick_view(struct weston_compositor *compositor,
  		if (!weston_view_takes_input_at_point(view, surf_pos))
  			continue;
  
@@ -286,10 +286,10 @@ index 0a6c447c9..5189f6ff9 100644
  	}
  	return NULL;
 diff --git a/libweston/desktop/surface.c b/libweston/desktop/surface.c
-index d365d95eb..2ab99ef34 100644
+index ba2aa15e..8dfff631 100644
 --- a/libweston/desktop/surface.c
 +++ b/libweston/desktop/surface.c
-@@ -755,12 +755,204 @@ weston_desktop_surface_set_position(struct weston_desktop_surface *surface,
+@@ -759,12 +759,204 @@ weston_desktop_surface_set_position(struct weston_desktop_surface *surface,
  		weston_view_set_position(view->view, pos);
  }
  
@@ -494,7 +494,7 @@ index d365d95eb..2ab99ef34 100644
  	tmp = strdup(title);
  	if (tmp == NULL)
  		return;
-@@ -777,6 +969,9 @@ weston_desktop_surface_set_app_id(struct weston_desktop_surface *surface,
+@@ -781,6 +973,9 @@ weston_desktop_surface_set_app_id(struct weston_desktop_surface *surface,
  {
  	char *tmp, *old;
  

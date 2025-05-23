@@ -1,7 +1,7 @@
-From 1e4bd42d3be4495f8c9ee6237cadda66518621a7 Mon Sep 17 00:00:00 2001
+From 8d78e775817c85a52a6ea3cf48d2587c112c392d Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 3 Jul 2020 10:20:40 +0800
-Subject: [PATCH 030/100] Support holding display for the first app
+Subject: [PATCH 030/105] Support holding display for the first app
 
 Use '-w' or '--warm-up' to enable it.
 
@@ -13,7 +13,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  3 files changed, 26 insertions(+)
 
 diff --git a/frontend/main.c b/frontend/main.c
-index 009f0d22b..f9824b8a1 100644
+index 827ac62c..ed15e3d0 100644
 --- a/frontend/main.c
 +++ b/frontend/main.c
 @@ -731,6 +731,7 @@ usage(int error_code)
@@ -24,7 +24,7 @@ index 009f0d22b..f9824b8a1 100644
  		"  -h, --help\t\tThis help message\n\n");
  
  #if defined(BUILD_DRM_COMPOSITOR)
-@@ -4482,6 +4483,8 @@ wet_main(int argc, char *argv[], const struct weston_testsuite_data *test_data)
+@@ -4480,6 +4481,8 @@ wet_main(int argc, char *argv[], const struct weston_testsuite_data *test_data)
  	bool wait_for_debugger = false;
  	struct wl_protocol_logger *protologger = NULL;
  
@@ -33,7 +33,7 @@ index 009f0d22b..f9824b8a1 100644
  	const struct weston_option core_options[] = {
  		{ WESTON_OPTION_STRING, "backend", 'B', &backends },
  		{ WESTON_OPTION_STRING, "backends", 0, &backends },
-@@ -4502,6 +4505,7 @@ wet_main(int argc, char *argv[], const struct weston_testsuite_data *test_data)
+@@ -4500,6 +4503,7 @@ wet_main(int argc, char *argv[], const struct weston_testsuite_data *test_data)
  		{ WESTON_OPTION_BOOLEAN, "debug", 0, &debug_protocol },
  		{ WESTON_OPTION_STRING, "logger-scopes", 'l', &log_scopes },
  		{ WESTON_OPTION_STRING, "flight-rec-scopes", 'f', &flight_rec_scopes },
@@ -41,7 +41,7 @@ index 009f0d22b..f9824b8a1 100644
  	};
  
  	wl_list_init(&wet.layoutput_list);
-@@ -4719,9 +4723,13 @@ wet_main(int argc, char *argv[], const struct weston_testsuite_data *test_data)
+@@ -4717,9 +4721,13 @@ wet_main(int argc, char *argv[], const struct weston_testsuite_data *test_data)
  	if (idle_time < 0)
  		idle_time = 300; /* default idle timeout, in seconds */
  
@@ -56,7 +56,7 @@ index 009f0d22b..f9824b8a1 100644
  	weston_compositor_log_capabilities(wet.compositor);
  
 diff --git a/include/libweston/libweston.h b/include/libweston/libweston.h
-index 5342af89d..ba961a861 100644
+index 5342af89..ba961a86 100644
 --- a/include/libweston/libweston.h
 +++ b/include/libweston/libweston.h
 @@ -1653,6 +1653,8 @@ struct weston_compositor {
@@ -69,10 +69,10 @@ index 5342af89d..ba961a861 100644
  
  struct weston_solid_buffer_values {
 diff --git a/libweston/compositor.c b/libweston/compositor.c
-index 5189f6ff9..8d69fa160 100644
+index d5e4b4e9..97fdf65c 100644
 --- a/libweston/compositor.c
 +++ b/libweston/compositor.c
-@@ -3705,7 +3705,14 @@ weston_compositor_build_view_list(struct weston_compositor *compositor)
+@@ -3715,7 +3715,14 @@ weston_compositor_build_view_list(struct weston_compositor *compositor)
  	wl_list_init(&compositor->view_list);
  
  	wl_list_for_each(layer, &compositor->layer_list, link) {
@@ -87,7 +87,7 @@ index 5189f6ff9..8d69fa160 100644
  			view_list_add(compositor, view);
  		}
  	}
-@@ -3837,6 +3844,15 @@ weston_output_repaint(struct weston_output *output, struct timespec *now)
+@@ -3847,6 +3854,15 @@ weston_output_repaint(struct weston_output *output, struct timespec *now)
  	if (ec->view_list_needs_rebuild)
  		weston_compositor_build_view_list(ec);
  

@@ -1,7 +1,7 @@
-From c1524fa6cdddccc14a00baf36463da31c8fd1012 Mon Sep 17 00:00:00 2001
+From 492712ae06e43e789c78d631f931eae16a861889 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 5 Jan 2024 12:29:02 +0800
-Subject: [PATCH 077/100] client: Add simple-pointer
+Subject: [PATCH 077/105] client: Add simple-pointer
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---
@@ -11,7 +11,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  create mode 100644 clients/simple-pointer.c
 
 diff --git a/clients/meson.build b/clients/meson.build
-index 1de68ecbb..5b34df22b 100644
+index 1de68ecb..5b34df22 100644
 --- a/clients/meson.build
 +++ b/clients/meson.build
 @@ -170,6 +170,15 @@ simple_clients = [
@@ -32,7 +32,7 @@ index 1de68ecbb..5b34df22b 100644
  foreach t : simple_clients
 diff --git a/clients/simple-pointer.c b/clients/simple-pointer.c
 new file mode 100644
-index 000000000..592b2a737
+index 00000000..592b2a73
 --- /dev/null
 +++ b/clients/simple-pointer.c
 @@ -0,0 +1,504 @@

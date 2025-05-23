@@ -1,7 +1,7 @@
-From cd32281417f2cc60c72a7a28da616b299ca73dec Mon Sep 17 00:00:00 2001
+From f3d13beae38b0a4522b341ef6772347d94f8bef1 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 18 Nov 2019 12:23:48 +0800
-Subject: [PATCH 017/100] compositor: Force applying subsurface position
+Subject: [PATCH 017/105] compositor: Force applying subsurface position
  directly
 
 Currently the subsurface's position would only be applied when
@@ -15,10 +15,10 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/libweston/compositor.c b/libweston/compositor.c
-index 69867d151..4bfa62425 100644
+index b940ad39..3d9f85ab 100644
 --- a/libweston/compositor.c
 +++ b/libweston/compositor.c
-@@ -5637,6 +5637,9 @@ subsurface_set_position(struct wl_client *client,
+@@ -5647,6 +5647,9 @@ subsurface_set_position(struct wl_client *client,
  	sub->position.offset = weston_coord_surface(x, y, sub->parent);
  	sub->position.changed = true;
  	sub->parent->pending.status |= WESTON_SURFACE_DIRTY_SUBSURFACE_CONFIG;

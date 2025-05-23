@@ -1,7 +1,7 @@
-From a81424b790d872743c1189b03f25c604f9861b0d Mon Sep 17 00:00:00 2001
+From a239544c1ab8a54515d66815c0e20a635a94e68d Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 8 Aug 2024 08:54:43 +0800
-Subject: [PATCH 094/100] desktop-shell: Support disabling keyboard
+Subject: [PATCH 094/105] desktop-shell: Support disabling keyboard
 
 Set env WESTON_NO_KEYBOARD=1 to disable it.
 
@@ -13,7 +13,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  3 files changed, 16 insertions(+), 7 deletions(-)
 
 diff --git a/desktop-shell/shell.c b/desktop-shell/shell.c
-index b9f39bb74..75547d75e 100644
+index b9f39bb7..75547d75 100644
 --- a/desktop-shell/shell.c
 +++ b/desktop-shell/shell.c
 @@ -4938,8 +4938,10 @@ shell_destroy(struct wl_listener *listener, void *data)
@@ -46,7 +46,7 @@ index b9f39bb74..75547d75e 100644
  	if (!shell_configuration(shell))
  		return -1;
 diff --git a/libweston/libinput-device.c b/libweston/libinput-device.c
-index 580a1bf50..fd058e115 100644
+index 580a1bf5..fd058e11 100644
 --- a/libweston/libinput-device.c
 +++ b/libweston/libinput-device.c
 @@ -1048,6 +1048,11 @@ evdev_device_create(struct libinput_device *libinput_device,
@@ -62,7 +62,7 @@ index 580a1bf50..fd058e115 100644
  			free(device);
  			return NULL;
 diff --git a/libweston/libinput-seat.c b/libweston/libinput-seat.c
-index c160a65a8..cb9462f93 100644
+index c160a65a..cb9462f9 100644
 --- a/libweston/libinput-seat.c
 +++ b/libweston/libinput-seat.c
 @@ -162,7 +162,7 @@ device_added(struct udev_input *input, struct libinput_device *libinput_device)

@@ -1,7 +1,7 @@
-From 6ee147adcc4ee4eb5a279e78b9ebbbb5eb0f749c Mon Sep 17 00:00:00 2001
+From 3f63c4792ad4ecc54a02a8dd9606fd7b539ffac7 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 23 Jun 2020 10:05:48 +0800
-Subject: [PATCH 21/98] backend-drm: Support selecting monitors
+Subject: [PATCH 021/105] backend-drm: Support selecting monitors
 
 Using these environments:
 
@@ -40,7 +40,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  10 files changed, 539 insertions(+), 85 deletions(-)
 
 diff --git a/desktop-shell/shell.c b/desktop-shell/shell.c
-index 38ddb4aa6..333218dd0 100644
+index 38ddb4aa..333218dd 100644
 --- a/desktop-shell/shell.c
 +++ b/desktop-shell/shell.c
 @@ -104,6 +104,7 @@ struct shell_surface {
@@ -273,10 +273,10 @@ index 38ddb4aa6..333218dd0 100644
  	return 0;
  }
 diff --git a/frontend/main.c b/frontend/main.c
-index 3220629e4..f0d12a48c 100644
+index 8ff48434..08b935a7 100644
 --- a/frontend/main.c
 +++ b/frontend/main.c
-@@ -2766,7 +2766,7 @@ drm_head_prepare_enable(struct wet_compositor *wet,
+@@ -2764,7 +2764,7 @@ drm_head_prepare_enable(struct wet_compositor *wet,
  	char *output_name = NULL;
  	char *mode = NULL;
  
@@ -285,7 +285,7 @@ index 3220629e4..f0d12a48c 100644
  	if (section) {
  		/* skip outputs that are explicitly off, or non-desktop and not
  		 * explicitly enabled. The backend turns them off automatically.
-@@ -2796,11 +2796,10 @@ static bool
+@@ -2794,11 +2794,10 @@ static bool
  drm_head_should_force_enable(struct wet_compositor *wet,
  			     struct weston_head *head)
  {
@@ -298,7 +298,7 @@ index 3220629e4..f0d12a48c 100644
  	if (!section)
  		return false;
  
-@@ -2999,6 +2998,21 @@ drm_head_disable(struct weston_head *head)
+@@ -2997,6 +2996,21 @@ drm_head_disable(struct weston_head *head)
  		wet_output_destroy(output);
  }
  
@@ -320,7 +320,7 @@ index 3220629e4..f0d12a48c 100644
  static void
  drm_heads_changed(struct wl_listener *listener, void *arg)
  {
-@@ -3016,6 +3030,8 @@ drm_heads_changed(struct wl_listener *listener, void *arg)
+@@ -3014,6 +3028,8 @@ drm_heads_changed(struct wl_listener *listener, void *arg)
  	 * output.
  	 */
  	while ((head = wet_backend_iterate_heads(wet, wb, head))) {
@@ -330,7 +330,7 @@ index 3220629e4..f0d12a48c 100644
  		enabled = weston_head_is_enabled(head);
  		changed = weston_head_is_device_changed(head);
 diff --git a/include/libweston/config-parser.h b/include/libweston/config-parser.h
-index 8ed14a3b5..e05a90b5b 100644
+index 8ed14a3b..e05a90b5 100644
 --- a/include/libweston/config-parser.h
 +++ b/include/libweston/config-parser.h
 @@ -32,6 +32,7 @@ extern "C" {
@@ -342,7 +342,7 @@ index 8ed14a3b5..e05a90b5b 100644
  #define WESTON_CONFIG_FILE_ENV_VAR "WESTON_CONFIG_FILE"
  
 diff --git a/include/libweston/libweston.h b/include/libweston/libweston.h
-index 77b44baa2..be3cbdaaa 100644
+index 77b44baa..be3cbdaa 100644
 --- a/include/libweston/libweston.h
 +++ b/include/libweston/libweston.h
 @@ -516,6 +516,8 @@ struct weston_head {
@@ -374,7 +374,7 @@ index 77b44baa2..be3cbdaaa 100644
  };
  
 diff --git a/kiosk-shell/kiosk-shell.c b/kiosk-shell/kiosk-shell.c
-index 099478d9a..440e36e13 100644
+index 099478d9..440e36e1 100644
 --- a/kiosk-shell/kiosk-shell.c
 +++ b/kiosk-shell/kiosk-shell.c
 @@ -447,6 +447,10 @@ kiosk_shell_surface_reconfigure_for_output(struct kiosk_shell_surface *shsurf)
@@ -422,7 +422,7 @@ index 099478d9a..440e36e13 100644
  	return 0;
  }
 diff --git a/libweston/backend-drm/drm-internal.h b/libweston/backend-drm/drm-internal.h
-index dc1120a8e..26ce330e1 100644
+index dc1120a8..26ce330e 100644
 --- a/libweston/backend-drm/drm-internal.h
 +++ b/libweston/backend-drm/drm-internal.h
 @@ -116,6 +116,8 @@
@@ -482,7 +482,7 @@ index dc1120a8e..26ce330e1 100644
  
  void
 diff --git a/libweston/backend-drm/drm.c b/libweston/backend-drm/drm.c
-index 98b9c1a1f..b933c858a 100644
+index 98b9c1a1..b933c858 100644
 --- a/libweston/backend-drm/drm.c
 +++ b/libweston/backend-drm/drm.c
 @@ -48,6 +48,7 @@
@@ -1058,7 +1058,7 @@ index 98b9c1a1f..b933c858a 100644
  err_sprite:
  	destroy_sprites(b->drm);
 diff --git a/libweston/backend-drm/kms.c b/libweston/backend-drm/kms.c
-index c6d997625..30a95199f 100644
+index c6d99762..30a95199 100644
 --- a/libweston/backend-drm/kms.c
 +++ b/libweston/backend-drm/kms.c
 @@ -860,6 +860,8 @@ drm_output_apply_state_legacy(struct drm_output_state *state)
@@ -1137,7 +1137,7 @@ index c6d997625..30a95199f 100644
  
  	return 0;
 diff --git a/libweston/backend.h b/libweston/backend.h
-index 05a40f30b..acb3a8f2e 100644
+index 05a40f30..acb3a8f2 100644
 --- a/libweston/backend.h
 +++ b/libweston/backend.h
 @@ -42,6 +42,8 @@ struct weston_hdr_metadata_type1;
@@ -1150,10 +1150,10 @@ index 05a40f30b..acb3a8f2e 100644
  	 *
  	 * Bit positions correspond to system clock IDs.
 diff --git a/libweston/compositor.c b/libweston/compositor.c
-index 419d834a1..ab2791450 100644
+index 33e04baf..e5c86a15 100644
 --- a/libweston/compositor.c
 +++ b/libweston/compositor.c
-@@ -413,6 +413,25 @@ weston_paint_node_destroy(struct weston_paint_node *pnode)
+@@ -423,6 +423,25 @@ weston_paint_node_destroy(struct weston_paint_node *pnode)
  	free(pnode);
  }
  
@@ -1179,7 +1179,7 @@ index 419d834a1..ab2791450 100644
  /** Send wl_output events for mode and scale changes
   *
   * \param head Send on all resources bound to this head.
-@@ -1617,6 +1636,22 @@ weston_view_assign_output(struct weston_view *ev)
+@@ -1627,6 +1646,22 @@ weston_view_assign_output(struct weston_view *ev)
  	uint32_t new_output_area, area, mask;
  	pixman_box32_t *e;
  
@@ -1202,7 +1202,7 @@ index 419d834a1..ab2791450 100644
  	new_output = NULL;
  	new_output_area = 0;
  	mask = 0;
-@@ -3715,6 +3750,11 @@ weston_output_flush_damage_for_primary_plane(struct weston_output *output,
+@@ -3725,6 +3760,11 @@ weston_output_flush_damage_for_primary_plane(struct weston_output *output,
  WL_EXPORT void
  weston_output_schedule_repaint_reset(struct weston_output *output)
  {
@@ -1214,7 +1214,7 @@ index 419d834a1..ab2791450 100644
  	weston_output_put_back_feedback_list(output);
  	output->repaint_status = REPAINT_NOT_SCHEDULED;
  	TL_POINT(output->compositor, "core_repaint_exit_loop",
-@@ -3782,10 +3822,20 @@ weston_output_repaint(struct weston_output *output, struct timespec *now)
+@@ -3792,10 +3832,20 @@ weston_output_repaint(struct weston_output *output, struct timespec *now)
  
  	output_accumulate_damage(output);
  
@@ -1236,7 +1236,7 @@ index 419d834a1..ab2791450 100644
  		output->repaint_status = REPAINT_AWAITING_COMPLETION;
  		output->repainted = true;
  	}
-@@ -3947,7 +3997,7 @@ output_repaint_timer_handler(void *data)
+@@ -3957,7 +4007,7 @@ output_repaint_timer_handler(void *data)
  	struct weston_backend *backend;
  	struct weston_output *output;
  	struct timespec now;
@@ -1245,7 +1245,7 @@ index 419d834a1..ab2791450 100644
  
  	if (!access(getenv("WESTON_FREEZE_DISPLAY") ? : "", F_OK)) {
  		usleep(DEFAULT_REPAINT_WINDOW * 1000);
-@@ -3990,8 +4040,10 @@ output_repaint_timer_handler(void *data)
+@@ -4000,8 +4050,10 @@ output_repaint_timer_handler(void *data)
  			ret = weston_output_repaint(output, &now);
  			if (ret)
  				break;
@@ -1257,7 +1257,7 @@ index 419d834a1..ab2791450 100644
  			if (backend->repaint_flush)
  				backend->repaint_flush(backend);
  		} else {
-@@ -7308,6 +7360,8 @@ weston_compositor_reflow_outputs(struct weston_compositor *compositor)
+@@ -7317,6 +7369,8 @@ weston_compositor_reflow_outputs(struct weston_compositor *compositor)
  
  		weston_output_set_position(output, output->mirror_of->pos);
  	}
@@ -1266,7 +1266,7 @@ index 419d834a1..ab2791450 100644
  }
  
  /** Transform a region from global to output coordinates
-@@ -7504,6 +7558,10 @@ weston_compositor_add_output(struct weston_compositor *compositor,
+@@ -7513,6 +7567,10 @@ weston_compositor_add_output(struct weston_compositor *compositor,
  		weston_view_geometry_dirty_internal(view);
  
  	compositor->view_list_needs_rebuild = true;
@@ -1277,7 +1277,7 @@ index 419d834a1..ab2791450 100644
  }
  
  /** Create a weston_coord_global from a point and a weston_output
-@@ -9835,6 +9893,10 @@ weston_compositor_backends_loaded(struct weston_compositor *compositor)
+@@ -9844,6 +9902,10 @@ weston_compositor_backends_loaded(struct weston_compositor *compositor)
  		return -1;
  	}
  
@@ -1288,7 +1288,7 @@ index 419d834a1..ab2791450 100644
  	return 0;
  }
  
-@@ -9852,10 +9914,10 @@ weston_compositor_backends_loaded(struct weston_compositor *compositor)
+@@ -9861,10 +9923,10 @@ weston_compositor_backends_loaded(struct weston_compositor *compositor)
   *
   * \ingroup compositor
   */

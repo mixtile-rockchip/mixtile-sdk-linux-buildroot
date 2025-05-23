@@ -1,7 +1,7 @@
-From afa83b267b334652f598889c1bce591a74d927b7 Mon Sep 17 00:00:00 2001
+From 36ed7b7223de8d6541092718273265c74dba6708 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Sun, 4 Feb 2024 15:18:21 +0800
-Subject: [PATCH 082/100] client: desktop-shell: Set minimum size for panel and
+Subject: [PATCH 082/105] client: desktop-shell: Set minimum size for panel and
  background
 
 See:
@@ -13,7 +13,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 8 insertions(+)
 
 diff --git a/clients/desktop-shell.c b/clients/desktop-shell.c
-index 30292dfe2..b8ded46dd 100644
+index 30292dfe..b8ded46d 100644
 --- a/clients/desktop-shell.c
 +++ b/clients/desktop-shell.c
 @@ -773,6 +773,10 @@ panel_create(struct desktop *desktop, struct output *output)

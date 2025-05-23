@@ -1,7 +1,7 @@
-From 2c591fe11d89804c8ab20441725d5d899fb3bd0d Mon Sep 17 00:00:00 2001
+From 95d796b54c604e402ecd113800ccdb4d8f2eb834 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Sun, 13 Aug 2023 10:48:36 +0800
-Subject: [PATCH 068/100] Support using USR2 signal to kill focus client
+Subject: [PATCH 068/105] Support using USR2 signal to kill focus client
 
 Tested with:
 1/ weston-terminal&
@@ -18,7 +18,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  5 files changed, 42 insertions(+), 3 deletions(-)
 
 diff --git a/desktop-shell/shell.c b/desktop-shell/shell.c
-index eda84aa88..8c5fd9574 100644
+index eda84aa8..8c5fd957 100644
 --- a/desktop-shell/shell.c
 +++ b/desktop-shell/shell.c
 @@ -4937,6 +4937,8 @@ shell_destroy(struct wl_listener *listener, void *data)
@@ -64,7 +64,7 @@ index eda84aa88..8c5fd9574 100644
  	wl_event_loop_add_idle(loop, launch_desktop_shell_process, shell);
  
 diff --git a/desktop-shell/shell.h b/desktop-shell/shell.h
-index 9dc38b2c5..6b57f065a 100644
+index 9dc38b2c..6b57f065 100644
 --- a/desktop-shell/shell.h
 +++ b/desktop-shell/shell.h
 @@ -157,6 +157,8 @@ struct desktop_shell {
@@ -77,7 +77,7 @@ index 9dc38b2c5..6b57f065a 100644
  
  	char *client;
 diff --git a/frontend/main.c b/frontend/main.c
-index 49c527945..385c538e4 100644
+index 0ae0d32f..4837888f 100644
 --- a/frontend/main.c
 +++ b/frontend/main.c
 @@ -835,6 +835,19 @@ static int on_term_signal(int signal_number, void *data)
@@ -100,7 +100,7 @@ index 49c527945..385c538e4 100644
  static const char *
  clock_name(clockid_t clk_id)
  {
-@@ -4443,7 +4456,7 @@ screenshot_allow_all(struct wl_listener *l,
+@@ -4441,7 +4454,7 @@ screenshot_allow_all(struct wl_listener *l,
  static void
  sigint_helper(int sig)
  {
@@ -109,7 +109,7 @@ index 49c527945..385c538e4 100644
  }
  
  WL_EXPORT int
-@@ -4584,8 +4597,9 @@ wet_main(int argc, char *argv[], const struct weston_testsuite_data *test_data)
+@@ -4582,8 +4595,9 @@ wet_main(int argc, char *argv[], const struct weston_testsuite_data *test_data)
  	loop = wl_display_get_event_loop(display);
  	signals[0] = wl_event_loop_add_signal(loop, SIGTERM, on_term_signal,
  					      display);
@@ -122,7 +122,7 @@ index 49c527945..385c538e4 100644
  	wl_list_init(&wet.child_process_list);
  	signals[2] = wl_event_loop_add_signal(loop, SIGCHLD, sigchld_handler,
 diff --git a/include/libweston/libweston.h b/include/libweston/libweston.h
-index d4ec323dd..fb35a3e9c 100644
+index d4ec323d..fb35a3e9 100644
 --- a/include/libweston/libweston.h
 +++ b/include/libweston/libweston.h
 @@ -1517,6 +1517,7 @@ struct weston_compositor {
@@ -134,10 +134,10 @@ index d4ec323dd..fb35a3e9c 100644
  	struct wl_signal show_input_panel_signal;
  	struct wl_signal hide_input_panel_signal;
 diff --git a/libweston/compositor.c b/libweston/compositor.c
-index 3809e66d5..b951d66fe 100644
+index 0cbbc987..08e13a80 100644
 --- a/libweston/compositor.c
 +++ b/libweston/compositor.c
-@@ -9772,6 +9772,7 @@ weston_compositor_create(struct wl_display *display,
+@@ -9781,6 +9781,7 @@ weston_compositor_create(struct wl_display *display,
  	wl_signal_init(&ec->kill_signal);
  	wl_signal_init(&ec->idle_signal);
  	wl_signal_init(&ec->wake_signal);
