@@ -1610,10 +1610,12 @@ menu "LVGL configuration"
 
 		config BR2_LV_USE_LINUX_DRM
 			bool "Use Linux DRM device"
+			select BR2_PACKAGE_LIBDRM
 			default n
 
 		config BR2_LV_DRM_USE_RGA
 			depends on BR2_LV_USE_LINUX_DRM
+			select BR2_PACKAGE_ROCKCHIP_RGA
 			bool "Use RGA in DRM drivers"
 			default n
 
@@ -1626,7 +1628,7 @@ menu "LVGL configuration"
 			default n
 
 		config BR2_LV_USE_LIBINPUT
-    		bool "Use libinput input driver"
+			bool "Use libinput input driver"
 			default n
 
 		config BR2_LV_LIBINPUT_BSD
