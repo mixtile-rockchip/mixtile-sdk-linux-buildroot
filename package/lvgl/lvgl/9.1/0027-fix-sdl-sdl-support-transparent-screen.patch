@@ -1,0 +1,60 @@
+From 8a1818cf774715d7aa843b56aff1a85726e24e07 Mon Sep 17 00:00:00 2001
+From: Jiajian Wu <jair.wu@rock-chips.com>
+Date: Thu, 5 Jun 2025 14:34:16 +0800
+Subject: [PATCH] fix(sdl): sdl support transparent screen
+
+Signed-off-by: Jiajian Wu <jair.wu@rock-chips.com>
+---
+ src/drivers/sdl/lv_sdl_window.c | 8 +++++---
+ 1 file changed, 5 insertions(+), 3 deletions(-)
+
+diff --git a/src/drivers/sdl/lv_sdl_window.c b/src/drivers/sdl/lv_sdl_window.c
+index 193b00a51..7bf658286 100644
+--- a/src/drivers/sdl/lv_sdl_window.c
++++ b/src/drivers/sdl/lv_sdl_window.c
+@@ -85,6 +85,7 @@ lv_display_t * lv_sdl_window_create(int32_t hor_res, int32_t ver_res)
+ {
+     if(!inited) {
+         SDL_Init(SDL_INIT_VIDEO);
++        SDL_GL_SetAttribute(SDL_GL_ALPHA_SIZE, 1);
+         SDL_StartTextInput();
+         event_handler_timer = lv_timer_create(sdl_event_handler, 5, NULL);
+         lv_tick_set_cb(SDL_GetTicks);
+@@ -115,6 +116,7 @@ lv_display_t * lv_sdl_window_create(int32_t hor_res, int32_t ver_res)
+     }
+     lv_display_add_event_cb(disp, release_disp_cb, LV_EVENT_DELETE, disp);
+     lv_display_set_driver_data(disp, dsc);
++    lv_display_set_color_format(disp, LV_COLOR_FORMAT_NATIVE_WITH_ALPHA);
+     window_create(disp);
+ 
+     lv_display_set_flush_cb(disp, flush_cb);
+@@ -304,7 +306,7 @@ static void window_create(lv_display_t * disp)
+     lv_sdl_window_t * dsc = lv_display_get_driver_data(disp);
+     dsc->zoom = 1;
+ 
+-    int flag = SDL_WINDOW_RESIZABLE;
++    int flag = SDL_WINDOW_RESIZABLE | SDL_WINDOW_OPENGL;
+ #if LV_SDL_FULLSCREEN
+     flag |= SDL_WINDOW_FULLSCREEN;
+ #endif
+@@ -315,7 +317,7 @@ static void window_create(lv_display_t * disp)
+                                    SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED,
+                                    hor_res * dsc->zoom, ver_res * dsc->zoom, flag);       /*last param. SDL_WINDOW_BORDERLESS to hide borders*/
+ 
+-    dsc->renderer = SDL_CreateRenderer(dsc->window, -1, SDL_RENDERER_SOFTWARE);
++    dsc->renderer = SDL_CreateRenderer(dsc->window, -1, SDL_RENDERER_ACCELERATED);
+ #if LV_USE_DRAW_SDL == 0
+     texture_resize(disp);
+ 
+@@ -373,7 +375,7 @@ static void texture_resize(lv_display_t * disp)
+ 
+ #if LV_COLOR_DEPTH == 32
+     SDL_PixelFormatEnum px_format =
+-        SDL_PIXELFORMAT_RGB888; /*same as SDL_PIXELFORMAT_RGB888, but it's not supported in older versions*/
++        SDL_PIXELFORMAT_ARGB8888; /*same as SDL_PIXELFORMAT_RGB888, but it's not supported in older versions*/
+ #elif LV_COLOR_DEPTH == 24
+     SDL_PixelFormatEnum px_format = SDL_PIXELFORMAT_BGR24;
+ #elif LV_COLOR_DEPTH == 16
+-- 
+2.34.1
+
