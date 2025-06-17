@@ -34,6 +34,11 @@ config BR2_PACKAGE_BUSYBOX_CONFIG_FRAGMENT_FILES
 	  A space-separated list of configuration fragment files,
 	  that will be merged to the main BusyBox configuration file.
 
+config BR2_PACKAGE_BUSYBOX_BASH
+	bool "Install bash"
+	depends on !BR2_PACKAGE_BASH
+	default y
+
 config BR2_PACKAGE_BUSYBOX_UNICODE
 	bool "Enable unicode support"
 	default y
