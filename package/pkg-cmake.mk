@@ -131,7 +131,7 @@ define $(2)_CONFIGURE_CMDS
 	rm -f CMakeCache.txt && \
 	sed \
 		-e 's#@@STAGING_SUBDIR@@#$(call qstrip,$(STAGING_SUBDIR))#' \
-		-e 's#@@RELOCATED_HOST_DIR@@#$(call qstrip,$(HOST_DIR)/share/buildroot)#' \
+		-e 's#@@RELOCATED_HOST_DIR@@#$(call qstrip,$$(HOST_DIR)/share/buildroot)#' \
 		-e 's#@@TARGET_CFLAGS@@#$(call qstrip,$(TARGET_CFLAGS))#' \
 		-e 's#@@TARGET_CXXFLAGS@@#$(call qstrip,$(TARGET_CXXFLAGS))#' \
 		-e 's#@@TARGET_FCFLAGS@@#$(call qstrip,$(TARGET_FCFLAGS))#' \
