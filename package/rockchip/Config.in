@@ -229,6 +229,7 @@ menu "Rockchip BSP packages"
 	source "package/rockchip/tee-user-app/Config.in"
 	source "package/rockchip/rockchip-rvcam/Config.in"
 	source "package/rockchip/wayland-cluster/Config.in"
+	source "package/rockchip/bug-report/Config.in"
 endmenu
 
 menu "Rockchip IPC"
