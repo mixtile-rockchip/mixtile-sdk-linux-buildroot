@@ -3,24 +3,17 @@
 # Modules init
 #
 
-
 start() {
-	find /lib/modules/$(uname -r)/kernel/ -name "*.ko" | xargs -I {} sh -c 'modprobe $(basename {})'
-}
-
-stop() {
-	find /lib/modules/$(uname -r)/kernel/ -name "*.ko" | xargs -I {} sh -c 'modprobe -r $(basename {})'
+	find /lib/modules/$(uname -r)/kernel/ -name "*.ko" \
+		-exec modprobe --force {} \;
 }
 
 case "$1" in
 	start)
 		start
 		;;
-	stop)
-		stop
-		;;
 	*)
-		echo "Usage: $0 {start|stop|restart}"
+		echo "Usage: $0 start"
 		exit 1
 esac
 
