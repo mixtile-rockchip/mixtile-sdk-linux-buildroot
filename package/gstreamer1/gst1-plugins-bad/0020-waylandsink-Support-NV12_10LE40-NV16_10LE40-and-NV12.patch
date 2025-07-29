@@ -1,7 +1,7 @@
-From 17cb68ca6defb8ec837d2e19c07a3490e92ca679 Mon Sep 17 00:00:00 2001
+From 1a16561351a13119dffb667ebe5c6e035eba8649 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 12 Nov 2021 11:14:37 +0800
-Subject: [PATCH 20/41] waylandsink: Support NV12_10LE40 NV16_10LE40 and
+Subject: [PATCH 20/42] waylandsink: Support NV12_10LE40 NV16_10LE40 and
  NV12|NV12_10LE40|NV16 (AFBC)
 
 Tested on RK356x with:
@@ -14,13 +14,13 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  ext/wayland/gstwaylandsink.c                | 103 +++++++++++++++++++-
  gst-libs/gst/wayland/gstwldisplay.c         |   7 +-
  gst-libs/gst/wayland/gstwldisplay.h         |   2 +-
- gst-libs/gst/wayland/gstwllinuxdmabuf.c     |  44 +++++++--
+ gst-libs/gst/wayland/gstwllinuxdmabuf.c     |  46 +++++++--
  gst-libs/gst/wayland/gstwlvideobufferpool.c |   3 +-
  gst-libs/gst/wayland/gstwlvideoformat.c     |   6 +-
  gst-libs/gst/wayland/gstwlvideoformat.h     |   2 +
  gst-libs/gst/wayland/gstwlwindow.c          |  46 ++++++++-
  gst-libs/gst/wayland/gstwlwindow.h          |   4 +
- 10 files changed, 202 insertions(+), 20 deletions(-)
+ 10 files changed, 203 insertions(+), 21 deletions(-)
 
 diff --git a/ext/gtk/gstgtkwaylandsink.c b/ext/gtk/gstgtkwaylandsink.c
 index 816913d..7b796cf 100644
@@ -299,7 +299,7 @@ index 3d29b4e..a7f8c8d 100644
  GST_WL_API
  struct wl_display *gst_wl_display_get_display (GstWlDisplay * self);
 diff --git a/gst-libs/gst/wayland/gstwllinuxdmabuf.c b/gst-libs/gst/wayland/gstwllinuxdmabuf.c
-index 3f4c468..e55a1fc 100644
+index 3f4c468..0272b27 100644
 --- a/gst-libs/gst/wayland/gstwllinuxdmabuf.c
 +++ b/gst-libs/gst/wayland/gstwllinuxdmabuf.c
 @@ -24,8 +24,12 @@
@@ -315,7 +315,7 @@ index 3f4c468..e55a1fc 100644
  #include "linux-dmabuf-unstable-v1-client-protocol.h"
  
  GST_DEBUG_CATEGORY (gst_wl_dmabuf_debug);
-@@ -62,6 +66,7 @@ gst_wl_linux_dmabuf_construct_wl_buffer (GstBuffer * buf,
+@@ -62,16 +66,27 @@ gst_wl_linux_dmabuf_construct_wl_buffer (GstBuffer * buf,
    const gint *strides = NULL;
    GstVideoMeta *vmeta;
    guint nplanes = 0, flags = 0;
@@ -323,7 +323,11 @@ index 3f4c468..e55a1fc 100644
    struct zwp_linux_buffer_params_v1 *params;
    ConstructBufferData data;
  
-@@ -72,6 +77,16 @@ gst_wl_linux_dmabuf_construct_wl_buffer (GstBuffer * buf,
+   g_return_val_if_fail (gst_wl_display_check_format_for_dmabuf (display,
+-          drm_info), NULL);
++          drm_info->drm_fourcc, drm_info->drm_modifier), NULL);
+ 
+   mem = gst_buffer_peek_memory (buf, 0);
    fourcc = drm_info->drm_fourcc;
    modifier = drm_info->drm_modifier;
  
