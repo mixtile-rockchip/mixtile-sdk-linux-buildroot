@@ -1,4 +1,4 @@
-From 2d56c20bb71494eb01f7b88ce019269f26347135 Mon Sep 17 00:00:00 2001
+From 4d7ee259d5e4f07d3a64f02b80de6fbe019b589d Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 18 Sep 2018 11:32:04 +0800
 Subject: [PATCH 09/12] halt: Support rebooting with arg
@@ -7,11 +7,11 @@ Support passing reboot arg(e.g. loader, fastboot, etc.) to kernel.
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---
- init/halt.c | 49 +++++++++++++++++++++++++++++++++++++++++++++++++
- 1 file changed, 49 insertions(+)
+ init/halt.c | 56 +++++++++++++++++++++++++++++++++++++++++++++++++++++
+ 1 file changed, 56 insertions(+)
 
 diff --git a/init/halt.c b/init/halt.c
-index fe3cb9e..2e8a0a5 100644
+index fe3cb9e..c87c925 100644
 --- a/init/halt.c
 +++ b/init/halt.c
 @@ -93,6 +93,8 @@
@@ -23,7 +23,7 @@ index fe3cb9e..2e8a0a5 100644
  
  #if ENABLE_FEATURE_WTMP
  #include <sys/utsname.h>
-@@ -161,6 +163,48 @@ static int init_was_not_there(void)
+@@ -161,6 +163,55 @@ static int init_was_not_there(void)
  # define init_was_not_there() 0
  #endif
  
@@ -39,6 +39,7 @@ index fe3cb9e..2e8a0a5 100644
 +static int reboot_with_arg(const char *arg)
 +{
 +	struct sigaction sa;
++	sigset_t mask;
 +	int pid;
 +
 +	/* Fork new thread to handle reboot */
@@ -46,6 +47,12 @@ index fe3cb9e..2e8a0a5 100644
 +		return pid < 0 ? pid : 0;
 +
 +	/* Handle signal and reboot in child thread */
++
++	/* Block other signals */
++	sigfillset(&mask);
++	sigdelset(&mask, SIGTERM);
++	sigprocmask(SIG_BLOCK, &mask, NULL);
++
 +	sigemptyset(&sa.sa_mask);
 +	sa.sa_flags = 0;
 +	sa.sa_handler = signal_handler;
@@ -72,7 +79,7 @@ index fe3cb9e..2e8a0a5 100644
  int halt_main(int argc, char **argv) MAIN_EXTERNALLY_VISIBLE;
  int halt_main(int argc UNUSED_PARAM, char **argv)
  {
-@@ -239,6 +283,11 @@ int halt_main(int argc UNUSED_PARAM, char **argv)
+@@ -239,6 +290,11 @@ int halt_main(int argc UNUSED_PARAM, char **argv)
  						CONFIG_TELINIT_PATH);
  			}
  		}
