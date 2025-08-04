@@ -1,0 +1,87 @@
+From 4086bb521881bfbea49c5f777d392e21b0c60bab Mon Sep 17 00:00:00 2001
+From: Jeffy Chen <jeffy.chen@rock-chips.com>
+Date: Mon, 4 Aug 2025 12:44:53 +0800
+Subject: [PATCH 23/23] video-info-dma: Support RFBC
+
+Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
+---
+ gst-libs/gst/video/video-info-dma.c |  4 +--
+ gst-libs/gst/video/video-info-dma.h | 40 +++++++++++++++++++++++++++++
+ 2 files changed, 42 insertions(+), 2 deletions(-)
+
+diff --git a/gst-libs/gst/video/video-info-dma.c b/gst-libs/gst/video/video-info-dma.c
+index 499e310..bc26cc6 100644
+--- a/gst-libs/gst/video/video-info-dma.c
++++ b/gst-libs/gst/video/video-info-dma.c
+@@ -465,7 +465,7 @@ gst_video_info_dma_drm_from_video_info (GstVideoInfoDmaDrm * drm_info,
+   if (fourcc == DRM_FORMAT_INVALID)
+     return FALSE;
+ 
+-  if (GST_VIDEO_INFO_IS_AFBC (info)) {
++  if (GST_VIDEO_INFO_IS_AFBC (info) || GST_VIDEO_INFO_IS_RFBC (info)) {
+     /* Mali uses these formats instead */
+     if (format == GST_VIDEO_FORMAT_NV12)
+       fourcc = DRM_FORMAT_YUV420_8BIT;
+@@ -474,7 +474,7 @@ gst_video_info_dma_drm_from_video_info (GstVideoInfoDmaDrm * drm_info,
+     else if (format == GST_VIDEO_FORMAT_NV16)
+       fourcc = DRM_FORMAT_YUYV;
+ 
+-    GST_INFO ("unsupported format for AFBC");
++    GST_INFO ("unsupported format for FBC");
+     return FALSE;
+   }
+ 
+diff --git a/gst-libs/gst/video/video-info-dma.h b/gst-libs/gst/video/video-info-dma.h
+index 8510ab2..789429e 100644
+--- a/gst-libs/gst/video/video-info-dma.h
++++ b/gst-libs/gst/video/video-info-dma.h
+@@ -67,6 +67,46 @@ G_BEGIN_DECLS
+   GST_VIDEO_INFO_FLAG_IS_SET (i, GST_VIDEO_FLAG_ARM_AFBC)
+ #endif
+ 
++#ifndef DRM_FORMAT_MOD_VENDOR_ROCKCHIP
++#define DRM_FORMAT_MOD_VENDOR_ROCKCHIP 0x0b
++#endif
++
++#ifndef DRM_FORMAT_MOD_ROCKCHIP_TYPE_SHIFT
++#define DRM_FORMAT_MOD_ROCKCHIP_TYPE_SHIFT  52
++#endif
++
++#ifndef DRM_FORMAT_MOD_ROCKCHIP_TYPE_RFBC
++#define DRM_FORMAT_MOD_ROCKCHIP_TYPE_RFBC 0x1
++#endif
++
++#ifndef ROCKCHIP_RFBC_BLOCK_SIZE_64x4
++#define ROCKCHIP_RFBC_BLOCK_SIZE_64x4   (1ULL)
++#endif
++
++#ifndef DRM_FORMAT_MOD_ROCKCHIP_CODE
++#define DRM_FORMAT_MOD_ROCKCHIP_CODE(__type, __val) \
++  fourcc_mod_code(ROCKCHIP, ((__u64)(__type) << DRM_FORMAT_MOD_ROCKCHIP_TYPE_SHIFT) | \
++      ((__val) & 0x000fffffffffffffULL))
++#endif
++
++#ifndef DRM_FORMAT_MOD_ROCKCHIP_RFBC
++#define DRM_FORMAT_MOD_ROCKCHIP_RFBC(mode) \
++  DRM_FORMAT_MOD_ROCKCHIP_CODE(DRM_FORMAT_MOD_ROCKCHIP_TYPE_RFBC, mode)
++#endif
++
++#define DRM_RFBC_MODIFIER \
++  DRM_FORMAT_MOD_ROCKCHIP_RFBC(ROCKCHIP_RFBC_BLOCK_SIZE_64x4)
++
++#ifndef GST_VIDEO_FLAG_RFBC
++#define GST_VIDEO_FLAG_RFBC (1UL << 30)
++#define GST_VIDEO_INFO_SET_RFBC(i) \
++  GST_VIDEO_INFO_FLAG_SET (i, GST_VIDEO_FLAG_RFBC)
++#define GST_VIDEO_INFO_UNSET_RFBC(i) \
++  GST_VIDEO_INFO_FLAG_UNSET (i, GST_VIDEO_FLAG_RFBC)
++#define GST_VIDEO_INFO_IS_RFBC(i) \
++  GST_VIDEO_INFO_FLAG_IS_SET (i, GST_VIDEO_FLAG_RFBC)
++#endif
++
+ /**
+  * GST_VIDEO_DMA_DRM_CAPS_MAKE:
+  *
+-- 
+2.20.1
+
