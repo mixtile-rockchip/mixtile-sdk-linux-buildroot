@@ -1,7 +1,7 @@
-From 4d7ee259d5e4f07d3a64f02b80de6fbe019b589d Mon Sep 17 00:00:00 2001
+From 8d52f7b8f2eb2420b369457eb373f3fcea0fe141 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 18 Sep 2018 11:32:04 +0800
-Subject: [PATCH 09/12] halt: Support rebooting with arg
+Subject: [PATCH 09/15] halt: Support rebooting with arg
 
 Support passing reboot arg(e.g. loader, fastboot, etc.) to kernel.
 
@@ -11,7 +11,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 56 insertions(+)
 
 diff --git a/init/halt.c b/init/halt.c
-index fe3cb9e..c87c925 100644
+index 7aea8cf..39bf920 100644
 --- a/init/halt.c
 +++ b/init/halt.c
 @@ -93,6 +93,8 @@

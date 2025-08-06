@@ -1,8 +1,8 @@
-From 9d825e854ef53ebbe0aea2f1a69f52b763104daf Mon Sep 17 00:00:00 2001
+From 5b8e363cd430580d6934a524a8a925f5713fc15a Mon Sep 17 00:00:00 2001
 From: Ariadne Conill <ariadne@dereferenced.org>
 Date: Mon, 19 Sep 2022 14:15:12 +0200
-Subject: [PATCH] libbb: sockaddr2str: ensure only printable characters are
- returned for the hostname part
+Subject: [PATCH 03/15] libbb: sockaddr2str: ensure only printable characters
+ are returned for the hostname part
 
 CVE: CVE-2022-28391
 Signed-off-by: Ariadne Conill <ariadne@dereferenced.org>
@@ -14,7 +14,7 @@ Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
  1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/libbb/xconnect.c b/libbb/xconnect.c
-index 0e0b247b8..02c061e67 100644
+index 0e0b247..02c061e 100644
 --- a/libbb/xconnect.c
 +++ b/libbb/xconnect.c
 @@ -497,8 +497,9 @@ static char* FAST_FUNC sockaddr2str(const struct sockaddr *sa, int flags)
@@ -38,5 +38,5 @@ index 0e0b247b8..02c061e67 100644
  }
  
 -- 
-2.37.3
+2.20.1
 

@@ -1,21 +1,22 @@
 #!/bin/sh
 
-DAEMON="syslogd"
+DAEMON="crond"
 PIDFILE="/var/run/$DAEMON.pid"
 
-SYSLOGD_ARGS=""
+CROND_ARGS=""
 
 # shellcheck source=/dev/null
 [ -r "/etc/default/$DAEMON" ] && . "/etc/default/$DAEMON"
 
-# BusyBox' syslogd does not create a pidfile, so pass "-n" in the command line
-# and use "--make-pidfile" to instruct start-stop-daemon to create one.
+# BusyBox' crond does not create a pidfile, so pass "-f" on the crond
+# command line and use "--make-pidfile" to instruct start-stop-daemon
+# to create one.
 start() {
 	printf 'Starting %s: ' "$DAEMON"
 	# shellcheck disable=SC2086 # we need the word splitting
 	start-stop-daemon --start --background --make-pidfile \
-		--pidfile "$PIDFILE" --exec "/sbin/$DAEMON" \
-		-- -n $SYSLOGD_ARGS
+		--pidfile "$PIDFILE" --exec "/usr/sbin/$DAEMON" \
+		-- -f $CROND_ARGS
 	status=$?
 	if [ "$status" -eq 0 ]; then
 		echo "OK"
@@ -27,13 +28,12 @@ start() {
 
 stop() {
 	printf 'Stopping %s: ' "$DAEMON"
-	start-stop-daemon --stop --pidfile "$PIDFILE" --exec "/sbin/$DAEMON"
+	start-stop-daemon --stop --pidfile "$PIDFILE" --exec "/usr/sbin/$DAEMON"
 	status=$?
 	if [ "$status" -eq 0 ]; then
 		echo "OK"
 	else
 		echo "FAIL"
-		return "$status"
 	fi
 	while start-stop-daemon --stop --test --quiet --pidfile "$PIDFILE" \
 		--exec "/sbin/$DAEMON"; do

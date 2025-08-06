@@ -1,8 +1,8 @@
-From 60da1d0763224698008d847eb8ad8d4d8c6f54ff Mon Sep 17 00:00:00 2001
+From bbf02020e50fd894dae7296d0e29e4df52bc9e81 Mon Sep 17 00:00:00 2001
 From: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
 Date: Sat, 5 Oct 2013 15:55:06 +0200
-Subject: [PATCH] networking/libiproute: use <linux/if_packet.h> instead of
- <net/if_packet.h>
+Subject: [PATCH 01/15] networking/libiproute: use <linux/if_packet.h> instead
+ of <net/if_packet.h>
 
 The musl C library doesn't provide the <net/if_packet.h> since the
 corresponding kernel headers <linux/if_packet.h> already provides the
@@ -20,7 +20,7 @@ Signed-off-by: Petr Vorel <petr.vorel@gmail.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/networking/libiproute/iplink.c b/networking/libiproute/iplink.c
-index 1a1064bdc..a4c3ad307 100644
+index 37ed114..bc526d8 100644
 --- a/networking/libiproute/iplink.c
 +++ b/networking/libiproute/iplink.c
 @@ -7,7 +7,7 @@
@@ -30,8 +30,8 @@ index 1a1064bdc..a4c3ad307 100644
 -#include <netpacket/packet.h>
 +#include <linux/if_packet.h>
  #include <netinet/if_ether.h>
-
+ 
  #include <linux/if_vlan.h>
---
-2.33.0
+-- 
+2.20.1
 

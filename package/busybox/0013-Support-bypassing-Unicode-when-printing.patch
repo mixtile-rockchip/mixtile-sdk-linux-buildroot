@@ -1,7 +1,7 @@
-From d1fcf155d8ec146d2c6bc1a7e19439cff47817c6 Mon Sep 17 00:00:00 2001
+From b12e727c457005c77d0162632de42aa78512ac50 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 9 Dec 2022 11:15:45 +0800
-Subject: [PATCH 11/12] Support bypassing Unicode when printing
+Subject: [PATCH 13/15] Support bypassing Unicode when printing
 
 Enabled by default.
 
