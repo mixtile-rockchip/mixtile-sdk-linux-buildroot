@@ -121,6 +121,11 @@ config BR2_TARGET_ROOTFS_EROFS_ZTAILPACKING
 	  metadata to save more space and the tail part I/O. Introduced
 	  in Linux 5.17.
 
+config BR2_TARGET_ROOTFS_EROFS_GZIP
+	bool "gzip"
+	help
+	  Do compress the erofs filesystem with gzip.
+
 config BR2_TARGET_ROOTFS_EROFS_PCLUSTERSIZE
 	int "pcluster size"
 	default 0
