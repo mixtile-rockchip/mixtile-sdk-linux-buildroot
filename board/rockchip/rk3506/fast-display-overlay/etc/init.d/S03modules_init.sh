@@ -5,7 +5,7 @@
 
 start() {
 	find /lib/modules/$(uname -r)/kernel/ -name "*.ko" \
-		-exec modprobe --force {} \;
+		-exec sh -c 'modprobe "$(basename -s .ko "$1")"' _ {} \;
 }
 
 case "$1" in
