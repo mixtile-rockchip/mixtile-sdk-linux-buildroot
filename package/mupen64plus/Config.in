@@ -15,5 +15,6 @@ if BR2_PACKAGE_MUPEN64PLUS
 	source "package/mupen64plus/mupen64plus-video-gles2n64/Config.in"
 	source "package/mupen64plus/mupen64plus-video-glide64mk2/Config.in"
 	source "package/mupen64plus/mupen64plus-video-gliden64/Config.in"
+	source "package/mupen64plus/mupen64plus-video-gles2rice/Config.in"
 	source "package/mupen64plus/mupen64plus-video-rice/Config.in"
 endif
