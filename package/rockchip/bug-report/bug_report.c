@@ -18,6 +18,7 @@ static int sysfs_write(char *path, char *val, unsigned int size)
 	size = lseek(fd, 0, SEEK_END);
 	if (size < 0) {
 		//printf("%s lseek failed\n", __func__);
+		close(fd);
 		return -1;
 	}
 
@@ -30,6 +31,7 @@ static int sysfs_write(char *path, char *val, unsigned int size)
 		len = write(fd, val + (4096 * i), 4096);
 		if (len < 0) {
 			//fprintf(stderr, "%s:%d | path: %s %s\n", __func__, __LINE__, path, strerror(errno));
+			close(fd);
 			return -1;
 		}
 	}
@@ -71,6 +73,7 @@ int bug_report_read_var_log_and_write_to_cluster(void)
 	data = mmap(NULL, SIZE_OF_VAR_LOG, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);
 	if (data == MAP_FAILED) {
 		//fprintf(stderr, "mmap failed: %s\n", strerror(errno));
+		close(fd);
 		return -1;
 	}
 

@@ -30,7 +30,7 @@ extern "C" {
 
 #define BUG_REPORT_CLUSTER "/sys/devices/platform/vehicle-bug-report/dmesg/cluster"
 #define BUG_REPORT_VAR_LOG "/var/log/messages"
-#define SIZE_OF_VAR_LOG 0x020000
+#define SIZE_OF_VAR_LOG 0x040000
 
 int bug_report_read_var_log_and_write_to_cluster(void);
 
