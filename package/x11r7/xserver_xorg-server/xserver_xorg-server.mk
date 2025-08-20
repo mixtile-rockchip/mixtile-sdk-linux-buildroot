@@ -12,8 +12,11 @@ XSERVER_XORG_SERVER_CPE_ID_VENDOR = x.org
 XSERVER_XORG_SERVER_CPE_ID_PRODUCT = xorg-server
 XSERVER_XORG_SERVER_SELINUX_MODULES = xdg xserver
 XSERVER_XORG_SERVER_INSTALL_STAGING = YES
+# xfont_font-util is needed only for autoreconf
+XSERVER_XORG_SERVER_AUTORECONF = YES
 
 XSERVER_XORG_SERVER_DEPENDENCIES = \
+	xfont_font-util \
 	xutil_util-macros \
 	xlib_libX11 \
 	xlib_libXau \
