@@ -1,5 +1,6 @@
 config BR2_PACKAGE_ROCKCHIP_MALI_SUPPORT
 	bool
+	select BR2_PACKAGE_ROCKCHIP_HAS_GPU
 
 config BR2_PACKAGE_ROCKCHIP_MALI
 	bool "rockchip-mali"

@@ -225,6 +225,5 @@ comment "demo clients needs an OpenGL ES/EGL provider and a toolchain w/ wchar, 
 
 config BR2_PACKAGE_WESTON_DEFAULT_PIXMAN
 	bool "Use pixman-renderer by default"
-	default y if BR2_PACKAGE_MESA3D_OPENGL_EGL || !BR2_PACKAGE_HAS_LIBEGL
 
 endif
