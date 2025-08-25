@@ -275,6 +275,8 @@ GLIBC_DEPENDENCIES += host-qemu
 
 define GLIBC_GEN_LD_CACHE
 	mkdir -p $(TARGET_DIR)/etc $(TARGET_DIR)/tmp
+	echo "include /etc/ld.so.conf.d/*.conf" > $(TARGET_DIR)/etc/ld.so.conf
+	chmod 644 $(TARGET_DIR)/etc/ld.so.conf
 	$(QEMU_USER) $(GLIBC_DIR)/build/elf/ldconfig -r $(TARGET_DIR) || true
 endef
 GLIBC_TARGET_FINALIZE_HOOKS += GLIBC_GEN_LD_CACHE
