@@ -18,7 +18,6 @@ int main(int argc, char* argv[])
 		switch (ch) {
 			case 'w':
 				ret = bug_report_read_var_log_and_write_to_cluster();
-				printf("write cluster %d\n", ret);
 				break;
 			default:
 				usage();
