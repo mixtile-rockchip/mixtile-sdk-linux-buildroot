@@ -727,7 +727,7 @@ define SYSTEMD_INSTALL_SERVICE_TTY
 endef
 else ifneq ($(BR2_TARGET_SERIAL_SHELL_LOGIN),)
 define SYSTEMD_INSTALL_SERVICE_TTY
-	$(SED) "s~\(^ExecStart=.*\)~# \1\nExecStart=-/bin/sh -c '/bin/login -l </dev/%I >/dev/%I 2>\&1'~" $(TARGET_DIR)/usr/lib/systemd/system/serial-getty@.service
+	$(SED) "s~\(^ExecStart=.*\)~# \1\nExecStart=-/bin/sh -c '/bin/login </dev/%I >/dev/%I 2>\&1'~" $(TARGET_DIR)/usr/lib/systemd/system/serial-getty@.service
 endef
 else ifneq ($(BR2_TARGET_SERIAL_SHELL_SH),)
 define SYSTEMD_INSTALL_SERVICE_TTY
