@@ -1,4 +1,4 @@
-From f12e78e258cf54d0a3e590130ba43d859698f55f Mon Sep 17 00:00:00 2001
+From 332c73fb8f29ce830fe888efc68794b21b0a5dc8 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 10 May 2024 18:19:15 +0800
 Subject: [PATCH 2/2] Support creation time
@@ -9,7 +9,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 49 insertions(+), 1 deletion(-)
 
 diff --git a/src/mtp_properties.c b/src/mtp_properties.c
-index 60d0d2f..9711c4e 100644
+index 825eb6a..62de58e 100644
 --- a/src/mtp_properties.c
 +++ b/src/mtp_properties.c
 @@ -31,6 +31,7 @@

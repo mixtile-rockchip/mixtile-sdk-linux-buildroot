@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-UMTPRD_VERSION = 7d7d099df0dd929f95de0f45a2b6b006545207c6
+UMTPRD_VERSION = 93cca39673ed9e8c082df3002a6bf58ab8e492ad
 UMTPRD_SITE = https://github.com/viveris/uMTP-Responder.git
 UMTPRD_SITE_METHOD = git
 UMTPRD_LICENSE = GPL-3.0+
@@ -28,6 +28,12 @@ define UMTPRD_FIXUP_USB_PATH
 		$(@D)/inc/default_cfg.h || true
 endef
 UMTPRD_POST_PATCH_HOOKS += UMTPRD_FIXUP_USB_PATH
+
+define UMTPRD_ENABLE_USB_SS
+	sed -i -e "s~//\(#define CONFIG_USB_SS_SUPPORT 1\)~\1~" \
+		$(@D)/inc/buildconf.h || true
+endef
+UMTPRD_POST_PATCH_HOOKS += UMTPRD_ENABLE_USB_SS
 
 define UMTPRD_BUILD_CMDS
 	$(TARGET_CONFIGURE_OPTS) $(MAKE) $(UMTPRD_MAKE_OPTS) -C $(@D)

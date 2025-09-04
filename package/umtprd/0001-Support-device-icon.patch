@@ -1,4 +1,4 @@
-From dc9372345f7e5a339be564ad43c2f695f1d6261d Mon Sep 17 00:00:00 2001
+From 0308c20a89648cb309486a75fe15132b8642164b Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 9 May 2024 18:17:00 +0800
 Subject: [PATCH 1/2] Support device icon
@@ -15,7 +15,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  5 files changed, 76 insertions(+)
 
 diff --git a/inc/default_cfg.h b/inc/default_cfg.h
-index ad41e28..03c8c74 100644
+index 07a6131..a7af264 100644
 --- a/inc/default_cfg.h
 +++ b/inc/default_cfg.h
 @@ -53,4 +53,6 @@
@@ -26,10 +26,10 @@ index ad41e28..03c8c74 100644
 +
  #endif
 diff --git a/inc/mtp.h b/inc/mtp.h
-index 2c7db88..30b2b07 100644
+index 609a891..c242f12 100644
 --- a/inc/mtp.h
 +++ b/inc/mtp.h
-@@ -66,6 +66,8 @@ typedef struct mtp_usb_cfg_
+@@ -67,6 +67,8 @@ typedef struct mtp_usb_cfg_
  
  	char usb_string_interface[MAX_CFG_STRING_SIZE + 1];
  
@@ -39,11 +39,11 @@ index 2c7db88..30b2b07 100644
  	int loop_on_disconnect;
  
 diff --git a/src/mtp_cfg.c b/src/mtp_cfg.c
-index 6a23637..c0e38ec 100644
+index 60de6ca..d3b426a 100644
 --- a/src/mtp_cfg.c
 +++ b/src/mtp_cfg.c
-@@ -70,6 +70,8 @@ enum
- 	VERSION_STRING_CMD,
+@@ -72,6 +72,8 @@ enum
+ 	MTP_EXTENSIONS_STRING_CMD,
  	INTERFACE_STRING_CMD,
  
 +	DEVICE_ICON_PATH_CMD,
@@ -51,7 +51,7 @@ index 6a23637..c0e38ec 100644
  	WAIT_CONNECTION,
  	LOOP_ON_DISCONNECT,
  
-@@ -530,6 +532,10 @@ static int get_str_param(mtp_ctx * context, char * line,int cmd)
+@@ -541,6 +543,10 @@ static int get_str_param(mtp_ctx * context, char * line,int cmd)
  			case INTERFACE_STRING_CMD:
  				strncpy(context->usb_cfg.usb_string_interface,tmp_txt,MAX_CFG_STRING_SIZE);
  			break;
@@ -62,7 +62,7 @@ index 6a23637..c0e38ec 100644
  		}
  	}
  
-@@ -606,6 +612,7 @@ kw_list kwlist[] =
+@@ -617,6 +623,7 @@ kw_list kwlist[] =
  	{"serial",                 get_str_param,   SERIAL_STRING_CMD},
  	{"firmware_version",       get_str_param,   VERSION_STRING_CMD},
  	{"interface",              get_str_param,   INTERFACE_STRING_CMD},
@@ -70,15 +70,15 @@ index 6a23637..c0e38ec 100644
  
  	{"wait",                   get_hex_param,   WAIT_CONNECTION},
  	{"loop_on_disconnect",     get_hex_param,   LOOP_ON_DISCONNECT},
-@@ -681,6 +688,7 @@ int mtp_load_config_file(mtp_ctx * context, const char * conffile)
- 	strncpy(context->usb_cfg.usb_string_serial,       SERIALNUMBER,           MAX_CFG_STRING_SIZE);
+@@ -695,6 +702,7 @@ int mtp_load_config_file(mtp_ctx * context, const char * conffile)
  	strncpy(context->usb_cfg.usb_string_version,      "Rev A",                MAX_CFG_STRING_SIZE);
+ 	strncpy(context->usb_cfg.usb_string_mtp_extensions, "",                   MAX_CFG_STRING_SIZE);
  	strncpy(context->usb_cfg.usb_string_interface,    "MTP",                  MAX_CFG_STRING_SIZE);
 +	strncpy(context->usb_cfg.device_icon,             DEVICE_ICON,            MAX_CFG_STRING_SIZE);
  
  	context->usb_cfg.usb_vendor_id       = USB_DEV_VENDOR_ID;
  	context->usb_cfg.usb_product_id      = USB_DEV_PRODUCT_ID;
-@@ -745,6 +753,7 @@ int mtp_load_config_file(mtp_ctx * context, const char * conffile)
+@@ -761,6 +769,7 @@ int mtp_load_config_file(mtp_ctx * context, const char * conffile)
  	PRINT_MSG("USB subclass ID : 0x%.2X",context->usb_cfg.usb_subclass);
  	PRINT_MSG("USB Protocol ID : 0x%.2X",context->usb_cfg.usb_protocol);
  	PRINT_MSG("USB Device version : 0x%.4X",context->usb_cfg.usb_dev_version);
@@ -87,10 +87,10 @@ index 6a23637..c0e38ec 100644
  	if(context->usb_cfg.usb_functionfs_mode)
  	{
 diff --git a/src/mtp_constant_strings.c b/src/mtp_constant_strings.c
-index 0e5c7dd..b5dd8d0 100644
+index 0dbece9..a90194b 100644
 --- a/src/mtp_constant_strings.c
 +++ b/src/mtp_constant_strings.c
-@@ -110,6 +110,7 @@ const propertystring property_codes[]=
+@@ -108,6 +108,7 @@ const propertystring property_codes[]=
  {
  	{ "MTP_DEVICE_PROPERTY_SYNCHRONIZATION_PARTNER",       0xD401 },
  	{ "MTP_DEVICE_PROPERTY_DEVICE_FRIENDLY_NAME",          0xD402 },
@@ -99,7 +99,7 @@ index 0e5c7dd..b5dd8d0 100644
  	{ "MTP_DEVICE_PROPERTY_BATTERY_LEVEL",                 0x5001 },
  	{ "MTP_PROPERTY_STORAGE_ID",                           0xDC01 },
 diff --git a/src/mtp_properties.c b/src/mtp_properties.c
-index d21229d..60d0d2f 100644
+index 0540ef7..825eb6a 100644
 --- a/src/mtp_properties.c
 +++ b/src/mtp_properties.c
 @@ -29,6 +29,8 @@
