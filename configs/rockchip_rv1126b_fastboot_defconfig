@@ -1,0 +1,4 @@
+#include "base/tiny.config"
+#include "chips/rv1126b_aarch64.config"
+BR2_TARGET_ROOTFS_EROFS=y
+BR2_TARGET_ROOTFS_EROFS_GZIP=y
