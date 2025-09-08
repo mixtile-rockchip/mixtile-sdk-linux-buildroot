@@ -1,0 +1,5 @@
+config BR2_PACKAGE_ROCKCHIP_AI
+    bool "rockchip ai"
+    depends on BR2_GCC_ENABLE_OPENMP
+    select BR2_PACKAGE_RKNPU2
+    select BR2_PACKAGE_RKNN_LLM
