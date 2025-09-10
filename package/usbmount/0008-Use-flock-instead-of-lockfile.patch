@@ -1,7 +1,7 @@
-From 870311638f1b28cb653dcc7a478af4d1155f96a2 Mon Sep 17 00:00:00 2001
+From 865f3fd2761bdfc91764ed54f6ce1407cc3362c5 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 27 Aug 2024 16:49:59 +0800
-Subject: [PATCH 09/10] Use flock instead of lockfile
+Subject: [PATCH 8/9] Use flock instead of lockfile
 
 The lockfile is slow for multiple partitions somehow.
 

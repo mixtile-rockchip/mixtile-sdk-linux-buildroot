@@ -1,7 +1,7 @@
-From 0c32ff1b896f1c0976faed6f1b59923d4df1494e Mon Sep 17 00:00:00 2001
+From 61b0febf7bffc5f5a26d177f8bf1028ccd5b0fe2 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 17 Jun 2022 15:18:57 +0800
-Subject: [PATCH 3/5] usbmount.conf: Support more filesystems
+Subject: [PATCH 3/9] usbmount.conf: Support more filesystems
 
 Add ntfs exfat fuseblk.
 

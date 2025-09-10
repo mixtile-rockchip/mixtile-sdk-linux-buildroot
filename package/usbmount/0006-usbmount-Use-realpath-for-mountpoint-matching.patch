@@ -1,7 +1,7 @@
-From af65e67c5a4c36994aeb51f7ec54f229a032cbf0 Mon Sep 17 00:00:00 2001
+From 240eea4ac4aa09a2377af08659fdaa1c0b507e22 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 17 Nov 2022 11:02:30 +0800
-Subject: [PATCH 6/6] usbmount: Use realpath for mountpoint matching
+Subject: [PATCH 6/9] usbmount: Use realpath for mountpoint matching
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---

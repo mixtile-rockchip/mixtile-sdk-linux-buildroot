@@ -1,7 +1,7 @@
-From 19cb4ac0f2342331ff57489cda565b3d36463fee Mon Sep 17 00:00:00 2001
+From c3e56ab7264c4b1c29af3e886467449effbb3b77 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 17 Jun 2022 15:20:58 +0800
-Subject: [PATCH 4/5] usbmount: Allow unmounting other mountpoints
+Subject: [PATCH 4/9] usbmount: Allow unmounting other mountpoints
 
 We're allowed to mount devices(in fstab) on other mountpoints.
 

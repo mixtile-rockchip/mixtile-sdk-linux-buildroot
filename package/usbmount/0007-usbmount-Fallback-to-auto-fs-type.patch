@@ -1,7 +1,7 @@
-From c0caf82d84c6b9022ec614ee99fea8db3c309a2e Mon Sep 17 00:00:00 2001
+From e08becc2173fc6e93849091e3b47ebca58821e2f Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 7 Aug 2024 14:59:27 +0800
-Subject: [PATCH 7/7] usbmount: Fallback to auto fs type
+Subject: [PATCH 7/9] usbmount: Fallback to auto fs type
 
 The blkid might report wrong fs type.
 

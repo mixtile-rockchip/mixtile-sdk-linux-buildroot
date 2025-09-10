@@ -1,7 +1,7 @@
-From f2d0abd95498de82bb6fc10b7b9ac61e9c813e81 Mon Sep 17 00:00:00 2001
+From 253ac6ce909306b138ddde64ab7981ca9f610857 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 22 Oct 2024 08:31:44 +0800
-Subject: [PATCH 10/10] usbmount: Lock umount as well
+Subject: [PATCH 9/9] usbmount: Lock umount as well
 
 There might be a race between mount and umount.
 
