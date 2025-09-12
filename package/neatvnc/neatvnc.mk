@@ -5,7 +5,7 @@
 ################################################################################
 
 NEATVNC_SITE = https://github.com/any1/neatvnc.git
-NEATVNC_VERSION = v0.7.1
+NEATVNC_VERSION = v0.9.5
 NEATVNC_SITE_METHOD = git
 NEATVNC_LICENSE = ISC
 NEATVNC_LICENSE_FILES = COPYING
