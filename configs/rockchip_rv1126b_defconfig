@@ -14,6 +14,7 @@
 #include "multimedia/gst/video.config"
 #include "multimedia/mpp.config"
 #include "ai/npu2.config"
+#include "ai/rknn-llm.config"
 #include "tools/benchmark.config"
 #include "tools/common.config"
 #include "tools/test.config"
