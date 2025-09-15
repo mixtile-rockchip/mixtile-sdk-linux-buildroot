@@ -18,5 +18,5 @@
 #include "tools/common.config"
 #include "tools/test.config"
 #include "network/chromium.config"
-#include "npu2.config"
+#include "ai/npu2.config"
 #include "gui/weston.config"

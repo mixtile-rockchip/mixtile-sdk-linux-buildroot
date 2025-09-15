@@ -7,7 +7,7 @@
 #include "multimedia/camera.config"
 #include "multimedia/mpp.config"
 #include "products/ipc.config"
-#include "npu2.config"
+#include "ai/npu2.config"
 BR2_LV_COLOR_DEPTH_32=y
 BR2_LV_COLOR_SCREEN_TRANSP=y
 BR2_LV_FONT_DEFAULT_MONTSERRAT_24=y
