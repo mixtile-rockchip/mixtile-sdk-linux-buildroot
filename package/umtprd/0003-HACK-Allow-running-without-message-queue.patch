@@ -1,0 +1,37 @@
+From 59825d8236f883560712dcae6550cdbd79439c35 Mon Sep 17 00:00:00 2001
+From: Jeffy Chen <jeffy.chen@rock-chips.com>
+Date: Tue, 16 Sep 2025 18:31:53 +0800
+Subject: [PATCH 3/3] HACK: Allow running without message queue
+
+Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
+---
+ src/umtprd.c | 5 +++++
+ 1 file changed, 5 insertions(+)
+
+diff --git a/src/umtprd.c b/src/umtprd.c
+index ecf9aae..b217ad4 100644
+--- a/src/umtprd.c
++++ b/src/umtprd.c
+@@ -152,7 +152,11 @@ int main(int argc, char *argv[])
+ 	fd = get_message_queue();
+ 	if (fd < 0)
+ 	{
++#if 0 // HACK: Allow running without message queue.
+ 		exit(1);
++#else
++		goto no_message_queue;
++#endif
+ 	}
+ 	retcode = flock(fd, LOCK_EX | LOCK_NB);
+ 	if (retcode)
+@@ -167,6 +171,7 @@ int main(int argc, char *argv[])
+ 		return 0;
+ 	}
+ 
++no_message_queue:
+ 	while(argc > 1)
+ 	{
+ 		if(!strncmp(argv[1], PARAMETER_IPCCMD, sizeof(PARAMETER_IPCCMD) - 1))
+-- 
+2.20.1
+
