@@ -58,4 +58,11 @@ ifeq ($(BR2_PACKAGE_RKIPC_RV1126B), y)
     RKIPC_CONF_OPTS += -DCOMPILE_FOR_BUILDROOT=ON
 endif
 
+ifeq ($(BR2_PACKAGE_RKIPC_RV1126B_DV), y)
+    RKIPC_DEPENDENCIES += rkfsmk rockit rockchip-rga camera-engine-rkaiq lvgl
+    RKIPC_CONF_OPTS += -DCOMPILE_FOR_RV1126B_DV=ON
+    RKIPC_CONF_OPTS += -DRK_APP_ARCH_TYPE=$(RKIPC_ARCH)
+    RKIPC_CONF_OPTS += -DCOMPILE_FOR_BUILDROOT=ON
+endif
+
 $(eval $(cmake-package))
