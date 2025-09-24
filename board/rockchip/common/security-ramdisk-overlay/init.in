@@ -27,6 +27,7 @@ BLOCK_TYPE_SUPPORTED="
 mmcblk
 nvme
 flash
+sd
 mtdblock
 ubiblock" # The handing of ubiblock must occur after mtdblock
 
