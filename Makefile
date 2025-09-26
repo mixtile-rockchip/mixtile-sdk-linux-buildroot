@@ -61,6 +61,8 @@ endif
 ifneq ($(DEFCONFIG),)
 ifeq ($(patsubst %_recovery_defconfig,,$(DEFCONFIG)),)
 O_LATEST := $(CURDIR)/output/recovery_latest
+else ifeq ($(patsubst %_ramboot_defconfig,,$(DEFCONFIG)),)
+O_LATEST := $(CURDIR)/output/ramboot_latest
 endif
 
 $(shell rm -rf $(O_LATEST); mkdir -p $(CURDIR)/output)
