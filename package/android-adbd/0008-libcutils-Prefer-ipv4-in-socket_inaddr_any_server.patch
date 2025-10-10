@@ -1,4 +1,4 @@
-From 30a52eb6d57cbfeb5ba6a59d12b454a877e71ad3 Mon Sep 17 00:00:00 2001
+From eb01da5f41615e7129e0855d339d5f234b2d71e7 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 24 Sep 2025 16:07:23 +0800
 Subject: [PATCH 8/8] libcutils: Prefer ipv4 in socket_inaddr_any_server()

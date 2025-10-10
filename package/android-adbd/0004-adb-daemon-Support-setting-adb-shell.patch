@@ -1,7 +1,7 @@
-From 681784eacf1e192e8417faa2397d124c5c5c719d Mon Sep 17 00:00:00 2001
+From 89f74bb96546494a8c69696012ec0a73d096fc74 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Sun, 8 Oct 2023 18:03:25 +0800
-Subject: [PATCH 4/7] adb: daemon: Support setting adb shell
+Subject: [PATCH 4/8] adb: daemon: Support setting adb shell
 
 Tested on RK3588 EVB with:
 1/ echo ADBD_SHELL=/bin/bash > /etc/profile.d/adbd.sh
@@ -9,22 +9,40 @@ Tested on RK3588 EVB with:
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---
- adb/daemon/shell_service.cpp | 9 ++++++---
- 1 file changed, 6 insertions(+), 3 deletions(-)
+ adb/daemon/shell_service.cpp | 20 +++++++++++++++++---
+ 1 file changed, 17 insertions(+), 3 deletions(-)
 
 diff --git a/adb/daemon/shell_service.cpp b/adb/daemon/shell_service.cpp
-index c5c426a..869609f 100644
+index c5c426a..7465501 100644
 --- a/adb/daemon/shell_service.cpp
 +++ b/adb/daemon/shell_service.cpp
-@@ -376,13 +376,16 @@ bool Subprocess::ForkAndExec(std::string* error) {
+@@ -93,6 +93,7 @@
+ #include <thread>
+ #include <unordered_map>
+ #include <vector>
++#include <regex>
+ 
+ #include <android-base/logging.h>
+ #include <android-base/properties.h>
+@@ -376,13 +377,26 @@ bool Subprocess::ForkAndExec(std::string* error) {
          }
  #endif
  
 +        const char *shell_command = getenv("ADBD_SHELL") ? : _PATH_BSHELL;
          if (command_.empty()) {
++            const char* login_arg = nullptr;
++
++            if (shell_command != nullptr) {
++                std::string shell_str(shell_command);
++                std::regex pattern(".*(/|[a-z])sh$");
++
++                if (std::regex_match(shell_str, pattern))
++                    login_arg = "-l";
++            }
++
              // Spawn a login shell if we don't have a command.
 -            execle(_PATH_BSHELL, "-" _PATH_BSHELL, nullptr, cenv.data());
-+            execle(shell_command, shell_command, "-l", nullptr, cenv.data());
++            execle(shell_command, shell_command, login_arg, nullptr, cenv.data());
          } else {
 -            execle(_PATH_BSHELL, _PATH_BSHELL, "-c", command_.c_str(), nullptr, cenv.data());
 +            execle(shell_command, shell_command, "-c", command_.c_str(), nullptr, cenv.data());

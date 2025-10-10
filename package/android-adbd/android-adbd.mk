@@ -61,10 +61,10 @@ ifneq ($(ANDROID_ADBD_PASSWORD),)
 ANDROID_ADBD_PASSWORD_MD5=$(shell echo $(ANDROID_ADBD_PASSWORD) | md5sum)
 
 define ANDROID_ADBD_INSTALL_TARGET_PASSWORD
-	$(INSTALL) -D -m 0755 $(ANDROID_ADBD_PKGDIR)/adbd-auth \
-		$(TARGET_DIR)/usr/bin/adbd-auth
+	$(INSTALL) -D -m 0755 $(ANDROID_ADBD_PKGDIR)/adbd-auth.sh \
+		$(TARGET_DIR)/usr/bin/adbd-auth.sh
 	sed -i "s/ADBD_PASSWORD_MD5/${ANDROID_ADBD_PASSWORD_MD5}/g" \
-		$(TARGET_DIR)/usr/bin/adbd-auth
+		$(TARGET_DIR)/usr/bin/adbd-auth.sh
 endef
 ANDROID_ADBD_POST_INSTALL_TARGET_HOOKS += ANDROID_ADBD_INSTALL_TARGET_PASSWORD
 endif
