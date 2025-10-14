@@ -51,12 +51,6 @@ config BR2_PACKAGE_RK1808
 	help
 	  Use Rockchip's rk1808 SoC.
 
-config BR2_PACKAGE_RK3032
-	bool "rk3032"
-	select BR2_PACKAGE_ROCKCHIP_HAS_GPU
-	help
-	  Use Rockchip's rk3032 SoC.
-
 config BR2_PACKAGE_RK3036
 	bool "rk3036"
 	select BR2_PACKAGE_ROCKCHIP_MALI_UTGARD_400
