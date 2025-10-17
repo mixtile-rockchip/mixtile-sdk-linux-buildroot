@@ -1,4 +1,4 @@
-From e1373e6b4a4cb45dedb99693bd76394178289e30 Mon Sep 17 00:00:00 2001
+From 2069a18ef5c7f8866566667ad6d600d12d6b0ab3 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 21 Aug 2023 17:38:36 +0800
 Subject: [PATCH 22/22] videodecoder: Allow disabling QoS by default

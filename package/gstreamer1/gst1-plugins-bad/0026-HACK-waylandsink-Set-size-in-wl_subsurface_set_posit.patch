@@ -1,7 +1,7 @@
-From 5ec5c26b13db37720f7bd5ea6e29d3382f0faeb8 Mon Sep 17 00:00:00 2001
+From 9dcb30b7186a37f21e793b254bf303d834bf7198 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 21 Jul 2022 12:29:27 +0800
-Subject: [PATCH 26/40] HACK: waylandsink: Set size in
+Subject: [PATCH 26/43] HACK: waylandsink: Set size in
  wl_subsurface_set_position() when no viewport
 
 Tested with hacked enlightenment.

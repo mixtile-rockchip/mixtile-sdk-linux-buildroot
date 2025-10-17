@@ -1,7 +1,7 @@
-From 868c34514462f119bf447b2fa24e3d1f39f7f8df Mon Sep 17 00:00:00 2001
+From 0633696e58a90396c6a80a6ba5ce6813813af352 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 12 Apr 2024 17:14:40 +0800
-Subject: [PATCH 38/40] HACK: kmssink: Use rockchip driver
+Subject: [PATCH 38/43] HACK: kmssink: Use rockchip driver
 
 To speed it up.
 

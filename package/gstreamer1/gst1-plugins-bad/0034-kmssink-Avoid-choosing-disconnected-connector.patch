@@ -1,7 +1,7 @@
-From add8462b6cb5f7f5b183315f4045583913eb4ff6 Mon Sep 17 00:00:00 2001
+From 18ae181eb0acf3950c980d1fb936861f95ffdbbb Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 29 Feb 2024 15:18:46 +0800
-Subject: [PATCH 34/40] kmssink: Avoid choosing disconnected connector
+Subject: [PATCH 34/43] kmssink: Avoid choosing disconnected connector
 
 The connectors might share CRTC, so CRTC's buffer doesn't mean connector
 is used.

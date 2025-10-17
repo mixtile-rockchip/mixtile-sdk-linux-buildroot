@@ -1,7 +1,7 @@
-From c86c020cbd74b13840f811fa6449ef3076604162 Mon Sep 17 00:00:00 2001
+From 4b963fe48e6bd8efc41aa8177cf9b7df2f81a593 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 8 Jun 2021 09:09:38 +0800
-Subject: [PATCH 17/40] waylandsink: Use create_immed to create dmabuf
+Subject: [PATCH 17/43] waylandsink: Use create_immed to create dmabuf
 
 The async creation has lots of issues when the device overloaded.
 

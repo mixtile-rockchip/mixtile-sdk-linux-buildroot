@@ -1,4 +1,4 @@
-From 2639531574548440b72201ecc8744f83fbcbb8d9 Mon Sep 17 00:00:00 2001
+From 354748c00cac0b299fe4079ac3e42bad34b095c4 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 3 Jul 2024 17:18:59 +0800
 Subject: [PATCH 13/13] HACK: v4l2src: Support bypassing buf cache cleaning
@@ -13,10 +13,10 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  3 files changed, 8 insertions(+)
 
 diff --git a/sys/v4l2/gstv4l2bufferpool.c b/sys/v4l2/gstv4l2bufferpool.c
-index f422ce7..fd3486c 100644
+index 05c9422..8b51e51 100644
 --- a/sys/v4l2/gstv4l2bufferpool.c
 +++ b/sys/v4l2/gstv4l2bufferpool.c
-@@ -1176,6 +1176,8 @@ gst_v4l2_buffer_pool_qbuf (GstV4l2BufferPool * pool, GstBuffer * buf,
+@@ -1187,6 +1187,8 @@ gst_v4l2_buffer_pool_qbuf (GstV4l2BufferPool * pool, GstBuffer * buf,
      group->buffer.field = field;
    }
  

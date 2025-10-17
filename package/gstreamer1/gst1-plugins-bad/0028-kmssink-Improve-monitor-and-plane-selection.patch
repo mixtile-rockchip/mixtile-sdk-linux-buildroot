@@ -1,7 +1,7 @@
-From 010da3c4078c51a591fda037621cd65611d79a91 Mon Sep 17 00:00:00 2001
+From 1ae245256d1106ff7966f90bed69e570c9438d5f Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 15 Sep 2022 17:56:40 +0800
-Subject: [PATCH 28/40] kmssink: Improve monitor and plane selection
+Subject: [PATCH 28/43] kmssink: Improve monitor and plane selection
 
 Major changes:
 1/ Filter out disconnected monitors.

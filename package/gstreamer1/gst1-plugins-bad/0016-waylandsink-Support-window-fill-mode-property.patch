@@ -1,7 +1,7 @@
-From 2c22b791f9ce4848cf46036d2e4ff73ec89d3e15 Mon Sep 17 00:00:00 2001
+From aaa55aff5bef01808b4f5927f2a9df02841ff7cf Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 30 Mar 2021 07:08:06 +0800
-Subject: [PATCH 16/40] waylandsink: Support window fill-mode property
+Subject: [PATCH 16/43] waylandsink: Support window fill-mode property
 
 Tested with:
 gst-launch-1.0 videotestsrc ! waylandsink fullscreen=1 fill-mode=crop

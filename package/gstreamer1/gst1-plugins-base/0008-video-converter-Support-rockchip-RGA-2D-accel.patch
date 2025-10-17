@@ -1,4 +1,4 @@
-From 6e5a5f245328cfcd5cb1604b6d4654c7d6271392 Mon Sep 17 00:00:00 2001
+From ca7efc7dd8237bac42a5e24663269d9cae56de8b Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 31 Oct 2019 18:45:19 +0800
 Subject: [PATCH 08/22] video-converter: Support rockchip RGA 2D accel
@@ -238,7 +238,7 @@ index 435c7a2..6c1a0da 100644
    for (i = 0; i < n_planes; i++) {
      if (convert->fconvert[i])
 diff --git a/meson.build b/meson.build
-index 919a311..3b231a9 100644
+index 268b95b..207c4d3 100644
 --- a/meson.build
 +++ b/meson.build
 @@ -314,6 +314,9 @@ libdrm_dep = dependency('libdrm', version : '>= 2.4.98',

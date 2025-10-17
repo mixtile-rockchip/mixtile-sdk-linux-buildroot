@@ -1,4 +1,4 @@
-From 68c71359358a57d1be96f6dc2a0c086422c6303c Mon Sep 17 00:00:00 2001
+From 13ffdb65dfb25117ef372dbb0b680901a1d3a8ad Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 24 May 2022 16:16:33 +0800
 Subject: [PATCH 12/22] glupload: Support NV12_10LE40 and NV12|NV12_10LE40|NV16
@@ -101,7 +101,7 @@ index bf2d752..9fd17d1 100644
  
  /**
 diff --git a/gst-libs/gst/gl/gstglupload.c b/gst-libs/gst/gl/gstglupload.c
-index 0cec3f8..5c0de8b 100644
+index 49caeaa..bf5ed98 100644
 --- a/gst-libs/gst/gl/gstglupload.c
 +++ b/gst-libs/gst/gl/gstglupload.c
 @@ -697,7 +697,8 @@ _gl_memory_upload_free (gpointer impl)
@@ -114,7 +114,7 @@ index 0cec3f8..5c0de8b 100644
  
  static const UploadMethod _gl_memory_upload = {
    "GLMemory",
-@@ -3417,6 +3418,9 @@ static gboolean
+@@ -3399,6 +3400,9 @@ static gboolean
  _gst_gl_upload_set_caps_unlocked (GstGLUpload * upload, GstCaps * in_caps,
      GstCaps * out_caps)
  {
@@ -124,7 +124,7 @@ index 0cec3f8..5c0de8b 100644
    g_return_val_if_fail (upload != NULL, FALSE);
    g_return_val_if_fail (gst_caps_is_fixed (in_caps), FALSE);
  
-@@ -3438,6 +3442,15 @@ _gst_gl_upload_set_caps_unlocked (GstGLUpload * upload, GstCaps * in_caps,
+@@ -3420,6 +3424,15 @@ _gst_gl_upload_set_caps_unlocked (GstGLUpload * upload, GstCaps * in_caps,
    }
    gst_video_info_from_caps (&upload->priv->out_info, out_caps);
  

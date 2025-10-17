@@ -1,4 +1,4 @@
-From aef908c32c27367890b18e059e469a19fda0546d Mon Sep 17 00:00:00 2001
+From d56a4f593290f5ebe76e1fd90bf60fadd2130ebe Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?St=C3=A9phane=20Cerveau?= <scerveau@collabora.com>
 Date: Mon, 9 Aug 2021 15:38:08 +0200
 Subject: [PATCH 02/22] playbin2: send one about-to-finish per group

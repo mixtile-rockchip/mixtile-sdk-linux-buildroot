@@ -1,4 +1,4 @@
-From c32a48ae81dd88dbbdcf0fc52890b20c5136711c Mon Sep 17 00:00:00 2001
+From dd753062816d389f4ab55c86a01ea0d765633994 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 4 May 2023 17:52:33 +0800
 Subject: [PATCH 18/22] gl: x11: Honor render-rectangle for toplevel window

@@ -1,4 +1,4 @@
-From 8b954d5c8310de46839617e66bf062e40a9802f5 Mon Sep 17 00:00:00 2001
+From 323323e55d50b17a6a6bffbedc47f46987f16308 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 20 Nov 2018 14:51:36 +0800
 Subject: [PATCH 05/22] playbin3: Fix Qt videoplayer cannot change video state
@@ -11,7 +11,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 252 insertions(+)
 
 diff --git a/gst/playback/gstplaybin3.c b/gst/playback/gstplaybin3.c
-index 3e735c3..4b879d6 100644
+index ac37658..d950a16 100644
 --- a/gst/playback/gstplaybin3.c
 +++ b/gst/playback/gstplaybin3.c
 @@ -391,6 +391,16 @@ struct _GstPlayBin3Class
@@ -309,7 +309,7 @@ index 3e735c3..4b879d6 100644
      case PROP_SUBTITLE_ENCODING:
        GST_PLAY_BIN3_LOCK (playbin);
        g_value_take_string (value,
-@@ -2438,6 +2663,7 @@ pad_added_cb (GstElement * uridecodebin, GstPad * pad, GstPlayBin3 * playbin)
+@@ -2441,6 +2666,7 @@ pad_added_cb (GstElement * uridecodebin, GstPad * pad, GstPlayBin3 * playbin)
    gchar *pad_name;
    GstPad *combine_pad;
    GstStreamType selected, active, cur;
@@ -317,7 +317,7 @@ index 3e735c3..4b879d6 100644
  
    pad_name = gst_object_get_name (GST_OBJECT (pad));
  
-@@ -2485,10 +2711,36 @@ pad_added_cb (GstElement * uridecodebin, GstPad * pad, GstPlayBin3 * playbin)
+@@ -2488,10 +2714,36 @@ pad_added_cb (GstElement * uridecodebin, GstPad * pad, GstPlayBin3 * playbin)
    }
  
    combine_pad = combiner_control_pad (playbin, combine, pad);

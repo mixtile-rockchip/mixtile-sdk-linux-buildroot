@@ -1,7 +1,7 @@
-From 40822ded8fd21f056791c2d08794cf8c6d5f8578 Mon Sep 17 00:00:00 2001
+From bf19d7a7fbf5187c760f059b0503b2bb2d1e0498 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 7 May 2025 18:05:43 +0800
-Subject: [PATCH 41/41] ext: closedcaption: Port H264/H265 ccextractor
+Subject: [PATCH 41/43] ext: closedcaption: Port H264/H265 ccextractor
 
 Port from 1.26.1.
 

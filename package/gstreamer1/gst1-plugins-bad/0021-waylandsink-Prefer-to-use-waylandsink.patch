@@ -1,7 +1,7 @@
-From bc3e2b36c34ddda0cf7a7f7433d477d3baac0803 Mon Sep 17 00:00:00 2001
+From e598d0557698ab294250673d62c738d9d103de91 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 27 Dec 2021 21:37:06 +0800
-Subject: [PATCH 21/40] waylandsink: Prefer to use waylandsink
+Subject: [PATCH 21/43] waylandsink: Prefer to use waylandsink
 
 Increase rank to primary.
 

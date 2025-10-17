@@ -1,7 +1,7 @@
-From c2d5dd044c63c1d1ef3d7c622ecba30cb2de7ddf Mon Sep 17 00:00:00 2001
+From 8b4cac4775823dfd0de11f1d93e365d0a5df0509 Mon Sep 17 00:00:00 2001
 From: Jiajian Wu <jair.wu@rock-chips.com>
 Date: Mon, 3 Jul 2023 15:26:53 +0800
-Subject: [PATCH 33/40] kmssink: Support HDR
+Subject: [PATCH 33/43] kmssink: Support HDR
 
 Signed-off-by: Jiajian Wu <jair.wu@rock-chips.com>
 ---

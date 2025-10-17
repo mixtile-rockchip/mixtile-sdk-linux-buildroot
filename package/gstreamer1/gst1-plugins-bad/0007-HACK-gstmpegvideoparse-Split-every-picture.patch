@@ -1,7 +1,7 @@
-From 234ded16a76671d686bc8229672a23419288fe0a Mon Sep 17 00:00:00 2001
+From 073823bb5691b64deb4fcfd39498dc3d48af4cee Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 19 Jun 2020 15:16:42 +0800
-Subject: [PATCH 07/40] HACK: gstmpegvideoparse: Split every picture
+Subject: [PATCH 07/43] HACK: gstmpegvideoparse: Split every picture
 
 Some decoders(e.g. Rockchip MPP) need it.
 

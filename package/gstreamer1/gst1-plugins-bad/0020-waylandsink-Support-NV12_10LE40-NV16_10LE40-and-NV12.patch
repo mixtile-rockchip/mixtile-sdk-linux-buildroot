@@ -1,7 +1,7 @@
-From 1a16561351a13119dffb667ebe5c6e035eba8649 Mon Sep 17 00:00:00 2001
+From 8f374dc61c32bd5871944db4cc3876929db9752c Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 12 Nov 2021 11:14:37 +0800
-Subject: [PATCH 20/42] waylandsink: Support NV12_10LE40 NV16_10LE40 and
+Subject: [PATCH 20/43] waylandsink: Support NV12_10LE40 NV16_10LE40 and
  NV12|NV12_10LE40|NV16 (AFBC)
 
 Tested on RK356x with:
@@ -252,7 +252,7 @@ index 77e9357..db0a415 100644
    {
      GST_ERROR_OBJECT (self, "failed to activate bufferpool.");
 diff --git a/gst-libs/gst/wayland/gstwldisplay.c b/gst-libs/gst/wayland/gstwldisplay.c
-index 36404de..98afccc 100644
+index d446e3e..ac5cf7a 100644
 --- a/gst-libs/gst/wayland/gstwldisplay.c
 +++ b/gst-libs/gst/wayland/gstwldisplay.c
 @@ -22,6 +22,8 @@
@@ -272,7 +272,7 @@ index 36404de..98afccc 100644
  
  #define GST_CAT_DEFAULT gst_wl_display_debug
  GST_DEBUG_CATEGORY_STATIC (GST_CAT_DEFAULT);
-@@ -276,11 +277,9 @@ gst_wl_display_check_format_for_shm (GstWlDisplay * self,
+@@ -277,11 +278,9 @@ gst_wl_display_check_format_for_shm (GstWlDisplay * self,
  
  gboolean
  gst_wl_display_check_format_for_dmabuf (GstWlDisplay * self,

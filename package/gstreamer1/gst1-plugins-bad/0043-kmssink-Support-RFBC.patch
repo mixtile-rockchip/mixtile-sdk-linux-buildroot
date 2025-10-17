@@ -1,4 +1,4 @@
-From c5259578c64e5c9fc32e26106413f138cb15010e Mon Sep 17 00:00:00 2001
+From 8d1bba8b11293a5843514c3ed0497f3bb2c92589 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 4 Aug 2025 13:12:48 +0800
 Subject: [PATCH 43/43] kmssink: Support RFBC

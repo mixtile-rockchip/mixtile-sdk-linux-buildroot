@@ -1,4 +1,4 @@
-From 3728745e1143c31ae9294c0a2bcc09e2d2cecd1f Mon Sep 17 00:00:00 2001
+From 73bc3bf972e27fa0449d9b3da3f86bf6a9428571 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 14 Jun 2019 12:02:05 +0800
 Subject: [PATCH 06/22] playbin2: Add preferred audio/video sink

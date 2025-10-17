@@ -1,4 +1,4 @@
-From c911e96347c7711643a8af057ef350b2a073d913 Mon Sep 17 00:00:00 2001
+From ed08ba8bd238a98a5720dcd4f043c488e89d7dc0 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 11 Jun 2019 10:19:22 +0800
 Subject: [PATCH 03/13] autodetect: Add preferred for

@@ -1,7 +1,7 @@
-From 567ce0aa3fe398275ba2a789bdb1d0c09c6ae501 Mon Sep 17 00:00:00 2001
+From 928c9f63229fd2e5084d807c0c647e3215c3602d Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 19 Jan 2024 10:16:13 +0800
-Subject: [PATCH 03/40] kmssink: Fix cropping for video with non-square aspect
+Subject: [PATCH 03/43] kmssink: Fix cropping for video with non-square aspect
  ratio
 
 Give the original video source size to DRM instead of the scaled one.

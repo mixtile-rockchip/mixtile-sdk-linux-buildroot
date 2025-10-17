@@ -1,4 +1,4 @@
-From e1b5b2c5e3025b4aa2efa193f5e774bbcef5c827 Mon Sep 17 00:00:00 2001
+From 354392b77e66ac6e8a782dbeda735fa57effaf08 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 11 May 2022 17:24:49 +0800
 Subject: [PATCH 08/13] v4l2src: Support setting max resolution

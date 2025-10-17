@@ -1,4 +1,4 @@
-From 3a3f32947e478c93e36df4aedf64a1df23da2dc7 Mon Sep 17 00:00:00 2001
+From 72ff5d2a0a6d2cdbf53901c2505205771413f075 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 26 Nov 2021 17:41:47 +0800
 Subject: [PATCH 04/22] playbin2: Fix deadlock when hooking about-to-finish

@@ -1,4 +1,4 @@
-From 3384a3fb6bf36a69c524e693c469fdf98dda6089 Mon Sep 17 00:00:00 2001
+From 29cd7e3485f92dc090c3a6d717ac6a97df001401 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 27 Jun 2022 17:48:30 +0800
 Subject: [PATCH 12/13] v4l2: Support configuring buffer sharing

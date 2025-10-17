@@ -1,4 +1,4 @@
-From e4c21cd9b08aa7689e355cfae6742e21beda1d2a Mon Sep 17 00:00:00 2001
+From 3ed57fb8e270e3ff2c8076bcb6d984a9fbc94e11 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 9 Jun 2022 12:01:28 +0800
 Subject: [PATCH 13/22] xvimagesink: Defer prepare window when getting zero

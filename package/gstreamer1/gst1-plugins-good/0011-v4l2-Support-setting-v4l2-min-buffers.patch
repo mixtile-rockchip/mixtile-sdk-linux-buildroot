@@ -1,4 +1,4 @@
-From 7199332285a9a39dfa89bcaec1438e905e5ee2b3 Mon Sep 17 00:00:00 2001
+From 57fe2353cdccaf3755c6b0a7e172d050f6e1bc3f Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 23 Jun 2022 16:04:18 +0800
 Subject: [PATCH 11/13] v4l2: Support setting v4l2 min buffers

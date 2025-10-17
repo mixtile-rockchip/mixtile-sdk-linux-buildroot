@@ -1,7 +1,7 @@
-From cae5f690c23935ee753385ab943ff54bde15ab59 Mon Sep 17 00:00:00 2001
+From ae83f8f5207e14f864097842192ce101fef2b056 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 30 May 2024 17:53:49 +0800
-Subject: [PATCH 40/40] kmssink: Support forcing disable aspect ratio
+Subject: [PATCH 40/43] kmssink: Support forcing disable aspect ratio
 
 Tested on RK3588 EVB with:
 export KMSSINK_IGNORE_ASPECT=1

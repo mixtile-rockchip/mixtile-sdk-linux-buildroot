@@ -1,4 +1,4 @@
-From 2f25bc534da5ace3ec1051ac75bb1e773a47f4fb Mon Sep 17 00:00:00 2001
+From 86baddb18f491a0e16bbfb8da20a175ef3e35d9c Mon Sep 17 00:00:00 2001
 From: "james.lin" <james.lin@rock-chips.com>
 Date: Tue, 23 Jan 2018 19:19:36 +0800
 Subject: [PATCH 02/13] HACK: flacparse: Handle metadata 127

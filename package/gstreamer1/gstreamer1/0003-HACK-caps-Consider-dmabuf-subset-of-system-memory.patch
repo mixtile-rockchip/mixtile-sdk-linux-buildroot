@@ -1,7 +1,7 @@
-From 3b294444bd34cc0e5c023ec7179d5cdd54eadc0a Mon Sep 17 00:00:00 2001
+From df3c8ebf24462f0f237e7f86b5dbc906981e8d67 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 19 Jul 2022 18:19:48 +0800
-Subject: [PATCH 3/3] HACK: caps: Consider dmabuf subset of system memory
+Subject: [PATCH 3/4] HACK: caps: Consider dmabuf subset of system memory
 
 Note, this is only true when the dmabuf is mmapable.
 

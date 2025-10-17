@@ -1,7 +1,7 @@
-From e5c40293f83e820fd8f605267719b20ccc133fac Mon Sep 17 00:00:00 2001
+From d3cbb90e8ebd4ae938125c07136793295ab19895 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 28 Dec 2021 12:45:04 +0800
-Subject: [PATCH 12/40] mpegts: Support ignoring broken PCR streams by default
+Subject: [PATCH 12/43] mpegts: Support ignoring broken PCR streams by default
 
 By setting env 'GST_TSDEMUX_IGNORE_PCR'.
 
