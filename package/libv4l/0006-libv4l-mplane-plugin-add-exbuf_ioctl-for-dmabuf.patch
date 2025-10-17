@@ -1,7 +1,7 @@
-From 97023a2d8c14bc0833eff84c9f969f7ff53e3a66 Mon Sep 17 00:00:00 2001
+From 191de8241d75462e533b07604cdab8a8f4c00c2c Mon Sep 17 00:00:00 2001
 From: "vicent.chi" <vicent.chi@rock-chips.com>
 Date: Sat, 28 Mar 2020 18:03:57 +0800
-Subject: [PATCH 4/7] libv4l mplane plugin add exbuf_ioctl for dmabuf
+Subject: [PATCH 6/9] libv4l mplane plugin add exbuf_ioctl for dmabuf
 
 Signed-off-by: vicent.chi <vicent.chi@rock-chips.com>
 ---

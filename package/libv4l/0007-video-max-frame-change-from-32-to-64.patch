@@ -1,7 +1,7 @@
-From 5e128daaa1ca16181ef2f802579a148bb9476869 Mon Sep 17 00:00:00 2001
+From bb2317a7b49ff2d7d565273e67060395e99293b0 Mon Sep 17 00:00:00 2001
 From: Hans Yang <yhx@rock-chips.com>
 Date: Fri, 18 Dec 2020 17:42:01 +0800
-Subject: [PATCH 5/7] video max frame change from 32 to 64
+Subject: [PATCH 7/9] video max frame change from 32 to 64
 
 Signed-off-by: Hans Yang <yhx@rock-chips.com>
 ---

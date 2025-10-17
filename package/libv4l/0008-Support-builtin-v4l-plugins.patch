@@ -1,7 +1,7 @@
-From 2a49e3b0dac8ababcea45f41fa4276dd9d5b603b Mon Sep 17 00:00:00 2001
+From 0911282084ab35cdd02167b77029ed7d140c3181 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 14 Dec 2021 17:09:52 +0800
-Subject: [PATCH 6/7] Support builtin v4l plugins
+Subject: [PATCH 8/9] Support builtin v4l plugins
 
 Use --enable-builtin-plugins to enable it.
 
@@ -248,10 +248,10 @@ index 47cee16..379ce67 100644
 -    subdir('libv4l-mplane')
 -endif
 diff --git a/meson.build b/meson.build
-index 269a9da..0c3aed0 100644
+index 31927cd..0b818f8 100644
 --- a/meson.build
 +++ b/meson.build
-@@ -63,6 +63,11 @@ v4l2_utils_incdir_arr = [
+@@ -67,6 +67,11 @@ v4l2_utils_incdir_arr = [
      'lib' / 'include',
  ]
  
