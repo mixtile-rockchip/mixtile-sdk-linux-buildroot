@@ -1,8 +1,7 @@
-From b1a0486943f1178a4371b404a552e564ba3b8238 Mon Sep 17 00:00:00 2001
+From 56b84c6efb9a06ae294eb92cf9634f70af443b0a Mon Sep 17 00:00:00 2001
 From: Ariadne Conill <ariadne@dereferenced.org>
 Date: Mon, 19 Sep 2022 14:15:12 +0200
-Subject: [PATCH 04/15] nslookup: sanitize all printed strings with
- printable_string
+Subject: [PATCH] nslookup: sanitize all printed strings with printable_string
 
 Otherwise, terminal sequences can be injected, which enables various terminal injection
 attacks from DNS results.
@@ -17,7 +16,7 @@ Signed-off-by: Quentin Schulz <quentin.schulz@theobroma-systems.com>
  1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/networking/nslookup.c b/networking/nslookup.c
-index b67d354..7941247 100644
+index b67d354f7..79412477c 100644
 --- a/networking/nslookup.c
 +++ b/networking/nslookup.c
 @@ -784,7 +784,7 @@ static NOINLINE int parse_reply(const unsigned char *msg, size_t len)
@@ -66,5 +65,5 @@ index b67d354..7941247 100644
  
  			printf("\tserial = %lu\n", ns_get32(cp));
 -- 
-2.20.1
+2.48.1
 

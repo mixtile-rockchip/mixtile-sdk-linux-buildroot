@@ -1,4 +1,4 @@
-From bc3c29026b2faa35fe19dc63a167e4912d4ba80a Mon Sep 17 00:00:00 2001
+From 874c7b00d6c5768e4077ffb3225a0101f34d4344 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 23 Mar 2023 10:55:59 +0800
 Subject: [PATCH 15/15] rtc: Use UTC by default when parsing adjtime file

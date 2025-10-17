@@ -1,7 +1,7 @@
-From 748f5750d1884bc056701816340282078d8e5aa6 Mon Sep 17 00:00:00 2001
+From a0d9d2b9e07dd338884fa7a610076646f108946c Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 25 Nov 2022 19:39:30 +0800
-Subject: [PATCH 12/15] Support PARTLABEL
+Subject: [PATCH 13/15] Support PARTLABEL
 
 Tested on RK3588 EVB:
 busybox mount PARTLABEL=rootfs /media/

@@ -1,7 +1,7 @@
-From 989fab3be1d0c9a617a4d3885ab9aa5f6f91ee45 Mon Sep 17 00:00:00 2001
+From 34d331d642c3312e1c04e4650f547f1a67abee24 Mon Sep 17 00:00:00 2001
 From: Andrej Valek <andrej.v@skyrain.eu>
 Date: Wed, 16 Oct 2024 10:15:08 +0200
-Subject: [PATCH 14/15] syslogd: fix wrong OPT_locallog flag detection
+Subject: [PATCH] syslogd: fix wrong OPT_locallog flag detection
 
 The OPT_locallog was set on "option_mask32" but checked on local
 "opts" variable. While this flag it's used on multiple places can't be
@@ -20,7 +20,7 @@ Signed-off-by: Thomas Petazzoni <thomas.petazzoni@bootlin.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/sysklogd/syslogd.c b/sysklogd/syslogd.c
-index 7558051..fa03aa2 100644
+index 7558051f0..fa03aa280 100644
 --- a/sysklogd/syslogd.c
 +++ b/sysklogd/syslogd.c
 @@ -1179,7 +1179,7 @@ int syslogd_main(int argc UNUSED_PARAM, char **argv)
@@ -33,5 +33,5 @@ index 7558051..fa03aa2 100644
  			split_escape_and_log(recvbuf, sz);
  		}
 -- 
-2.20.1
+2.48.1
 

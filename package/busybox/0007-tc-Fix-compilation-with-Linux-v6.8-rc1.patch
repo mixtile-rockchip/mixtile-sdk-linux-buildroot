@@ -1,7 +1,7 @@
-From 636204e2c1c8cbf8bbc8edb8b19ef13d83553d0c Mon Sep 17 00:00:00 2001
+From 1dbb3073a3a8856b9446b882f797be1bb2e21a26 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
 Date: Mon, 23 Sep 2024 18:56:00 +0200
-Subject: [PATCH 07/15] tc: Fix compilation with Linux v6.8-rc1
+Subject: [PATCH] tc: Fix compilation with Linux v6.8-rc1
 
 Linux v6.8-rc1 removed the definitions related to CBQ:
 https://github.com/torvalds/linux/commit/33241dca486264193ed68167c8eeae1fb197f3df
@@ -17,7 +17,7 @@ Signed-off-by: Bernd Kuhls <bernd@kuhls.net>
  1 file changed, 12 insertions(+)
 
 diff --git a/networking/tc.c b/networking/tc.c
-index 3a79fd2..d08fd13 100644
+index 3a79fd2d9..d08fd1359 100644
 --- a/networking/tc.c
 +++ b/networking/tc.c
 @@ -231,6 +231,13 @@ static int cbq_parse_opt(int argc, char **argv, struct nlmsghdr *n)
@@ -66,5 +66,5 @@ index 3a79fd2..d08fd13 100644
  			/* don't know how to print options for this class */
  			printf("(options for %s)", name);
 -- 
-2.20.1
+2.48.1
 

@@ -1,7 +1,7 @@
-From 2f6e95233e15c585b72cc5fb8213f60c903a138e Mon Sep 17 00:00:00 2001
+From 9fed109be1f811069cb2f727e04c6996cd44b017 Mon Sep 17 00:00:00 2001
 From: =?UTF-8?q?Rapha=C3=ABl=20M=C3=A9lotte?= <raphael.melotte@mind.be>
 Date: Tue, 18 Apr 2023 15:54:43 +0200
-Subject: [PATCH 05/15] seedrng: fix getrandom() detection for non-glibc libc
+Subject: [PATCH] seedrng: fix getrandom() detection for non-glibc libc
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -53,7 +53,7 @@ Upstream: http://lists.busybox.net/pipermail/busybox/2023-May/090317.html
  2 files changed, 16 insertions(+), 4 deletions(-)
 
 diff --git a/Makefile.flags b/Makefile.flags
-index 92a9063..c8f6013 100644
+index 92a9063d9..c8f601308 100644
 --- a/Makefile.flags
 +++ b/Makefile.flags
 @@ -162,6 +162,18 @@ ifeq ($(RT_AVAILABLE),y)
@@ -76,7 +76,7 @@ index 92a9063..c8f6013 100644
  # On some platforms that requires an explicit -lpthread, -ldl, -laudit.
  # However, on *other platforms* it fails when some of those flags
 diff --git a/miscutils/seedrng.c b/miscutils/seedrng.c
-index 7a2331c..ba98f4d 100644
+index 7a2331cb1..ba98f4d19 100644
 --- a/miscutils/seedrng.c
 +++ b/miscutils/seedrng.c
 @@ -44,8 +44,10 @@
@@ -102,5 +102,5 @@ index 7a2331c..ba98f4d 100644
  
  /* Apparently some headers don't ship with this yet. */
 -- 
-2.20.1
+2.48.1
 
