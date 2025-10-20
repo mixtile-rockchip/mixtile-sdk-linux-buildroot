@@ -1,4 +1,4 @@
-From 7f05121278d5d5a1939276cfd9f913a0bbe004e1 Mon Sep 17 00:00:00 2001
+From 73cfc1539610f4671e35591bfd1e6bf7edda8e71 Mon Sep 17 00:00:00 2001
 From: Andre McCurdy <amccurdy@gmail.com>
 Date: Sat, 30 Apr 2016 15:29:06 -0700
 Subject: [PATCH] use <asm/sgidefs.h>
@@ -23,10 +23,10 @@ Signed-off-by: Vicente Olivert Riera <Vincent.Riera@imgtec.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/gdb/mips-linux-nat.c b/gdb/mips-linux-nat.c
-index 972b5db8e76..e3d838dd9a4 100644
+index 3d072ea935c..d763c9b8f7e 100644
 --- a/gdb/mips-linux-nat.c
 +++ b/gdb/mips-linux-nat.c
-@@ -31,7 +31,7 @@
+@@ -30,7 +30,7 @@
  #include "gdb_proc_service.h"
  #include "gregset.h"
  
@@ -36,5 +36,5 @@ index 972b5db8e76..e3d838dd9a4 100644
  #include <asm/ptrace.h>
  #include "inf-ptrace.h"
 -- 
-2.41.0
+2.45.2
 

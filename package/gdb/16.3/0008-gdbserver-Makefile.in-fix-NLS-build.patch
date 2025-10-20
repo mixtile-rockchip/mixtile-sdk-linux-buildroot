@@ -1,4 +1,4 @@
-From 73487022cb629415c3b0c2d9e125035b6e5c2d32 Mon Sep 17 00:00:00 2001
+From e5a09ecd2a222168a6c58eb57a171f64e75ad053 Mon Sep 17 00:00:00 2001
 From: Fabrice Fontaine <fontaine.fabrice@gmail.com>
 Date: Thu, 18 Nov 2021 22:52:08 +0100
 Subject: [PATCH] gdbserver/Makefile.in: fix NLS build
@@ -21,10 +21,10 @@ https://sourceware.org/pipermail/gdb-patches/2021-November/183580.html]
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/gdbserver/Makefile.in b/gdbserver/Makefile.in
-index 47648b8d962..9d862bcb9c9 100644
+index 365dcf23650..42e1b7bcf6d 100644
 --- a/gdbserver/Makefile.in
 +++ b/gdbserver/Makefile.in
-@@ -383,7 +383,7 @@ $(IPA_LIB): $(sort $(IPA_OBJS)) ${CDEPS}
+@@ -407,7 +407,7 @@ $(IPA_LIB): $(sort $(IPA_OBJS)) ${CDEPS}
  	$(ECHO_CXXLD) $(CC_LD) -shared -fPIC -Wl,--soname=$(IPA_LIB) \
  		-Wl,--no-undefined $(INTERNAL_CFLAGS) $(INTERNAL_LDFLAGS) \
  		 $(CXXFLAGS) \
@@ -34,5 +34,5 @@ index 47648b8d962..9d862bcb9c9 100644
  # Put the proper machine-specific files first, so M-. on a machine
  # specific routine gets the one for the correct machine.
 -- 
-2.37.1
+2.48.1
 

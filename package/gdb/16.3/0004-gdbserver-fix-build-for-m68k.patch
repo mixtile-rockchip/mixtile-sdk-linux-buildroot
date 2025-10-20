@@ -1,4 +1,4 @@
-From 48af20f76b468c5d274d286677a2887136c4c7c4 Mon Sep 17 00:00:00 2001
+From cec7ed0cb055f960a689f2403a871a7e3e852e6e Mon Sep 17 00:00:00 2001
 From: Romain Naour <romain.naour@gmail.com>
 Date: Fri, 22 Jun 2018 22:40:26 +0200
 Subject: [PATCH] gdbserver: fix build for m68k
@@ -28,17 +28,18 @@ Fix this by moving <sys/reg.h> on top of "linux-low.h".
 
 Signed-off-by: Romain Naour <romain.naour@gmail.com>
 ---
- gdbserver/linux-m68k-low.cc | 9 +++++----
- 1 file changed, 5 insertions(+), 4 deletions(-)
+ gdbserver/linux-m68k-low.cc | 10 ++++++----
+ 1 file changed, 6 insertions(+), 4 deletions(-)
 
 diff --git a/gdbserver/linux-m68k-low.cc b/gdbserver/linux-m68k-low.cc
-index 7a433ffab5e..bb3fbd69bd7 100644
+index 8020e49ac6e..d9ba6235288 100644
 --- a/gdbserver/linux-m68k-low.cc
 +++ b/gdbserver/linux-m68k-low.cc
-@@ -17,6 +17,11 @@
+@@ -16,6 +16,12 @@
+    You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>.  */
  
- #include "server.h"
++#include "server.h"
 +
 +#ifdef HAVE_SYS_REG_H
 +#include <sys/reg.h>
@@ -47,7 +48,7 @@ index 7a433ffab5e..bb3fbd69bd7 100644
  #include "linux-low.h"
  
  /* Linux target op definitions for the m68k architecture.  */
-@@ -80,10 +85,6 @@ m68k_target::low_decr_pc_after_break ()
+@@ -79,10 +85,6 @@ m68k_target::low_decr_pc_after_break ()
  void init_registers_m68k (void);
  extern const struct target_desc *tdesc_m68k;
  
@@ -59,5 +60,5 @@ index 7a433ffab5e..bb3fbd69bd7 100644
  #define m68k_num_gregs 18
  
 -- 
-2.37.1
+2.48.1
 

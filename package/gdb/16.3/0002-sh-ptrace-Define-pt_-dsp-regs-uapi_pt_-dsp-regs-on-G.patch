@@ -1,4 +1,4 @@
-From a3b84f1777bd75bdc5914f4ce5f52c55e723cd9a Mon Sep 17 00:00:00 2001
+From ab3ce973d6423552de732a05ac9da04c22b21411 Mon Sep 17 00:00:00 2001
 From: Thomas Petazzoni <thomas.petazzoni@free-electrons.com>
 Date: Sat, 3 Jun 2017 21:23:52 +0200
 Subject: [PATCH] sh/ptrace: Define pt_{dsp,}regs uapi_pt_{dsp,}regs on !GLIBC
@@ -19,10 +19,10 @@ Signed-off-by: Romain Naour <romain.naour@gmail.com>
  1 file changed, 8 insertions(+)
 
 diff --git a/gdbserver/linux-sh-low.cc b/gdbserver/linux-sh-low.cc
-index 966bdeb8ba7..1e3ce53b4d5 100644
+index 64e6de3480b..4770e652614 100644
 --- a/gdbserver/linux-sh-low.cc
 +++ b/gdbserver/linux-sh-low.cc
-@@ -76,7 +76,15 @@ extern const struct target_desc *tdesc_sh;
+@@ -75,7 +75,15 @@ extern const struct target_desc *tdesc_sh;
  #include <sys/reg.h>
  #endif
  
@@ -39,5 +39,5 @@ index 966bdeb8ba7..1e3ce53b4d5 100644
  #define sh_num_regs 41
  
 -- 
-2.37.1
+2.48.1
 

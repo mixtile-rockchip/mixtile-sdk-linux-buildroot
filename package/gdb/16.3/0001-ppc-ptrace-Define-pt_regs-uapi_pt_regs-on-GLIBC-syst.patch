@@ -1,4 +1,4 @@
-From bca7617f325787550e2133fe082dbe4da7716fc6 Mon Sep 17 00:00:00 2001
+From 7fbcc55c3b2dac91dcb0a8dc6daa5514ff323185 Mon Sep 17 00:00:00 2001
 From: Khem Raj <raj.khem@gmail.com>
 Date: Sat, 6 Aug 2016 17:32:50 -0700
 Subject: [PATCH] ppc/ptrace: Define pt_regs uapi_pt_regs on !GLIBC systems
@@ -15,12 +15,12 @@ Signed-off-by: Romain Naour <romain.naour@gmail.com>
  2 files changed, 12 insertions(+)
 
 diff --git a/gdb/nat/ppc-linux.h b/gdb/nat/ppc-linux.h
-index 1094f6b0be3..d8588a646c2 100644
+index 3efc1b9a9bf..635d07486de 100644
 --- a/gdb/nat/ppc-linux.h
 +++ b/gdb/nat/ppc-linux.h
 @@ -18,7 +18,13 @@
- #ifndef NAT_PPC_LINUX_H
- #define NAT_PPC_LINUX_H
+ #ifndef GDB_NAT_PPC_LINUX_H
+ #define GDB_NAT_PPC_LINUX_H
  
 +#if !defined(__GLIBC__)
 +# define pt_regs uapi_pt_regs
@@ -33,10 +33,10 @@ index 1094f6b0be3..d8588a646c2 100644
  
  /* This sometimes isn't defined.  */
 diff --git a/gdbserver/linux-ppc-low.cc b/gdbserver/linux-ppc-low.cc
-index 08824887003..69afbae5359 100644
+index 3ce978f4c7c..38534297cdf 100644
 --- a/gdbserver/linux-ppc-low.cc
 +++ b/gdbserver/linux-ppc-low.cc
-@@ -23,7 +23,13 @@
+@@ -22,7 +22,13 @@
  #include "elf/common.h"
  #include <sys/uio.h>
  #include <elf.h>
@@ -51,5 +51,5 @@ index 08824887003..69afbae5359 100644
  #include "arch/ppc-linux-common.h"
  #include "arch/ppc-linux-tdesc.h"
 -- 
-2.37.1
+2.48.1
 

@@ -1,4 +1,4 @@
-From f2dd94dce490d8e8301fba9e4684cfb8d7bc7756 Mon Sep 17 00:00:00 2001
+From 7b93a4abcbaa0c273aabc40213b2cdc1d3570e25 Mon Sep 17 00:00:00 2001
 From: Fabrice Fontaine <fontaine.fabrice@gmail.com>
 Date: Wed, 10 Nov 2021 23:14:54 +0100
 Subject: [PATCH] fix musl build on riscv
@@ -24,10 +24,10 @@ Signed-off-by: Fabrice Fontaine <fontaine.fabrice@gmail.com>
  2 files changed, 10 insertions(+)
 
 diff --git a/gdb/nat/riscv-linux-tdesc.c b/gdb/nat/riscv-linux-tdesc.c
-index 07b49c0f16e..1ff58cce16f 100644
+index 0cd38435b22..c1f39037ad7 100644
 --- a/gdb/nat/riscv-linux-tdesc.c
 +++ b/gdb/nat/riscv-linux-tdesc.c
-@@ -31,6 +31,11 @@
+@@ -30,6 +30,11 @@
  # define NFPREG 33
  #endif
  
@@ -40,10 +40,10 @@ index 07b49c0f16e..1ff58cce16f 100644
  
  struct riscv_gdbarch_features
 diff --git a/gdbserver/linux-riscv-low.cc b/gdbserver/linux-riscv-low.cc
-index 6b2902e422d..ead54db09a8 100644
+index c4554c507a8..aa9253ca769 100644
 --- a/gdbserver/linux-riscv-low.cc
 +++ b/gdbserver/linux-riscv-low.cc
-@@ -30,6 +30,11 @@
+@@ -29,6 +29,11 @@
  # define NFPREG 33
  #endif
  
@@ -56,5 +56,5 @@ index 6b2902e422d..ead54db09a8 100644
  
  class riscv_target : public linux_process_target
 -- 
-2.37.1
+2.45.2
 
