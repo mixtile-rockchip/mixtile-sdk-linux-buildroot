@@ -170,7 +170,12 @@ $(2)_CXX ?= $$(TARGET_CXX)
 $(2)_AR ?= $$(TARGET_AR)
 $(2)_STRIP ?= $$(TARGET_STRIP)
 
-$(2)_STATIC ?= $$(BR2_STATIC_LIBS)
+ifneq ($(BR2_STATIC_LIBS)$(BR2_PACKAGE_$(2)_STATIC),)
+$(2)_STATIC ?= y
+$(2)_CFLAGS += -static
+$(2)_LDFLAGS += -static
+$(2)_CXXFLAGS += -static
+endif
 
 # Configure package for target
 #

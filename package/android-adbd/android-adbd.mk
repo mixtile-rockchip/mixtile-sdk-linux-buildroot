@@ -12,15 +12,6 @@ ANDROID_ADBD_LICENSE = Apache-2.0
 ANDROID_ADBD_LICENSE_FILES = debian/copyright
 ANDROID_ADBD_DEPENDENCIES = host-pkgconf openssl
 
-ANDROID_ADBD_STATIC = $(BR2_PACKAGE_ANDROID_ADBD_STATIC)
-
-ifeq ($(ANDROID_ADBD_STATIC),y)
-ANDROID_ADBD_CFLAGS += -static
-ANDROID_ADBD_CXXFLAGS += -static
-ANDROID_ADBD_FCFLAGS += -static
-ANDROID_ADBD_LDFLAGS += -static
-endif
-
 # Apply the Debian patches before applying the Buildroot patches
 define ANDROID_ADBD_DEBIAN_PATCH
 	$(APPLY_PATCHES) $(@D) $(@D)/debian/patches \*

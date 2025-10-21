@@ -46,10 +46,6 @@ else
 AUDIT_CONF_OPTS += --disable-systemd
 endif
 
-ifeq ($(BR2_PACKAGE_AUDIT_STATIC),y)
-AUDIT_CONF_OPTS += --enable-static
-endif
-
 define AUDIT_INSTALL_INIT_SYSV
 	$(INSTALL) -D -m 755 package/audit/S02auditd $(TARGET_DIR)/etc/init.d/S02auditd
 endef

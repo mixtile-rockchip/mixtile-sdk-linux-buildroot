@@ -16,9 +16,5 @@ MPFR_DEPENDENCIES = gmp
 HOST_MPFR_DEPENDENCIES = host-gmp
 MPFR_MAKE_OPTS = RANLIB=$(TARGET_RANLIB)
 
-ifeq ($(BR2_PACKAGE_MPFR_STATIC),y)
-MPFR_CONF_OPTS += --enable-static
-endif
-
 $(eval $(autotools-package))
 $(eval $(host-autotools-package))

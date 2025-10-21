@@ -28,7 +28,6 @@ STRACE_CONF_OPTS += --without-libiberty
 endif
 
 ifeq ($(BR2_PACKAGE_STRACE_STATIC),y)
-STRACE_CONF_OPTS += --enable-static
 STRACE_CONF_ENV += CFLAGS="$(TARGET_CFLAGS) -static"
 
 # HACK for libunwind libs

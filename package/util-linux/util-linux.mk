@@ -292,10 +292,6 @@ else
 UTIL_LINUX_CONF_OPTS += --without-libmagic
 endif
 
-ifeq ($(BR2_PACKAGE_UTIL_LINUX_STATIC),y)
-UTIL_LINUX_CONF_OPTS += --enable-static
-endif
-
 # Install PAM configuration files
 ifeq ($(BR2_PACKAGE_UTIL_LINUX_SU)$(BR2_PACKAGE_LINUX_PAM),yy)
 define UTIL_LINUX_INSTALL_PAMFILES

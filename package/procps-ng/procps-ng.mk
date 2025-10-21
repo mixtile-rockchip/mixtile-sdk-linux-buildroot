@@ -55,7 +55,6 @@ PROCPS_NG_CONF_OPTS += --enable-w
 endif
 
 ifeq ($(BR2_PACKAGE_PROCPS_NG_STATIC),y)
-PROCPS_NG_CONF_OPTS += --enable-static
 PROCPS_NG_CONF_ENV += CFLAGS="$(TARGET_CFLAGS) -static"
 PROCPS_NG_CONF_ENV += LDFLAGS="$(TARGET_LDFLAGS) -static"
 endif

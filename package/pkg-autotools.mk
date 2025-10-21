@@ -161,6 +161,10 @@ $(2)_INSTALL_TARGET_OPTS		?= DESTDIR=$$(TARGET_DIR) install
 ifndef $(2)_CONFIGURE_CMDS
 ifeq ($(4),target)
 
+ifeq ($(BR2_PACKAGE_$(2)_STATIC),y)
+$(2)_CONF_OPTS += --enable-static
+endif
+
 # Configure package for target
 define $(2)_CONFIGURE_CMDS
 	(cd $$($$(PKG)_SRCDIR) && rm -rf config.cache && \

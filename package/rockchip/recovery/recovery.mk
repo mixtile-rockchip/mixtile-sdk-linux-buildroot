@@ -46,16 +46,7 @@ endif
 
 ifeq ($(BR2_PACKAGE_RECOVERY_STATIC),y)
 RECOVERY_CFLAGS += -static
-
-# For static link with libcurl
-ifeq ($(BR2_PACKAGE_OPENSSL),y)
-RECOVERY_CFLAGS += -lssl -lcrypto
-RECOVERY_DEPENDENCIES += openssl
-endif
-ifeq ($(BR2_PACKAGE_RTMPDUMP),y)
-RECOVERY_CFLAGS += -lrtmp
-RECOVERY_DEPENDENCIES += rtmpdump
-endif
+RECOVERY_CFLAGS += `$(PKG_CONFIG_HOST_BINARY) --libs libcurl --static`
 endif
 
 define RECOVERY_BUILD_CMDS
