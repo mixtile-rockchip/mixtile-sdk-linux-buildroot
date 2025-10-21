@@ -11,3 +11,11 @@ config BR2_PACKAGE_LIBFFI
 
 comment "libffi needs a toolchain w/ threads"
 	depends on !BR2_TOOLCHAIN_HAS_THREADS
+
+if BR2_PACKAGE_LIBFFI
+
+config BR2_PACKAGE_LIBFFI_STATIC
+	bool "Enable static"
+	default y if BR2_STATIC_LIBS
+
+endif
