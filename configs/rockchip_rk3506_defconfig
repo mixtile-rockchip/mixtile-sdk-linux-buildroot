@@ -6,6 +6,7 @@
 #include "multimedia/audio.config"
 #include "gui/lvgl/lvgl_rkadk.config"
 #include "gui/lvgl/rk_demo.config"
+BR2_ARM_INSTRUCTIONS_THUMB2=y
 # BR2_PACKAGE_CHRONY is reset to default
 # BR2_PACKAGE_DNSMASQ is reset to default
 # BR2_PACKAGE_DROPBEAR is reset to default
