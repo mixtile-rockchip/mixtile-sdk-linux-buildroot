@@ -31,3 +31,11 @@ comment "ltrace needs a uClibc or glibc toolchain w/ wchar, dynamic library, thr
 	depends on !BR2_USE_WCHAR || BR2_STATIC_LIBS \
 		|| !BR2_TOOLCHAIN_HAS_THREADS \
 		|| !(BR2_TOOLCHAIN_USES_UCLIBC || BR2_TOOLCHAIN_USES_GLIBC)
+
+if BR2_PACKAGE_LTRACE
+
+config BR2_PACKAGE_LTRACE_STATIC
+	bool "Enable static"
+	default y if BR2_STATIC_LIBS
+
+endif
