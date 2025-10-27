@@ -29,4 +29,23 @@ LTRACE_CONF_OPTS += --with-libunwind=no
 endif
 endif
 
+ifeq ($(BR2_PACKAGE_LTRACE_STATIC),y)
+LTRACE_CONF_ENV += CFLAGS="$(TARGET_CFLAGS) -static"
+
+# HACK for libunwind libs
+ifeq ($(BR2_PACKAGE_LIBUNWIND)$(BR2_PACKAGE_XZ),yy)
+LTRACE_STATIC_LIBS += -llzma
+endif
+
+# HACK for libelf libs
+LTRACE_STATIC_LIBS += -lz
+ifeq ($(BR2_PACKAGE_ZSTD),y)
+LTRACE_STATIC_LIBS += -lzstd
+endif
+
+ifneq ($(LTRACE_STATIC_LIBS),)
+LTRACE_CONF_ENV += LIBS="$(LTRACE_STATIC_LIBS)"
+endif
+endif
+
 $(eval $(autotools-package))
