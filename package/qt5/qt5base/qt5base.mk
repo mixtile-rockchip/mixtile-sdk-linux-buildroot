@@ -40,7 +40,8 @@ QT5BASE_CONFIGURE_OPTS += \
 	-system-pcre \
 	-no-pch \
 	-shared \
-	-no-feature-relocatable
+	-no-feature-relocatable \
+	-no-feature-system-pcre2
 
 # starting from version 5.9.0, -optimize-debug is enabled by default
 # for debug builds and it overrides -O* with -Og which is not what we
