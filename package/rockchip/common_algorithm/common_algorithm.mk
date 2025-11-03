@@ -51,7 +51,6 @@ ifeq ($(BR2_PACKAGE_COMMON_ALGORITHM_TWO_MIC_BEAMFORM),y)
 COMMON_ALGORITHM_CONF_OPTS += -DTWO_MIC_BEAMFORM_ENABLE=TRUE
 endif
 
-
 ifeq ($(BR2_PACKAGE_COMMON_ALGORITHM_MOVE_DETECT),y)
 COMMON_ALGORITHM_CONF_OPTS += -DMOVE_DETECT_ENABLE=TRUE
 endif
@@ -62,6 +61,20 @@ endif
 
 ifeq ($(BR2_PACKAGE_COMMON_ALGORITHM_ROCKAA),y)
 COMMON_ALGORITHM_CONF_OPTS += -DROCKAA_ENABLE=TRUE
+endif
+
+define BR2_PACKAGE_COMMON_ALGORITHM_REMOVE_CMDS
+	rm -rf $(TARGET_DIR)/usr/vqefiles
+	rm -rf $(TARGET_DIR)/usr/share/rkdis_config
+	rm -f $(TARGET_DIR)/usr/lib/librkaudio_*
+	rm -f $(TARGET_DIR)/usr/lib/libRkDis.so
+	rm -f $(TARGET_DIR)/usr/lib/libRkEis.so
+	rm -f $(TARGET_DIR)/usr/lib/librkdemuxer.so
+	rm -f $(TARGET_DIR)/usr/lib/librkyuvscaler.so
+endef
+
+ifeq ($(BR2_PACKAGE_COMMON_ALGORITHM_FASTBOOT_CUT), y)
+COMMON_ALGORITHM_POST_INSTALL_TARGET_HOOKS += BR2_PACKAGE_COMMON_ALGORITHM_REMOVE_CMDS
 endif
 
 $(eval $(cmake-package))

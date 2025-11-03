@@ -68,4 +68,11 @@ config BR2_PACKAGE_COMMON_ALGORITHM_ROCKAA
 	default n
 	help
 	  Rockchip Audio Algorithm Utils
+
+config BR2_PACKAGE_COMMON_ALGORITHM_FASTBOOT_CUT
+	bool "Fastboot cut for common algorithm"
+	default n
+	help
+	  If enabled, remove unnecessary files to save space for fastboot.
+	  Enable this for fastboot optimization.
 endif
