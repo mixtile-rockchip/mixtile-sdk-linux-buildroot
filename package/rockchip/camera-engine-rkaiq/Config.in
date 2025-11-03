@@ -39,4 +39,18 @@ config BR2_PACKAGE_CAMERA_ENGINE_RKAIQ_INSTALL_AIISP
 	help
 	  Rockchip Camera Engine install aiisp
 
+config BR2_PACKAGE_CAMERA_ENGINE_RKAIQ_SPECIFIC_IQFILE
+	string "Specific IQ file to install"
+	default ""
+	help
+	  If set, only install the specified IQ file.
+	  If empty, install all IQ files.
+
+config BR2_PACKAGE_CAMERA_ENGINE_RKAIQ_FASTBOOT_CUT
+	bool "Fastboot cut for rkaiq"
+	default n
+	help
+	  If enabled, remove unnecessary files to save space for fastboot.
+	  Enable this for fastboot optimization.
+
 endif

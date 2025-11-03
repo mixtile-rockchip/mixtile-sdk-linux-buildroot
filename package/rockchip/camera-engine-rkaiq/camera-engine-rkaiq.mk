@@ -126,6 +126,12 @@ endif
 endif
 endif # BR2_PACKAGE_CAMERA_ENGINE_RKAIQ_IQFILE_USE_BIN
 
+ifneq ($(call qstrip,$(BR2_PACKAGE_CAMERA_ENGINE_RKAIQ_SPECIFIC_IQFILE)),)
+CAMERA_ENGINE_RKAIQ_IQFILE_INSTALL = $(call qstrip,$(BR2_PACKAGE_CAMERA_ENGINE_RKAIQ_SPECIFIC_IQFILE))
+else
+CAMERA_ENGINE_RKAIQ_IQFILE_INSTALL = $(CAMERA_ENGINE_RKAIQ_IQFILE)
+endif
+
 ifeq ($(BR2_PACKAGE_CAMERA_ENGINE_RKAIQ_RKISP_DEMO), y)
 CAMERA_ENGINE_RKAIQ_CONF_OPTS += -DENABLE_RKISP_DEMO=ON
 endif
@@ -140,13 +146,29 @@ define CAMERA_ENGINE_RKAIQ_INSTALL_CMDS
 	mkdir -p $(TARGET_DIR)/usr/bin/
 	$(TARGET_MAKE_ENV) DESTDIR=$(TARGET_DIR) $(MAKE) -C $($(PKG)_BUILDDIR) install
 	$(INSTALL) -D -m  644 $(@D)/rkaiq/all_lib/MinSizeRel/librkaiq.so $(TARGET_DIR)/usr/lib/
-	$(foreach iqfile,$(CAMERA_ENGINE_RKAIQ_IQFILE),
+	$(foreach iqfile,$(CAMERA_ENGINE_RKAIQ_IQFILE_INSTALL),
 		$(INSTALL) -D -m  644 $(@D)/rkaiq/iqfiles/$(iqfile) \
 		$(TARGET_DIR)/etc/iqfiles/
 	)
 endef
 
+define CAMERA_ENGINE_RKAIQ_REMOVE_CMDS
+	rm -f $(TARGET_DIR)/usr/bin/rkaiq_tool_server
+	rm -f $(TARGET_DIR)/usr/bin/rkaiq_3A_server
+	rm -f $(TARGET_DIR)/etc/init.d/S40rkaiq_3A
+	rm -f $(TARGET_DIR)/usr/lib/librkrawstream.so
+	rm -f $(TARGET_DIR)/usr/lib/librkaiq.a
+	rm -f $(TARGET_DIR)/usr/lib/libIspFec*
+	rm -f $(TARGET_DIR)/usr/lib/libsmartIr*
+	rm -rf $(TARGET_DIR)/usr/usr/share/fec_calib
+	rm -rf $(TARGET_DIR)/usr/include/rkaiq
+	rm -rf $(TARGET_DIR)/usr/include/IspFec
+endef
+
 CAMERA_ENGINE_RKAIQ_POST_INSTALL_TARGET_HOOKS += CAMERA_ENGINE_RKAIQ_INSTALL_CMDS
+ifeq ($(BR2_PACKAGE_CAMERA_ENGINE_RKAIQ_FASTBOOT_CUT), y)
+CAMERA_ENGINE_RKAIQ_POST_INSTALL_TARGET_HOOKS += CAMERA_ENGINE_RKAIQ_REMOVE_CMDS
+endif
 
 ifeq ($(call qstrip,$(BR2_PACKAGE_CAMERA_ENGINE_RKAIQ_IQFILE)),$(call qstrip,$(BR2_PACKAGE_CAMERA_ENGINE_RKAIQ_FAKE_CAMERA_IQFILE)))
 ifeq ($(BR2_PACKAGE_CAMERA_ENGINE_RKAIQ_IQFILE_USE_BIN), y)
