@@ -1,8 +1,6 @@
 config BR2_PACKAGE_ROCKIT
 	bool "rockit"
-	select BR2_PACKAGE_ALSA_PLUGINS
 	select BR2_PACKAGE_ALSA_LIB
-	select BR2_PACKAGE_ROCKCHIP_MPP
 	select BR2_PACKAGE_ROCKIT_RV1126B if BR2_PACKAGE_RV1126B
 	default n
 	help
@@ -11,3 +9,4 @@ config BR2_PACKAGE_ROCKIT
 config BR2_PACKAGE_ROCKIT_RV1126B
 	bool "Compile for rv1126b rockit"
 	select BR2_PACKAGE_IPC_DRV_KO
+	select BR2_PACKAGE_ROCKCHIP_MPP
