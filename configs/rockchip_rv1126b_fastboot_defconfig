@@ -1,7 +1,7 @@
 #include "base/tiny.config"
 #include "chips/rv1126b_aarch64.config"
 BR2_PACKAGE_CAMERA_ENGINE_RKAIQ_FASTBOOT_CUT=y
-BR2_PACKAGE_CAMERA_ENGINE_RKAIQ_SPECIFIC_IQFILE="isp35/common/sc450ai_default_default.json"
+BR2_PACKAGE_CAMERA_ENGINE_RKAIQ_SPECIFIC_IQFILE="isp35/common/sc450ai_default_default.json isp35/common/sc850sl_default_default.json"
 BR2_PACKAGE_COMMON_ALGORITHM_FASTBOOT_CUT=y
 BR2_PACKAGE_IVA_RV1126B=y
 BR2_PACKAGE_RKIPC=y
