@@ -1,7 +1,7 @@
-From c7695c7bbf327320716706dc0737c396eef4c68c Mon Sep 17 00:00:00 2001
+From 0a352ea25b1c191f9066eae4baa9b5a5e652a491 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Sat, 7 Oct 2023 17:08:03 +0800
-Subject: [PATCH 7/7] adb: daemon: Fix build issue with musl and uclibc
+Subject: [PATCH 07/10] adb: daemon: Fix build issue with musl and uclibc
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---
@@ -267,5 +267,5 @@ index 03c8341..38cc102 100644
    'libcutils/include',
    'libasyncio/include',
 -- 
-2.20.1
+2.39.5
 

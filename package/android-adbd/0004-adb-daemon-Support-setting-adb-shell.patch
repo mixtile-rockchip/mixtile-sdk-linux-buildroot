@@ -1,7 +1,7 @@
-From 89f74bb96546494a8c69696012ec0a73d096fc74 Mon Sep 17 00:00:00 2001
+From 0c6c9d5e1ee5dd3af72afd16934d1ddd4d8af7e2 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Sun, 8 Oct 2023 18:03:25 +0800
-Subject: [PATCH 4/8] adb: daemon: Support setting adb shell
+Subject: [PATCH 04/10] adb: daemon: Support setting adb shell
 
 Tested on RK3588 EVB with:
 1/ echo ADBD_SHELL=/bin/bash > /etc/profile.d/adbd.sh
@@ -55,5 +55,5 @@ index c5c426a..7465501 100644
          child_error_sfd.reset(-1);
          _Exit(1);
 -- 
-2.20.1
+2.39.5
 

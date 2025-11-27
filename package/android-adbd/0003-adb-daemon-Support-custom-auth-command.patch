@@ -1,7 +1,7 @@
-From 709561e3d7f4908796060ab2c3bd8a88430436df Mon Sep 17 00:00:00 2001
+From 1edff36c9794cb1fafb5877ff15e4d1e773a7d8a Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Sun, 8 Oct 2023 12:07:33 +0800
-Subject: [PATCH 3/7] adb: daemon: Support custom auth command
+Subject: [PATCH 03/10] adb: daemon: Support custom auth command
 
 Run "adb shell" to trigger /usr/bin/adbd-auth.sh for custom
 authentication.
@@ -338,5 +338,5 @@ index 3abd958..7a4a81c 100644
  // Executes |command| in a separate thread.
  // Sets up in/out and error streams to emulate shell-like behavior.
 -- 
-2.20.1
+2.39.5
 

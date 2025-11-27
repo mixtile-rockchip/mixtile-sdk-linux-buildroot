@@ -1,7 +1,7 @@
-From 45b6c824ec797fa7d5bdf3e17fd9da3edbc19e05 Mon Sep 17 00:00:00 2001
+From 95bd0159c82c249fa6484f59164021446af3326e Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 10 Oct 2025 16:49:29 +0800
-Subject: [PATCH 9/9] adb: daemon: Support setting adb user
+Subject: [PATCH 09/10] adb: daemon: Support setting adb user
 
 Tested on RK3588 EVB with:
 1/ echo ADBD_USER=linaro > /etc/profile.d/adbd.sh
@@ -109,5 +109,5 @@ index 7465501..0ae6562 100644
          if (command_.empty()) {
              const char* login_arg = nullptr;
 -- 
-2.20.1
+2.39.5
 
