@@ -32,17 +32,6 @@ define INPUT_EVENT_DAEMON_INSTALL_TARGET_CMDS
 	$(SED) '/^listen = /d' $(TARGET_DIR)/etc/input-event-daemon.conf
 endef
 
-ifeq ($(BR2_PACKAGE_INPUT_EVENT_DAEMON_POWER_KEY),y)
-define INPUT_EVENT_DAEMON_INSTALL_TARGET_POWER_KEY
-	$(INSTALL) -m 0755 -D $(INPUT_EVENT_DAEMON_PKGDIR)/power-key.sh \
-		$(TARGET_DIR)/usr/bin/
-	$(INSTALL) -m 0755 -D $(INPUT_EVENT_DAEMON_PKGDIR)/power-key.conf \
-		$(TARGET_DIR)/etc/input-event-daemon.conf.d/
-endef
-INPUT_EVENT_DAEMON_POST_INSTALL_TARGET_HOOKS += \
-	INPUT_EVENT_DAEMON_INSTALL_TARGET_POWER_KEY
-endif
-
 define INPUT_EVENT_DAEMON_INSTALL_INIT_SYSV
 	$(INSTALL) -m 0755 -D package/input-event-daemon/S99input-event-daemon \
 		$(TARGET_DIR)/etc/init.d/S99input-event-daemon

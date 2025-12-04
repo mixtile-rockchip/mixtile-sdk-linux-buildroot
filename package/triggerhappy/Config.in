@@ -7,15 +7,3 @@ config BR2_PACKAGE_TRIGGERHAPPY
 	  attaches to the input device files and interprets the event
 	  data received and executes scripts configured in its
 	  configuration.
-
-	  https://github.com/wertarbyte/triggerhappy
-
-if BR2_PACKAGE_TRIGGERHAPPY
-
-config BR2_PACKAGE_TRIGGERHAPPY_POWER_KEY
-	bool "power-key"
-	default y
-	help
-	  Handle power-key events (suspend/power-off).
-
-endif
