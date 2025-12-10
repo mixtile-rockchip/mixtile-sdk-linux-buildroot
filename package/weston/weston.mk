@@ -34,7 +34,8 @@ WESTON_SIMPLE_CLIENTS += dmabuf-v4l
 endif
 endif # BR2_PACKAGE_WESTON_SIMPLE_CLIENTS
 
-ifeq ($(BR2_PACKAGE_JPEG),y)
+# weston uses jpeg_read_icc_profile(), only provided by jpeg-turbo
+ifeq ($(BR2_PACKAGE_JPEG_TURBO),y)
 WESTON_CONF_OPTS += -Dimage-jpeg=true
 WESTON_DEPENDENCIES += jpeg
 else
@@ -76,13 +77,6 @@ WESTON_DEPENDENCIES += neatvnc
 WESTON_CONF_OPTS += -Dbackend-vnc=true
 else
 WESTON_CONF_OPTS += -Dbackend-vnc=false
-endif
-
-ifeq ($(BR2_PACKAGE_WESTON_PIPEWIRE),y)
-WESTON_CONF_OPTS += -Dbackend-pipewire=true
-WESTON_DEPENDENCIES += pipewire
-else
-WESTON_CONF_OPTS += -Dbackend-pipewire=false
 endif
 
 WESTON_CONF_OPTS += -Dsimple-clients=$(subst $(space),$(comma),$(strip $(WESTON_SIMPLE_CLIENTS)))
