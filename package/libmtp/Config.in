@@ -1,0 +1,7 @@
+config BR2_PACKAGE_LIBMTP
+	bool "libmtp"
+	select BR2_PACKAGE_LIBUSB
+	help
+	  A library to access MTP (Media Transfer Protocol) Devices.
+
+	  https://github.com/libmtp/libmtp
