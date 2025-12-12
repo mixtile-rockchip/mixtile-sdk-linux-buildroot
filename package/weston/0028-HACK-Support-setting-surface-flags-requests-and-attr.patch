@@ -1,27 +1,25 @@
-From bc295bc0ee77df2a5eba10d0a671f873276f76dd Mon Sep 17 00:00:00 2001
+From 41cbce0edfc2e2663847c1dc29cfe7cf23aaf2f9 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 7 May 2020 08:55:42 +0800
-Subject: [PATCH 028/105] HACK: Support setting surface flags activate and
- alpha
+Subject: [PATCH 028/105] HACK: Support setting surface flags, requests, and
+ attributes
 
-Support setting surface flags activate and alpha through app_id or
-title, for example:
-
+Support setting them through app_id or title, for example:
 xdg_toplevel_set_app_id("flags=stay-on-top|stay-on-bottom|no-focus|default-secondary")
 xdg_toplevel_set_title("requests=activate")
-xdg_toplevel_set_app_id("attrs=alpha:0.5")
+xdg_toplevel_set_app_id("attrs=alpha:0.5|pos:100,200")
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---
- desktop-shell/shell.c         |  68 ++++++++++--
+ desktop-shell/shell.c         |  68 +++++++++--
  desktop-shell/shell.h         |   2 +
  include/libweston/libweston.h |  15 +++
  libweston/compositor.c        |  10 +-
- libweston/desktop/surface.c   | 197 ++++++++++++++++++++++++++++++++++
- 5 files changed, 280 insertions(+), 12 deletions(-)
+ libweston/desktop/surface.c   | 205 ++++++++++++++++++++++++++++++++++
+ 5 files changed, 288 insertions(+), 12 deletions(-)
 
 diff --git a/desktop-shell/shell.c b/desktop-shell/shell.c
-index e7dca8f..ab244f5 100644
+index e7dca8fd..ab244f53 100644
 --- a/desktop-shell/shell.c
 +++ b/desktop-shell/shell.c
 @@ -1711,10 +1711,17 @@ static void
@@ -223,7 +221,7 @@ index e7dca8f..ab244f5 100644
  	wl_list_init(&shell->seat_list);
  	wl_list_init(&shell->shsurf_list);
 diff --git a/desktop-shell/shell.h b/desktop-shell/shell.h
-index fc34eb4..055fe97 100644
+index fc34eb45..055fe973 100644
 --- a/desktop-shell/shell.h
 +++ b/desktop-shell/shell.h
 @@ -97,6 +97,8 @@ struct desktop_shell {
@@ -236,7 +234,7 @@ index fc34eb4..055fe97 100644
  	struct wl_listener pointer_focus_listener;
  	struct weston_surface *grab_surface;
 diff --git a/include/libweston/libweston.h b/include/libweston/libweston.h
-index e9e74ba..99083dc 100644
+index e9e74ba7..99083dc8 100644
 --- a/include/libweston/libweston.h
 +++ b/include/libweston/libweston.h
 @@ -1978,6 +1978,16 @@ struct weston_pointer_constraint {
@@ -269,7 +267,7 @@ index e9e74ba..99083dc 100644
  
  struct weston_subsurface {
 diff --git a/libweston/compositor.c b/libweston/compositor.c
-index 83f8eca..d5e4b4e 100644
+index 83f8ecac..d5e4b4e9 100644
 --- a/libweston/compositor.c
 +++ b/libweston/compositor.c
 @@ -737,7 +737,7 @@ weston_view_create_internal(struct weston_surface *surface)
@@ -304,10 +302,10 @@ index 83f8eca..d5e4b4e 100644
  	}
  	return NULL;
 diff --git a/libweston/desktop/surface.c b/libweston/desktop/surface.c
-index ba2aa15..a1ea6d5 100644
+index ba2aa15e..87f2a862 100644
 --- a/libweston/desktop/surface.c
 +++ b/libweston/desktop/surface.c
-@@ -759,12 +759,206 @@ weston_desktop_surface_set_position(struct weston_desktop_surface *surface,
+@@ -759,12 +759,214 @@ weston_desktop_surface_set_position(struct weston_desktop_surface *surface,
  		weston_view_set_position(view->view, pos);
  }
  
@@ -463,11 +461,19 @@ index ba2aa15..a1ea6d5 100644
 +		}
 +
 +#define SURFACE_ATTR_ALPHA "alpha:"
++#define SURFACE_ATTR_POSITION "pos:"
++
 +		if (!strncmp(p, SURFACE_ATTR_ALPHA,
 +			     strlen(SURFACE_ATTR_ALPHA))) {
 +			double alpha = atof(p + strlen(SURFACE_ATTR_ALPHA));
 +
 +			weston_surface_set_alpha(wsurface, alpha);
++		} else if (!strncmp(p, SURFACE_ATTR_POSITION,
++			     strlen(SURFACE_ATTR_POSITION))) {
++			int x = 0, y = 0;
++
++			sscanf(p, SURFACE_ATTR_POSITION "%d,%d", &x, &y);
++			weston_desktop_surface_set_position(surface, x, y);
 +		} else {
 +			weston_log("%s: warning: unsupported attr: %s\n",
 +				   __func__, p);
@@ -514,7 +520,7 @@ index ba2aa15..a1ea6d5 100644
  	tmp = strdup(title);
  	if (tmp == NULL)
  		return;
-@@ -781,6 +975,9 @@ weston_desktop_surface_set_app_id(struct weston_desktop_surface *surface,
+@@ -781,6 +983,9 @@ weston_desktop_surface_set_app_id(struct weston_desktop_surface *surface,
  {
  	char *tmp, *old;
  
