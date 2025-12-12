@@ -1,4 +1,4 @@
-From 6146b539404cac8f9b4d02681d322a939e0238b3 Mon Sep 17 00:00:00 2001
+From a1d039d7123dc2f2e13ae9dd90a18f53ff964aba Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 17 Jun 2024 08:53:35 +0800
 Subject: [PATCH 087/105] compositor: Fix error in clone mode
@@ -22,7 +22,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  3 files changed, 29 insertions(+), 1 deletion(-)
 
 diff --git a/frontend/main.c b/frontend/main.c
-index 4837888f..5bc5bd0e 100644
+index 4837888..5bc5bd0 100644
 --- a/frontend/main.c
 +++ b/frontend/main.c
 @@ -2844,7 +2844,7 @@ drm_try_attach(struct weston_output *output,
@@ -35,7 +35,7 @@ index 4837888f..5bc5bd0e 100644
  			continue;
  
 diff --git a/libweston/backend-drm/drm.c b/libweston/backend-drm/drm.c
-index 58ec160b..1c5dc606 100644
+index 58ec160..1c5dc60 100644
 --- a/libweston/backend-drm/drm.c
 +++ b/libweston/backend-drm/drm.c
 @@ -2139,6 +2139,8 @@ drm_output_detach_head(struct weston_output *output_base,
@@ -66,7 +66,7 @@ index 58ec160b..1c5dc606 100644
  
  int
 diff --git a/libweston/compositor.c b/libweston/compositor.c
-index eac77984..44b23507 100644
+index eac7798..44b2350 100644
 --- a/libweston/compositor.c
 +++ b/libweston/compositor.c
 @@ -6492,9 +6492,16 @@ bind_output(struct wl_client *client,
@@ -109,5 +109,5 @@ index eac77984..44b23507 100644
  	}
  }
 -- 
-2.20.1
+2.39.5
 

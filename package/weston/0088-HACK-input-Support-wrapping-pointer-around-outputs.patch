@@ -1,4 +1,4 @@
-From 7ff95a056e9ebda04ebea33025f7921300f944c7 Mon Sep 17 00:00:00 2001
+From dd284923c21acca46b23d1cf6d978cdb10127390 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 26 Jun 2024 15:59:22 +0800
 Subject: [PATCH 088/105] HACK: input: Support wrapping pointer around outputs
@@ -11,7 +11,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 39 insertions(+), 4 deletions(-)
 
 diff --git a/libweston/input.c b/libweston/input.c
-index 18575723..ac6802c8 100644
+index 1857572..ac6802c 100644
 --- a/libweston/input.c
 +++ b/libweston/input.c
 @@ -2154,7 +2154,8 @@ WL_EXPORT struct weston_coord_global
@@ -77,5 +77,5 @@ index 18575723..ac6802c8 100644
  	if (prev && !valid)
  		pos = weston_pointer_clamp_for_output(pointer, prev, pos);
 -- 
-2.20.1
+2.39.5
 

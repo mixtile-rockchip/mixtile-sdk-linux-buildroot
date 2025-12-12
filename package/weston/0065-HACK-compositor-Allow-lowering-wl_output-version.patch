@@ -1,4 +1,4 @@
-From 74066a84445621482abc628789b1fd61e0c8a615 Mon Sep 17 00:00:00 2001
+From 7a1764bf8ac8f641c69880606493aef71cc5e938 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 26 Jul 2023 10:01:33 +0800
 Subject: [PATCH 065/105] HACK: compositor: Allow lowering wl_output version
@@ -12,7 +12,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 13 insertions(+), 1 deletion(-)
 
 diff --git a/libweston/compositor.c b/libweston/compositor.c
-index 7d7fac4a..0cbbc987 100644
+index 7d7fac4..0cbbc98 100644
 --- a/libweston/compositor.c
 +++ b/libweston/compositor.c
 @@ -6467,11 +6467,23 @@ bind_output(struct wl_client *client,
@@ -41,5 +41,5 @@ index 7d7fac4a..0cbbc987 100644
  }
  
 -- 
-2.20.1
+2.39.5
 

@@ -1,4 +1,4 @@
-From 57e2ec8d6f6f168bcd2f91d9f05bdde660dcaa12 Mon Sep 17 00:00:00 2001
+From 379cd5d62a341645e07cfad8a1fcf985d29a1433 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 18 Apr 2025 11:56:05 +0800
 Subject: [PATCH 105/105] HACK: gl-renderer: Disable buffer age and partial
@@ -12,7 +12,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 4 insertions(+)
 
 diff --git a/libweston/renderer-gl/egl-glue.c b/libweston/renderer-gl/egl-glue.c
-index 2a6a5bff..f28359a3 100644
+index 2a6a5bf..f28359a 100644
 --- a/libweston/renderer-gl/egl-glue.c
 +++ b/libweston/renderer-gl/egl-glue.c
 @@ -743,6 +743,10 @@ gl_renderer_setup_egl_extensions(struct weston_compositor *ec)
@@ -27,5 +27,5 @@ index 2a6a5bff..f28359a3 100644
  	weston_log_continue(STAMP_SPACE "EGL Wayland extension: %s\n",
  			    yesno(gr->has_bind_display));
 -- 
-2.20.1
+2.39.5
 

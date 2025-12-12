@@ -1,4 +1,4 @@
-From f24b15fd4932253581755b6de3001505909c30c1 Mon Sep 17 00:00:00 2001
+From a31992fc0234051b393d39740e977d79d3f1bcf6 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 20 Dec 2023 09:24:31 +0800
 Subject: [PATCH 073/105] HACK: gl-renderer: Fallback to GBM when surfaceless
@@ -13,7 +13,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  4 files changed, 52 insertions(+), 4 deletions(-)
 
 diff --git a/libweston/renderer-gl/egl-glue.c b/libweston/renderer-gl/egl-glue.c
-index 617a6b3b..2a6a5bff 100644
+index 617a6b3..2a6a5bf 100644
 --- a/libweston/renderer-gl/egl-glue.c
 +++ b/libweston/renderer-gl/egl-glue.c
 @@ -604,6 +604,14 @@ gl_renderer_setup_egl_client_extensions(struct gl_renderer *gr)
@@ -32,7 +32,7 @@ index 617a6b3b..2a6a5bff 100644
  	 * haven't found the supplied platform, so chances are it's
  	 * not supported. */
 diff --git a/libweston/renderer-gl/gl-renderer-internal.h b/libweston/renderer-gl/gl-renderer-internal.h
-index 703f88be..49c490a0 100644
+index 703f88b..49c490a 100644
 --- a/libweston/renderer-gl/gl-renderer-internal.h
 +++ b/libweston/renderer-gl/gl-renderer-internal.h
 @@ -46,6 +46,7 @@
@@ -54,7 +54,7 @@ index 703f88be..49c490a0 100644
  
  static inline struct gl_renderer *
 diff --git a/libweston/renderer-gl/gl-renderer.c b/libweston/renderer-gl/gl-renderer.c
-index 12213167..7bc92048 100644
+index 1221316..7bc9204 100644
 --- a/libweston/renderer-gl/gl-renderer.c
 +++ b/libweston/renderer-gl/gl-renderer.c
 @@ -45,6 +45,8 @@
@@ -148,7 +148,7 @@ index 12213167..7bc92048 100644
  	weston_log_scope_destroy(gr->renderer_scope);
  	free(gr);
 diff --git a/libweston/renderer-gl/meson.build b/libweston/renderer-gl/meson.build
-index 274a2965..93ae313a 100644
+index 274a296..93ae313 100644
 --- a/libweston/renderer-gl/meson.build
 +++ b/libweston/renderer-gl/meson.build
 @@ -33,8 +33,9 @@ deps_renderer_gl = [
@@ -163,5 +163,5 @@ index 274a2965..93ae313a 100644
  ]
  
 -- 
-2.20.1
+2.39.5
 

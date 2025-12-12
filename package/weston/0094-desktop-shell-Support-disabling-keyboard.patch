@@ -1,4 +1,4 @@
-From a239544c1ab8a54515d66815c0e20a635a94e68d Mon Sep 17 00:00:00 2001
+From 29a4c601b7c8fa6264d9f47f545e151ece64c93a Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 8 Aug 2024 08:54:43 +0800
 Subject: [PATCH 094/105] desktop-shell: Support disabling keyboard
@@ -13,10 +13,10 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  3 files changed, 16 insertions(+), 7 deletions(-)
 
 diff --git a/desktop-shell/shell.c b/desktop-shell/shell.c
-index b9f39bb7..75547d75 100644
+index 5b5f4e5..84b12d7 100644
 --- a/desktop-shell/shell.c
 +++ b/desktop-shell/shell.c
-@@ -4938,8 +4938,10 @@ shell_destroy(struct wl_listener *listener, void *data)
+@@ -4948,8 +4948,10 @@ shell_destroy(struct wl_listener *listener, void *data)
  	wl_list_remove(&shell->wake_listener.link);
  	wl_list_remove(&shell->transform_listener.link);
  
@@ -29,7 +29,7 @@ index b9f39bb7..75547d75 100644
  
  	wl_list_remove(&shell->kill_focus_listener.link);
  
-@@ -5178,10 +5180,12 @@ wet_shell_init(struct weston_compositor *ec,
+@@ -5188,10 +5190,12 @@ wet_shell_init(struct weston_compositor *ec,
  	weston_layer_init(&shell->minimized_layer, ec);
  	weston_layer_init(&shell->workspace.layer, ec);
  
@@ -46,7 +46,7 @@ index b9f39bb7..75547d75 100644
  	if (!shell_configuration(shell))
  		return -1;
 diff --git a/libweston/libinput-device.c b/libweston/libinput-device.c
-index 580a1bf5..fd058e11 100644
+index 580a1bf..fd058e1 100644
 --- a/libweston/libinput-device.c
 +++ b/libweston/libinput-device.c
 @@ -1048,6 +1048,11 @@ evdev_device_create(struct libinput_device *libinput_device,
@@ -62,7 +62,7 @@ index 580a1bf5..fd058e11 100644
  			free(device);
  			return NULL;
 diff --git a/libweston/libinput-seat.c b/libweston/libinput-seat.c
-index c160a65a..cb9462f9 100644
+index c160a65..cb9462f 100644
 --- a/libweston/libinput-seat.c
 +++ b/libweston/libinput-seat.c
 @@ -162,7 +162,7 @@ device_added(struct udev_input *input, struct libinput_device *libinput_device)
@@ -84,5 +84,5 @@ index c160a65a..cb9462f9 100644
  
  	evdev_device_destroy(device);
 -- 
-2.20.1
+2.39.5
 

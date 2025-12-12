@@ -1,4 +1,4 @@
-From 6edc6b0cf3a2b989f34269a1311f98e36bc42a87 Mon Sep 17 00:00:00 2001
+From 0ed10d658d4a1e45bea3ff9a220f5cb79af6382a Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 22 Mar 2021 22:54:28 +0800
 Subject: [PATCH 006/105] desktop-shell: Use real size for non-image background
@@ -12,7 +12,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 6 deletions(-)
 
 diff --git a/clients/desktop-shell.c b/clients/desktop-shell.c
-index e06613ff..9e7863f5 100644
+index e06613f..9e7863f 100644
 --- a/clients/desktop-shell.c
 +++ b/clients/desktop-shell.c
 @@ -891,12 +891,6 @@ background_configure(void *data,
@@ -29,5 +29,5 @@ index e06613ff..9e7863f5 100644
  }
  
 -- 
-2.20.1
+2.39.5
 

@@ -1,4 +1,4 @@
-From 630c7b88cbf3cb77ff366827cc312b3dfa926bd0 Mon Sep 17 00:00:00 2001
+From 0a737f6fdf922970d99a58af671a098103c7190f Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 2 Jun 2022 19:00:40 +0800
 Subject: [PATCH 056/105] desktop-shell: Support setting panel scale in
@@ -14,7 +14,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 26 insertions(+), 15 deletions(-)
 
 diff --git a/clients/desktop-shell.c b/clients/desktop-shell.c
-index aea02d44..85fa2fbb 100644
+index aea02d4..85fa2fb 100644
 --- a/clients/desktop-shell.c
 +++ b/clients/desktop-shell.c
 @@ -111,6 +111,7 @@ struct panel {
@@ -156,5 +156,5 @@ index aea02d44..85fa2fbb 100644
  	panel_add_launchers(panel, desktop);
  
 -- 
-2.20.1
+2.39.5
 

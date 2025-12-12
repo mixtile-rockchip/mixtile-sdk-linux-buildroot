@@ -1,7 +1,7 @@
-From 07c3822b594efe50e5fe62d0e8026221e0037756 Mon Sep 17 00:00:00 2001
+From fcc3eeb19b2e11edf9a6918113323f47e7977b06 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 21 Aug 2023 18:19:40 +0800
-Subject: [PATCH 3/3] client: Assign proxy to default queue when releasing the
+Subject: [PATCH 3/4] client: Assign proxy to default queue when releasing the
  attached one
 
 It's a bug to release a queue with proxies attached, but it doesn't
@@ -70,5 +70,5 @@ index e64323b..387a4ba 100644
  }
  
 -- 
-2.20.1
+2.39.5
 

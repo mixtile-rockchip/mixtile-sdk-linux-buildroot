@@ -1,4 +1,4 @@
-From a8465d3f99637a8df7e652513dbde50f1d00ead3 Mon Sep 17 00:00:00 2001
+From 669637f5dcc0f41335745780e44124fe89be459c Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 25 Dec 2023 16:58:31 +0800
 Subject: [PATCH 074/105] vnc: Improve performance with gl-renderer
@@ -22,7 +22,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  5 files changed, 293 insertions(+), 66 deletions(-)
 
 diff --git a/libweston/backend-vnc/meson.build b/libweston/backend-vnc/meson.build
-index cf67c51c..52739258 100644
+index cf67c51..5273925 100644
 --- a/libweston/backend-vnc/meson.build
 +++ b/libweston/backend-vnc/meson.build
 @@ -13,12 +13,19 @@ if not dep_aml.found()
@@ -46,7 +46,7 @@ index cf67c51c..52739258 100644
  	'vnc-backend',
  	[ 'vnc.c' ],
 diff --git a/libweston/backend-vnc/vnc.c b/libweston/backend-vnc/vnc.c
-index 928e484d..574b6994 100644
+index 928e484..574b699 100644
 --- a/libweston/backend-vnc/vnc.c
 +++ b/libweston/backend-vnc/vnc.c
 @@ -47,6 +47,11 @@
@@ -538,7 +538,7 @@ index 928e484d..574b6994 100644
  	free(backend);
  	return NULL;
 diff --git a/libweston/renderer-gl/gl-renderer-internal.h b/libweston/renderer-gl/gl-renderer-internal.h
-index 49c490a0..756a1806 100644
+index 49c490a..756a180 100644
 --- a/libweston/renderer-gl/gl-renderer-internal.h
 +++ b/libweston/renderer-gl/gl-renderer-internal.h
 @@ -311,6 +311,8 @@ struct gl_renderer {
@@ -551,7 +551,7 @@ index 49c490a0..756a1806 100644
  
  static inline struct gl_renderer *
 diff --git a/libweston/renderer-gl/gl-renderer.c b/libweston/renderer-gl/gl-renderer.c
-index 7bc92048..3902719c 100644
+index 7bc9204..3902719 100644
 --- a/libweston/renderer-gl/gl-renderer.c
 +++ b/libweston/renderer-gl/gl-renderer.c
 @@ -732,6 +732,13 @@ gl_renderer_create_fbo(struct weston_output *output,
@@ -640,7 +640,7 @@ index 7bc92048..3902719c 100644
 +	.get_display_options = gl_renderer_get_display_options,
  };
 diff --git a/libweston/renderer-gl/gl-renderer.h b/libweston/renderer-gl/gl-renderer.h
-index 7e7d1bcb..8bc4acea 100644
+index 7e7d1bc..8bc4ace 100644
 --- a/libweston/renderer-gl/gl-renderer.h
 +++ b/libweston/renderer-gl/gl-renderer.h
 @@ -237,4 +237,6 @@ struct gl_renderer_interface {
@@ -651,5 +651,5 @@ index 7e7d1bcb..8bc4acea 100644
 +	const struct gl_renderer_display_options *(*get_display_options)(struct weston_compositor *ec);
  };
 -- 
-2.20.1
+2.39.5
 

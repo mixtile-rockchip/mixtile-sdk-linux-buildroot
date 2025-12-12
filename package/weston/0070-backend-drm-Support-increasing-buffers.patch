@@ -1,4 +1,4 @@
-From 17f0c17753d0255890fbdc938f8442687b4957a2 Mon Sep 17 00:00:00 2001
+From ac21dff0561bd242e371f05c9b383da288d94923 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 23 Aug 2023 18:18:58 +0800
 Subject: [PATCH 070/105] backend-drm: Support increasing buffers
@@ -17,7 +17,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  5 files changed, 228 insertions(+), 61 deletions(-)
 
 diff --git a/libweston/backend-drm/drm-gbm.c b/libweston/backend-drm/drm-gbm.c
-index 055ef0ba..27c76d71 100644
+index 055ef0b..27c76d7 100644
 --- a/libweston/backend-drm/drm-gbm.c
 +++ b/libweston/backend-drm/drm-gbm.c
 @@ -122,8 +122,11 @@ static void drm_output_fini_cursor_egl(struct drm_output *output)
@@ -275,7 +275,7 @@ index 055ef0ba..27c76d71 100644
  		weston_log("failed to get drm_fb for bo\n");
  		gbm_surface_release_buffer(output->gbm_surface, bo);
 diff --git a/libweston/backend-drm/drm-internal.h b/libweston/backend-drm/drm-internal.h
-index 51fb047b..ea65ce0c 100644
+index 51fb047..ea65ce0 100644
 --- a/libweston/backend-drm/drm-internal.h
 +++ b/libweston/backend-drm/drm-internal.h
 @@ -124,6 +124,8 @@
@@ -318,7 +318,7 @@ index 51fb047b..ea65ce0c 100644
  
  	struct vaapi_recorder *recorder;
 diff --git a/libweston/backend-drm/drm.c b/libweston/backend-drm/drm.c
-index 87c488b3..9902c70c 100644
+index 87c488b..9902c70 100644
 --- a/libweston/backend-drm/drm.c
 +++ b/libweston/backend-drm/drm.c
 @@ -462,13 +462,14 @@ drm_output_render_pixman(struct drm_output_state *state,
@@ -396,7 +396,7 @@ index 87c488b3..9902c70c 100644
  
  	output->base.enable = drm_output_enable;
 diff --git a/libweston/renderer-gl/gl-renderer.c b/libweston/renderer-gl/gl-renderer.c
-index 7bd2ddd4..12213167 100644
+index 7bd2ddd..1221316 100644
 --- a/libweston/renderer-gl/gl-renderer.c
 +++ b/libweston/renderer-gl/gl-renderer.c
 @@ -109,6 +109,9 @@ struct gl_renderbuffer {
@@ -581,7 +581,7 @@ index 7bd2ddd4..12213167 100644
  	.output_fbo_create = gl_renderer_output_fbo_create,
  	.output_destroy = gl_renderer_output_destroy,
 diff --git a/libweston/renderer-gl/gl-renderer.h b/libweston/renderer-gl/gl-renderer.h
-index 6fc7f6f0..7e7d1bcb 100644
+index 6fc7f6f..7e7d1bc 100644
 --- a/libweston/renderer-gl/gl-renderer.h
 +++ b/libweston/renderer-gl/gl-renderer.h
 @@ -135,6 +135,9 @@ struct gl_renderer_interface {
@@ -595,5 +595,5 @@ index 6fc7f6f0..7e7d1bcb 100644
  	 * Attach GL-renderer to the output with a native window
  	 *
 -- 
-2.20.1
+2.39.5
 

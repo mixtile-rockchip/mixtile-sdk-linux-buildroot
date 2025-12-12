@@ -1,4 +1,4 @@
-From 3f63c4792ad4ecc54a02a8dd9606fd7b539ffac7 Mon Sep 17 00:00:00 2001
+From 508eda7b3e8c993baad3116ce30fe2ffabf56dde Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 23 Jun 2020 10:05:48 +0800
 Subject: [PATCH 021/105] backend-drm: Support selecting monitors
@@ -40,7 +40,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  10 files changed, 539 insertions(+), 85 deletions(-)
 
 diff --git a/desktop-shell/shell.c b/desktop-shell/shell.c
-index 38ddb4aa..333218dd 100644
+index 38ddb4a..333218d 100644
 --- a/desktop-shell/shell.c
 +++ b/desktop-shell/shell.c
 @@ -104,6 +104,7 @@ struct shell_surface {
@@ -273,7 +273,7 @@ index 38ddb4aa..333218dd 100644
  	return 0;
  }
 diff --git a/frontend/main.c b/frontend/main.c
-index 8ff48434..08b935a7 100644
+index 8ff4843..08b935a 100644
 --- a/frontend/main.c
 +++ b/frontend/main.c
 @@ -2764,7 +2764,7 @@ drm_head_prepare_enable(struct wet_compositor *wet,
@@ -330,7 +330,7 @@ index 8ff48434..08b935a7 100644
  		enabled = weston_head_is_enabled(head);
  		changed = weston_head_is_device_changed(head);
 diff --git a/include/libweston/config-parser.h b/include/libweston/config-parser.h
-index 8ed14a3b..e05a90b5 100644
+index 8ed14a3..e05a90b 100644
 --- a/include/libweston/config-parser.h
 +++ b/include/libweston/config-parser.h
 @@ -32,6 +32,7 @@ extern "C" {
@@ -342,7 +342,7 @@ index 8ed14a3b..e05a90b5 100644
  #define WESTON_CONFIG_FILE_ENV_VAR "WESTON_CONFIG_FILE"
  
 diff --git a/include/libweston/libweston.h b/include/libweston/libweston.h
-index 77b44baa..be3cbdaa 100644
+index 77b44ba..be3cbda 100644
 --- a/include/libweston/libweston.h
 +++ b/include/libweston/libweston.h
 @@ -516,6 +516,8 @@ struct weston_head {
@@ -374,7 +374,7 @@ index 77b44baa..be3cbdaa 100644
  };
  
 diff --git a/kiosk-shell/kiosk-shell.c b/kiosk-shell/kiosk-shell.c
-index 099478d9..440e36e1 100644
+index 099478d..440e36e 100644
 --- a/kiosk-shell/kiosk-shell.c
 +++ b/kiosk-shell/kiosk-shell.c
 @@ -447,6 +447,10 @@ kiosk_shell_surface_reconfigure_for_output(struct kiosk_shell_surface *shsurf)
@@ -422,7 +422,7 @@ index 099478d9..440e36e1 100644
  	return 0;
  }
 diff --git a/libweston/backend-drm/drm-internal.h b/libweston/backend-drm/drm-internal.h
-index dc1120a8..26ce330e 100644
+index dc1120a..26ce330 100644
 --- a/libweston/backend-drm/drm-internal.h
 +++ b/libweston/backend-drm/drm-internal.h
 @@ -116,6 +116,8 @@
@@ -482,7 +482,7 @@ index dc1120a8..26ce330e 100644
  
  void
 diff --git a/libweston/backend-drm/drm.c b/libweston/backend-drm/drm.c
-index 98b9c1a1..b933c858 100644
+index 98b9c1a..b933c85 100644
 --- a/libweston/backend-drm/drm.c
 +++ b/libweston/backend-drm/drm.c
 @@ -48,6 +48,7 @@
@@ -1058,7 +1058,7 @@ index 98b9c1a1..b933c858 100644
  err_sprite:
  	destroy_sprites(b->drm);
 diff --git a/libweston/backend-drm/kms.c b/libweston/backend-drm/kms.c
-index c6d99762..30a95199 100644
+index c6d9976..30a9519 100644
 --- a/libweston/backend-drm/kms.c
 +++ b/libweston/backend-drm/kms.c
 @@ -860,6 +860,8 @@ drm_output_apply_state_legacy(struct drm_output_state *state)
@@ -1137,7 +1137,7 @@ index c6d99762..30a95199 100644
  
  	return 0;
 diff --git a/libweston/backend.h b/libweston/backend.h
-index 05a40f30..acb3a8f2 100644
+index 05a40f3..acb3a8f 100644
 --- a/libweston/backend.h
 +++ b/libweston/backend.h
 @@ -42,6 +42,8 @@ struct weston_hdr_metadata_type1;
@@ -1150,7 +1150,7 @@ index 05a40f30..acb3a8f2 100644
  	 *
  	 * Bit positions correspond to system clock IDs.
 diff --git a/libweston/compositor.c b/libweston/compositor.c
-index 33e04baf..e5c86a15 100644
+index 33e04ba..e5c86a1 100644
 --- a/libweston/compositor.c
 +++ b/libweston/compositor.c
 @@ -423,6 +423,25 @@ weston_paint_node_destroy(struct weston_paint_node *pnode)
@@ -1303,5 +1303,5 @@ index 33e04baf..e5c86a15 100644
  	int ret;
  
 -- 
-2.20.1
+2.39.5
 

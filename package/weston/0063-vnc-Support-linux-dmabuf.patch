@@ -1,4 +1,4 @@
-From e71922141e0bc509624759512a5fb5ffa3d2a49e Mon Sep 17 00:00:00 2001
+From c5271188ff2efc9f4f2074f1fae227ad5c0328eb Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 13 Dec 2022 16:12:30 +0800
 Subject: [PATCH 063/105] vnc: Support linux-dmabuf
@@ -9,7 +9,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 7 insertions(+)
 
 diff --git a/libweston/backend-vnc/vnc.c b/libweston/backend-vnc/vnc.c
-index 319c2814..928e484d 100644
+index 319c281..928e484 100644
 --- a/libweston/backend-vnc/vnc.c
 +++ b/libweston/backend-vnc/vnc.c
 @@ -53,6 +53,7 @@
@@ -34,5 +34,5 @@ index 319c2814..928e484d 100644
  
  err_output:
 -- 
-2.20.1
+2.39.5
 

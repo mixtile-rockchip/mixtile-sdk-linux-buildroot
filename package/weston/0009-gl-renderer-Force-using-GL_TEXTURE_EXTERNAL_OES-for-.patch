@@ -1,4 +1,4 @@
-From e25402815845052e07bc92ef29ff3a04bbb913e1 Mon Sep 17 00:00:00 2001
+From fc59ebbb148586f9d6bd3da63af36aabb0b0c8ff Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 23 Nov 2022 10:21:13 +0800
 Subject: [PATCH 009/105] gl-renderer: Force using GL_TEXTURE_EXTERNAL_OES for
@@ -13,7 +13,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  2 files changed, 3 insertions(+), 99 deletions(-)
 
 diff --git a/libweston/renderer-gl/gl-renderer-internal.h b/libweston/renderer-gl/gl-renderer-internal.h
-index 744b2224..938aa30b 100644
+index 744b222..938aa30 100644
 --- a/libweston/renderer-gl/gl-renderer-internal.h
 +++ b/libweston/renderer-gl/gl-renderer-internal.h
 @@ -249,8 +249,6 @@ struct gl_renderer {
@@ -26,7 +26,7 @@ index 744b2224..938aa30b 100644
  	bool has_texture_type_2_10_10_10_rev;
  	bool has_gl_texture_rg;
 diff --git a/libweston/renderer-gl/gl-renderer.c b/libweston/renderer-gl/gl-renderer.c
-index 5b5de4fe..e960954e 100644
+index 5b5de4f..e960954 100644
 --- a/libweston/renderer-gl/gl-renderer.c
 +++ b/libweston/renderer-gl/gl-renderer.c
 @@ -3162,88 +3162,6 @@ import_yuv_dmabuf(struct gl_renderer *gr, struct gl_buffer_state *gb,
@@ -168,5 +168,5 @@ index 5b5de4fe..e960954e 100644
  	wl_signal_init(&gr->destroy_signal);
  
 -- 
-2.20.1
+2.39.5
 

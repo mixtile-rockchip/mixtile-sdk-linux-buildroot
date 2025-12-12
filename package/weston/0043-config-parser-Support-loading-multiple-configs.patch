@@ -1,4 +1,4 @@
-From 498689a4c2e7bd5fe014ea932c2e0304f9a6f4ee Mon Sep 17 00:00:00 2001
+From af887f36a4b23bb484676f659a9e42b07d183a60 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 7 Apr 2021 08:25:57 +0800
 Subject: [PATCH 043/105] config-parser: Support loading multiple configs
@@ -17,7 +17,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  2 files changed, 128 insertions(+), 27 deletions(-)
 
 diff --git a/frontend/main.c b/frontend/main.c
-index 13f4f995..bfa15c01 100644
+index 13f4f99..bfa15c0 100644
 --- a/frontend/main.c
 +++ b/frontend/main.c
 @@ -1280,8 +1280,11 @@ load_configuration(struct weston_config **config, int32_t noconfig,
@@ -34,7 +34,7 @@ index 13f4f995..bfa15c01 100644
  	if (*config) {
  		full_path = weston_config_get_full_path(*config);
 diff --git a/shared/config-parser.c b/shared/config-parser.c
-index cd93e5f3..f48fb49b 100644
+index cd93e5f..f48fb49 100644
 --- a/shared/config-parser.c
 +++ b/shared/config-parser.c
 @@ -31,6 +31,7 @@
@@ -277,5 +277,5 @@ index cd93e5f3..f48fb49b 100644
  }
  
 -- 
-2.20.1
+2.39.5
 

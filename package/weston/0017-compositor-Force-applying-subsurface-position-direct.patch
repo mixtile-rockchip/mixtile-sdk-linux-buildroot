@@ -1,4 +1,4 @@
-From f3d13beae38b0a4522b341ef6772347d94f8bef1 Mon Sep 17 00:00:00 2001
+From 8cba4db7fc0050bfe88679093f5d57a85d579b4c Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 18 Nov 2019 12:23:48 +0800
 Subject: [PATCH 017/105] compositor: Force applying subsurface position
@@ -15,7 +15,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/libweston/compositor.c b/libweston/compositor.c
-index b940ad39..3d9f85ab 100644
+index b940ad3..3d9f85a 100644
 --- a/libweston/compositor.c
 +++ b/libweston/compositor.c
 @@ -5647,6 +5647,9 @@ subsurface_set_position(struct wl_client *client,
@@ -29,5 +29,5 @@ index b940ad39..3d9f85ab 100644
  
  static struct weston_subsurface *
 -- 
-2.20.1
+2.39.5
 

@@ -1,4 +1,4 @@
-From 2f099be82b16070167d6e3d75bf46e729b34bfb2 Mon Sep 17 00:00:00 2001
+From 26e6ee5fbbb9f0fabe1a3c7eaf9ab5ce1a2546f0 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 16 Jan 2024 16:30:39 +0800
 Subject: [PATCH 080/105] backend-drm: Skip gamma reset by default
@@ -11,7 +11,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/libweston/backend-drm/kms.c b/libweston/backend-drm/kms.c
-index 2bd5da4f..475d870f 100644
+index 2bd5da4..475d870 100644
 --- a/libweston/backend-drm/kms.c
 +++ b/libweston/backend-drm/kms.c
 @@ -845,6 +845,9 @@ drm_output_reset_legacy_gamma(struct drm_output *output)
@@ -25,5 +25,5 @@ index 2bd5da4f..475d870f 100644
  		return;
  
 -- 
-2.20.1
+2.39.5
 

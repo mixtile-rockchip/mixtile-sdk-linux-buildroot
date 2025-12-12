@@ -1,4 +1,4 @@
-From fa31937fb4c87225d2f79f827f80a81acade1e00 Mon Sep 17 00:00:00 2001
+From a3cf7cc03e7432870ca9fd188b1ffad7139cb0f4 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 8 Dec 2022 10:26:26 +0800
 Subject: [PATCH 062/105] HACK: vnc: Make pam optional
@@ -11,7 +11,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  3 files changed, 14 insertions(+), 4 deletions(-)
 
 diff --git a/frontend/main.c b/frontend/main.c
-index ae1af431..0ae0d32f 100644
+index ae1af43..0ae0d32 100644
 --- a/frontend/main.c
 +++ b/frontend/main.c
 @@ -3909,6 +3909,10 @@ load_vnc_backend(struct weston_compositor *c,
@@ -26,7 +26,7 @@ index ae1af431..0ae0d32f 100644
  
  	config.renderer = renderer;
 diff --git a/libweston/backend-vnc/vnc.c b/libweston/backend-vnc/vnc.c
-index 6cea3988..319c2814 100644
+index 6cea398..319c281 100644
 --- a/libweston/backend-vnc/vnc.c
 +++ b/libweston/backend-vnc/vnc.c
 @@ -1266,12 +1266,17 @@ vnc_backend_create(struct weston_compositor *compositor,
@@ -48,7 +48,7 @@ index 6cea3988..319c2814 100644
  		weston_log(
  			"warning: VNC enabled without Transport Layer "
 diff --git a/libweston/meson.build b/libweston/meson.build
-index c1c903c5..18dd4705 100644
+index c1c903c..18dd470 100644
 --- a/libweston/meson.build
 +++ b/libweston/meson.build
 @@ -96,13 +96,14 @@ endif
@@ -71,5 +71,5 @@ index c1c903c5..18dd4705 100644
  
  lib_weston = shared_library(
 -- 
-2.20.1
+2.39.5
 

@@ -1,4 +1,4 @@
-From 0427c594dab81fa323b20fb5ce9bae24b629acd2 Mon Sep 17 00:00:00 2001
+From 46d174238ebc43a2e928d3febbf4f550db0507ba Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 3 Dec 2018 10:40:16 +0800
 Subject: [PATCH 019/105] compositor: Support freezing display
@@ -17,7 +17,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 7 insertions(+)
 
 diff --git a/libweston/compositor.c b/libweston/compositor.c
-index 3d9f85ab..85da0d17 100644
+index 3d9f85a..85da0d1 100644
 --- a/libweston/compositor.c
 +++ b/libweston/compositor.c
 @@ -3965,6 +3965,12 @@ output_repaint_timer_handler(void *data)
@@ -42,5 +42,5 @@ index 3d9f85ab..85da0d17 100644
  
  	return 0;
 -- 
-2.20.1
+2.39.5
 

@@ -1,4 +1,4 @@
-From f900222a35a979db7c2b74da52a8c6eb65f6ea74 Mon Sep 17 00:00:00 2001
+From 795663879b18c09179fcf30cdcf7d0c0166aface Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 3 Jul 2020 12:37:37 +0800
 Subject: [PATCH 033/105] backend-drm: Support controlling compositor
@@ -33,7 +33,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  3 files changed, 85 insertions(+), 18 deletions(-)
 
 diff --git a/libweston/backend-drm/drm.c b/libweston/backend-drm/drm.c
-index 089d0d55..ee3db540 100644
+index 089d0d5..ee3db54 100644
 --- a/libweston/backend-drm/drm.c
 +++ b/libweston/backend-drm/drm.c
 @@ -112,32 +112,28 @@ drm_output_get_rotation(struct drm_output *output)
@@ -167,7 +167,7 @@ index 089d0d55..ee3db540 100644
  
  	fclose(conf_fp);
 diff --git a/libweston/compositor.c b/libweston/compositor.c
-index 6b52c3eb..7e07068d 100644
+index 6b52c3e..7e07068 100644
 --- a/libweston/compositor.c
 +++ b/libweston/compositor.c
 @@ -6208,6 +6208,10 @@ weston_compositor_wake(struct weston_compositor *compositor)
@@ -195,7 +195,7 @@ index 6b52c3eb..7e07068d 100644
  	default:
  		wl_event_source_timer_update(compositor->idle_source,
 diff --git a/libweston/libinput-seat.c b/libweston/libinput-seat.c
-index 4f33f9bb..aaefe6cf 100644
+index 4f33f9b..aaefe6c 100644
 --- a/libweston/libinput-seat.c
 +++ b/libweston/libinput-seat.c
 @@ -319,6 +319,10 @@ udev_input_enable(struct udev_input *input)
@@ -210,5 +210,5 @@ index 4f33f9bb..aaefe6cf 100644
  	fd = libinput_get_fd(input->libinput);
  	input->libinput_source =
 -- 
-2.20.1
+2.39.5
 

@@ -1,4 +1,4 @@
-From 08094b6f3bd404305e4bbfc7b09a84057fa67337 Mon Sep 17 00:00:00 2001
+From 5de3c4d9efbc0f872f3b7a983969cd3d61a74791 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 31 May 2024 18:49:02 +0800
 Subject: [PATCH 085/105] HACK: compositor: Fix crash when disabling output
@@ -14,7 +14,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 7 insertions(+), 1 deletion(-)
 
 diff --git a/libweston/compositor.c b/libweston/compositor.c
-index ba7d87d9..eac77984 100644
+index ba7d87d..eac7798 100644
 --- a/libweston/compositor.c
 +++ b/libweston/compositor.c
 @@ -2228,7 +2228,13 @@ weston_view_get_pos_offset_global(struct weston_view *view)
@@ -33,5 +33,5 @@ index ba7d87d9..eac77984 100644
  	out.c = view->geometry.pos_offset;
  
 -- 
-2.20.1
+2.39.5
 

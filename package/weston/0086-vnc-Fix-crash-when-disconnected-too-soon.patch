@@ -1,4 +1,4 @@
-From 4af85f27927cdaec2de513cdfa9d1ec22fdfb66c Mon Sep 17 00:00:00 2001
+From 64c4b01b7aa56eb2d04d51ac14aa223e3758c063 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 14 Jun 2024 15:44:42 +0800
 Subject: [PATCH 086/105] vnc: Fix crash when disconnected too soon
@@ -12,7 +12,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 44 insertions(+), 6 deletions(-)
 
 diff --git a/libweston/backend-vnc/vnc.c b/libweston/backend-vnc/vnc.c
-index 1589d283..bdbc6634 100644
+index 1589d28..bdbc663 100644
 --- a/libweston/backend-vnc/vnc.c
 +++ b/libweston/backend-vnc/vnc.c
 @@ -122,6 +122,9 @@ struct vnc_peer {
@@ -103,5 +103,5 @@ index 1589d283..bdbc6634 100644
  	 * Make up for repaints that were skipped when no clients were
  	 * connected.
 -- 
-2.20.1
+2.39.5
 

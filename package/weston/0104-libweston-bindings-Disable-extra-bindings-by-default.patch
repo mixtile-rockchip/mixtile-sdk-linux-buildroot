@@ -1,4 +1,4 @@
-From ac3e4cc68c0ad6cfe38d31faea1fc18e05d4a326 Mon Sep 17 00:00:00 2001
+From dc9ea2336ae35b016a8308aaeaca7a59b768216f Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 3 Mar 2025 12:20:21 +0800
 Subject: [PATCH 104/105] libweston: bindings: Disable extra bindings by
@@ -14,7 +14,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  2 files changed, 14 insertions(+), 1 deletion(-)
 
 diff --git a/libweston/bindings.c b/libweston/bindings.c
-index 4d2ad94f..3392efe6 100644
+index 4d2ad94..3392efe 100644
 --- a/libweston/bindings.c
 +++ b/libweston/bindings.c
 @@ -52,6 +52,9 @@ weston_compositor_add_binding(struct weston_compositor *compositor,
@@ -52,7 +52,7 @@ index 4d2ad94f..3392efe6 100644
  	wl_list_insert(compositor->debug_binding_list.prev, &binding->link);
  
 diff --git a/libweston/pixman-renderer.c b/libweston/pixman-renderer.c
-index da0f765a..775f4453 100644
+index da0f765..775f445 100644
 --- a/libweston/pixman-renderer.c
 +++ b/libweston/pixman-renderer.c
 @@ -1287,7 +1287,9 @@ pixman_renderer_destroy(struct weston_compositor *ec)
@@ -67,5 +67,5 @@ index da0f765a..775f4453 100644
  	weston_drm_format_array_fini(&pr->supported_formats);
  
 -- 
-2.20.1
+2.39.5
 

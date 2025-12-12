@@ -1,4 +1,4 @@
-From 901048c023cc1091b50ab8bb498604a59621af75 Mon Sep 17 00:00:00 2001
+From 4520041fcc03d4f4af80d5b5802998b4fc9cc1ed Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 28 Jul 2023 14:54:30 +0800
 Subject: [PATCH 066/105] desktop-shell: Support desktop launchers
@@ -13,7 +13,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 688 insertions(+), 12 deletions(-)
 
 diff --git a/clients/desktop-shell.c b/clients/desktop-shell.c
-index f88f63e6..fb32632c 100644
+index f88f63e..fb32632 100644
 --- a/clients/desktop-shell.c
 +++ b/clients/desktop-shell.c
 @@ -128,6 +128,8 @@ struct background {
@@ -847,5 +847,5 @@ index f88f63e6..fb32632c 100644
  }
  
 -- 
-2.20.1
+2.39.5
 

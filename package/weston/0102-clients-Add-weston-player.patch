@@ -1,4 +1,4 @@
-From eb3bb9b4a95e848bdfa06e1ab9cdf0994d7f0023 Mon Sep 17 00:00:00 2001
+From f8b9dc276e7ab658fc093e78f54a472721e79cd4 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 21 Feb 2025 12:45:22 +0800
 Subject: [PATCH 102/105] clients: Add weston-player
@@ -14,7 +14,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  create mode 100644 clients/player.c
 
 diff --git a/clients/meson.build b/clients/meson.build
-index 5b34df22..e5014ee2 100644
+index 5b34df2..e5014ee 100644
 --- a/clients/meson.build
 +++ b/clients/meson.build
 @@ -346,6 +346,10 @@ demo_clients = [
@@ -30,7 +30,7 @@ index 5b34df22..e5014ee2 100644
  if get_option('demo-clients')
 diff --git a/clients/player.c b/clients/player.c
 new file mode 100644
-index 00000000..f9f470de
+index 0000000..f9f470d
 --- /dev/null
 +++ b/clients/player.c
 @@ -0,0 +1,157 @@
@@ -192,5 +192,5 @@ index 00000000..f9f470de
 +	return 0;
 +}
 -- 
-2.20.1
+2.39.5
 

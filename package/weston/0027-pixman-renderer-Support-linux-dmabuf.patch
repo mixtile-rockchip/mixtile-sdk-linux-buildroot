@@ -1,4 +1,4 @@
-From 6c55651a60f464824919875c4a64b42b3577a95f Mon Sep 17 00:00:00 2001
+From 7091637a8f4e12141c7c5ea0355ad78b1730ff2d Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 3 Jul 2020 14:43:49 +0800
 Subject: [PATCH 027/105] pixman-renderer: Support linux dmabuf
@@ -11,7 +11,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 281 insertions(+), 6 deletions(-)
 
 diff --git a/libweston/pixman-renderer.c b/libweston/pixman-renderer.c
-index dedfb440..82854a22 100644
+index dedfb44..82854a2 100644
 --- a/libweston/pixman-renderer.c
 +++ b/libweston/pixman-renderer.c
 @@ -40,8 +40,14 @@
@@ -387,5 +387,5 @@ index dedfb440..82854a22 100644
  }
  
 -- 
-2.20.1
+2.39.5
 

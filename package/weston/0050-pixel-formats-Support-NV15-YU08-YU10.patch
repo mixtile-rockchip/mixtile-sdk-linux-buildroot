@@ -1,4 +1,4 @@
-From c5311da9b0c98dcf18d3e4a61f302ae3439ae966 Mon Sep 17 00:00:00 2001
+From 8e89c7d7e2ae38e3e61adca20f00088bf4c9c58b Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 7 Mar 2022 18:22:04 +0800
 Subject: [PATCH 050/105] pixel-formats: Support NV15/YU08/YU10
@@ -12,7 +12,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  2 files changed, 24 insertions(+)
 
 diff --git a/libweston/pixel-formats.c b/libweston/pixel-formats.c
-index 0fe329be..62335133 100644
+index 0fe329b..6233513 100644
 --- a/libweston/pixel-formats.c
 +++ b/libweston/pixel-formats.c
 @@ -637,6 +637,18 @@ static const struct pixel_format_info pixel_format_table[] = {
@@ -35,7 +35,7 @@ index 0fe329be..62335133 100644
  
  WL_EXPORT const struct pixel_format_info *
 diff --git a/shared/weston-drm-fourcc.h b/shared/weston-drm-fourcc.h
-index 31d80398..be9eaf68 100644
+index 31d8039..be9eaf6 100644
 --- a/shared/weston-drm-fourcc.h
 +++ b/shared/weston-drm-fourcc.h
 @@ -34,6 +34,18 @@
@@ -58,5 +58,5 @@ index 31d80398..be9eaf68 100644
   * some of the definitions here so that building Weston won't require
   * bleeding-edge kernel headers.
 -- 
-2.20.1
+2.39.5
 

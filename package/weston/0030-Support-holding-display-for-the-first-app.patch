@@ -1,4 +1,4 @@
-From 8d78e775817c85a52a6ea3cf48d2587c112c392d Mon Sep 17 00:00:00 2001
+From e9065006996f1d094039564adbb9953a3a90f6ce Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 3 Jul 2020 10:20:40 +0800
 Subject: [PATCH 030/105] Support holding display for the first app
@@ -13,7 +13,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  3 files changed, 26 insertions(+)
 
 diff --git a/frontend/main.c b/frontend/main.c
-index 827ac62c..ed15e3d0 100644
+index 827ac62..ed15e3d 100644
 --- a/frontend/main.c
 +++ b/frontend/main.c
 @@ -731,6 +731,7 @@ usage(int error_code)
@@ -56,7 +56,7 @@ index 827ac62c..ed15e3d0 100644
  	weston_compositor_log_capabilities(wet.compositor);
  
 diff --git a/include/libweston/libweston.h b/include/libweston/libweston.h
-index 5342af89..ba961a86 100644
+index 99083dc..193323e 100644
 --- a/include/libweston/libweston.h
 +++ b/include/libweston/libweston.h
 @@ -1653,6 +1653,8 @@ struct weston_compositor {
@@ -69,7 +69,7 @@ index 5342af89..ba961a86 100644
  
  struct weston_solid_buffer_values {
 diff --git a/libweston/compositor.c b/libweston/compositor.c
-index d5e4b4e9..97fdf65c 100644
+index d5e4b4e..97fdf65 100644
 --- a/libweston/compositor.c
 +++ b/libweston/compositor.c
 @@ -3715,7 +3715,14 @@ weston_compositor_build_view_list(struct weston_compositor *compositor)
@@ -104,5 +104,5 @@ index d5e4b4e9..97fdf65c 100644
  			 z_order_link) {
  		assert(pnode->view->output_mask & (1u << pnode->output->id));
 -- 
-2.20.1
+2.39.5
 

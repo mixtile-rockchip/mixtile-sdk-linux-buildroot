@@ -1,7 +1,7 @@
-From e7679a44a99bfc00727a1e38ed7fc30293a9b6f2 Mon Sep 17 00:00:00 2001
+From b6c71ead0cccfa08167c02ef2e9e1979dbfed575 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 18 Jul 2023 10:33:55 +0800
-Subject: [PATCH 2/3] wayland-client: Support waiting for socket when
+Subject: [PATCH 2/4] wayland-client: Support waiting for socket when
  connecting
 
 Set WAYLAND_WAIT=1 to enable it.
@@ -43,5 +43,5 @@ index ef305c3..e64323b 100644
  		return -1;
  	}
 -- 
-2.20.1
+2.39.5
 

@@ -1,4 +1,4 @@
-From c44ca9b80c76777b44a0bc97078fdeaef460c1ee Mon Sep 17 00:00:00 2001
+From c43541031735c076ab586e21bf395e74712712cf Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 19 Oct 2020 18:13:23 +0800
 Subject: [PATCH 013/105] HACK: xdg-shell: Don't abort when client size
@@ -13,7 +13,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 12 insertions(+), 26 deletions(-)
 
 diff --git a/libweston/desktop/xdg-shell.c b/libweston/desktop/xdg-shell.c
-index f1942663..6cad04c8 100644
+index f194266..6cad04c 100644
 --- a/libweston/desktop/xdg-shell.c
 +++ b/libweston/desktop/xdg-shell.c
 @@ -753,37 +753,23 @@ weston_desktop_xdg_toplevel_committed(struct weston_desktop_xdg_toplevel *toplev
@@ -67,5 +67,5 @@ index f1942663..6cad04c8 100644
  
  	toplevel->current.state = toplevel->next.state;
 -- 
-2.20.1
+2.39.5
 

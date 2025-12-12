@@ -1,4 +1,4 @@
-From 03efb73b59e61694a7d57e6a03c683fac0d979df Mon Sep 17 00:00:00 2001
+From f16372df199e43156b56672c10a1f8104993b2d4 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 27 Feb 2019 17:06:58 +0800
 Subject: [PATCH 016/105] HACK: xdg-shell: Support setting window position
@@ -16,7 +16,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  6 files changed, 37 insertions(+)
 
 diff --git a/desktop-shell/shell.c b/desktop-shell/shell.c
-index 0801b94c..a1238f07 100644
+index 0801b94..a1238f0 100644
 --- a/desktop-shell/shell.c
 +++ b/desktop-shell/shell.c
 @@ -4052,6 +4052,13 @@ weston_view_set_initial_position(struct weston_view *view,
@@ -34,7 +34,7 @@ index 0801b94c..a1238f07 100644
  	 * pointer. Falling back to the output containing 0, 0.
  	 *
 diff --git a/include/libweston/desktop.h b/include/libweston/desktop.h
-index a4d5aeda..7d6ee214 100644
+index a4d5aed..7d6ee21 100644
 --- a/include/libweston/desktop.h
 +++ b/include/libweston/desktop.h
 @@ -177,6 +177,10 @@ weston_desktop_surface_set_size(struct weston_desktop_surface *surface,
@@ -49,7 +49,7 @@ index a4d5aeda..7d6ee214 100644
  weston_desktop_surface_close(struct weston_desktop_surface *surface);
  void
 diff --git a/include/libweston/libweston.h b/include/libweston/libweston.h
-index 4d3930d5..731eb57c 100644
+index 4d3930d..731eb57 100644
 --- a/include/libweston/libweston.h
 +++ b/include/libweston/libweston.h
 @@ -1802,6 +1802,8 @@ struct weston_view {
@@ -62,7 +62,7 @@ index 4d3930d5..731eb57c 100644
  	 * This is updated by weston_view_update_transform().
  	 */
 diff --git a/libweston/compositor.c b/libweston/compositor.c
-index 84c25b6f..b940ad39 100644
+index 84c25b6..b940ad3 100644
 --- a/libweston/compositor.c
 +++ b/libweston/compositor.c
 @@ -2095,6 +2095,8 @@ weston_view_set_position(struct weston_view *view,
@@ -75,7 +75,7 @@ index 84c25b6f..b940ad39 100644
  	    view->geometry.pos_offset.y == pos.c.y)
  		return;
 diff --git a/libweston/desktop/surface.c b/libweston/desktop/surface.c
-index 7535e1be..ba2aa15e 100644
+index 7535e1b..ba2aa15 100644
 --- a/libweston/desktop/surface.c
 +++ b/libweston/desktop/surface.c
 @@ -747,6 +747,18 @@ weston_desktop_surface_get_min_size(struct weston_desktop_surface *surface)
@@ -98,7 +98,7 @@ index 7535e1be..ba2aa15e 100644
  weston_desktop_surface_set_title(struct weston_desktop_surface *surface,
  				 const char *title)
 diff --git a/libweston/desktop/xdg-shell.c b/libweston/desktop/xdg-shell.c
-index 6cad04c8..4a896057 100644
+index 6cad04c..4a89605 100644
 --- a/libweston/desktop/xdg-shell.c
 +++ b/libweston/desktop/xdg-shell.c
 @@ -1409,6 +1409,16 @@ weston_desktop_xdg_surface_protocol_set_window_geometry(struct wl_client *wl_cli
@@ -119,5 +119,5 @@ index 6cad04c8..4a896057 100644
  		return;
  
 -- 
-2.20.1
+2.39.5
 

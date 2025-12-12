@@ -1,4 +1,4 @@
-From a848a5e79866ae91a5fbbfaa823ac61bb91eed3f Mon Sep 17 00:00:00 2001
+From 3948619e63ef693420b2053ca2ae8c0bb9276bd8 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 1 Jun 2022 11:28:24 +0800
 Subject: [PATCH 055/105] desktop-shell: Delay locking when having pending
@@ -11,7 +11,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  2 files changed, 14 insertions(+), 1 deletion(-)
 
 diff --git a/desktop-shell/shell.c b/desktop-shell/shell.c
-index b8158344..91063ec4 100644
+index fdd58b1..b0b8f65 100644
 --- a/desktop-shell/shell.c
 +++ b/desktop-shell/shell.c
 @@ -3906,6 +3906,10 @@ static void
@@ -45,7 +45,7 @@ index b8158344..91063ec4 100644
  		shell->fade.animation =
  			weston_fade_run(shell->fade.curtain->view,
  					1.0 - tint, tint,
-@@ -4917,6 +4925,9 @@ shell_destroy(struct wl_listener *listener, void *data)
+@@ -4927,6 +4935,9 @@ shell_destroy(struct wl_listener *listener, void *data)
  	if (shell->fade.animation) {
  		weston_view_animation_destroy(shell->fade.animation);
  		shell->fade.animation = NULL;
@@ -56,7 +56,7 @@ index b8158344..91063ec4 100644
  
  	if (shell->fade.curtain) {
 diff --git a/include/libweston/libweston.h b/include/libweston/libweston.h
-index a286c21f..576a34cb 100644
+index 15ff1d1..ef2e781 100644
 --- a/include/libweston/libweston.h
 +++ b/include/libweston/libweston.h
 @@ -1658,6 +1658,8 @@ struct weston_compositor {
@@ -69,5 +69,5 @@ index a286c21f..576a34cb 100644
  
  struct weston_solid_buffer_values {
 -- 
-2.20.1
+2.39.5
 

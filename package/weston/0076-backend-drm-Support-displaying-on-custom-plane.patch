@@ -1,4 +1,4 @@
-From 1fd9726893938a9d50a1bd8e99857d50649f3904 Mon Sep 17 00:00:00 2001
+From 89a63c6e49efa317db2c93360443783554f96770 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 4 Jan 2024 10:50:02 +0800
 Subject: [PATCH 076/105] backend-drm: Support displaying on custom plane
@@ -20,7 +20,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  3 files changed, 102 insertions(+), 9 deletions(-)
 
 diff --git a/libweston/backend-drm/drm-internal.h b/libweston/backend-drm/drm-internal.h
-index 28584f12..a236d237 100644
+index 28584f1..a236d23 100644
 --- a/libweston/backend-drm/drm-internal.h
 +++ b/libweston/backend-drm/drm-internal.h
 @@ -612,6 +612,7 @@ struct drm_output {
@@ -32,7 +32,7 @@ index 28584f12..a236d237 100644
  	/* The last state submitted to the kernel for this CRTC. */
  	struct drm_output_state *state_cur;
 diff --git a/libweston/backend-drm/drm.c b/libweston/backend-drm/drm.c
-index fd2f1750..f7939d9a 100644
+index fd2f175..f7939d9 100644
 --- a/libweston/backend-drm/drm.c
 +++ b/libweston/backend-drm/drm.c
 @@ -377,6 +377,9 @@ drm_output_get_disable_state(struct drm_pending_state *pending_state,
@@ -172,7 +172,7 @@ index fd2f1750..f7939d9a 100644
  	drmModeSetCrtc(crtc->device->drm.fd,
  		       crtc->crtc_id, 0, 0, 0, NULL, 0, NULL);
 diff --git a/libweston/backend-drm/kms.c b/libweston/backend-drm/kms.c
-index 6f730aa3..2bd5da4f 100644
+index 6f730aa..2bd5da4 100644
 --- a/libweston/backend-drm/kms.c
 +++ b/libweston/backend-drm/kms.c
 @@ -890,6 +890,12 @@ drm_output_apply_state_legacy(struct drm_output_state *state)
@@ -240,5 +240,5 @@ index 6f730aa3..2bd5da4f 100644
  			    scanout_state->fb->fb_id,
  			    DRM_MODE_PAGE_FLIP_EVENT, output) < 0) {
 -- 
-2.20.1
+2.39.5
 

@@ -1,4 +1,4 @@
-From c31ad41ba0ac68cf01c883df9a84bfd28d1e1217 Mon Sep 17 00:00:00 2001
+From 608a13705fa6245159af7e61a91b41d5c119295b Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 21 Feb 2025 16:06:42 +0800
 Subject: [PATCH 103/105] desktop-shell: Improve command parsing
@@ -16,7 +16,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 34 insertions(+), 16 deletions(-)
 
 diff --git a/shared/process-util.c b/shared/process-util.c
-index fe895d23..2586f880 100644
+index fe895d2..2586f88 100644
 --- a/shared/process-util.c
 +++ b/shared/process-util.c
 @@ -176,6 +176,14 @@ custom_env_add_from_exec_string(struct custom_env *env, const char *exec_str)
@@ -92,5 +92,5 @@ index fe895d23..2586f880 100644
  
  	free(dup_path);
 -- 
-2.20.1
+2.39.5
 

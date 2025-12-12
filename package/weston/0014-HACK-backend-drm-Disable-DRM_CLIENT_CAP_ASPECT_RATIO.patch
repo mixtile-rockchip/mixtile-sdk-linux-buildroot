@@ -1,4 +1,4 @@
-From e1e33e78e0cac6497bf474f89b48fb7ddac58edf Mon Sep 17 00:00:00 2001
+From adcf8f17a4a352dc8321265ece66820cf0d9e5c7 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 23 Jun 2020 17:17:13 +0800
 Subject: [PATCH 014/105] HACK: backend-drm: Disable
@@ -12,7 +12,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 5 insertions(+)
 
 diff --git a/libweston/backend-drm/kms.c b/libweston/backend-drm/kms.c
-index d6be1efc..c6d99762 100644
+index d6be1ef..c6d9976 100644
 --- a/libweston/backend-drm/kms.c
 +++ b/libweston/backend-drm/kms.c
 @@ -29,6 +29,8 @@
@@ -39,5 +39,5 @@ index d6be1efc..c6d99762 100644
  	return 0;
  }
 -- 
-2.20.1
+2.39.5
 

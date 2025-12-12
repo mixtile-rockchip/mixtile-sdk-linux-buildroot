@@ -1,4 +1,4 @@
-From d87a69fe6a245e6c1f5ea90ede956ecebdd230e5 Mon Sep 17 00:00:00 2001
+From ed81565101572468f41f7dab620de52a0237db5f Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 23 Mar 2021 22:34:54 +0800
 Subject: [PATCH 041/105] desktop-shell: Disable fullscreen black background by
@@ -15,7 +15,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 25 insertions(+), 19 deletions(-)
 
 diff --git a/desktop-shell/shell.c b/desktop-shell/shell.c
-index 971f07ca..621cbbfa 100644
+index ab244f5..7edff58 100644
 --- a/desktop-shell/shell.c
 +++ b/desktop-shell/shell.c
 @@ -1908,16 +1908,6 @@ shell_set_view_fullscreen(struct shell_surface *shsurf)
@@ -73,7 +73,7 @@ index 971f07ca..621cbbfa 100644
  }
  
  static void
-@@ -4387,7 +4391,9 @@ switcher_next(struct switcher *switcher)
+@@ -4397,7 +4401,9 @@ switcher_next(struct switcher *switcher)
  		weston_view_set_alpha(view, 1.0);
  
  	shsurf = get_shell_surface(switcher->current->surface);
@@ -85,5 +85,5 @@ index 971f07ca..621cbbfa 100644
  }
  
 -- 
-2.20.1
+2.39.5
 

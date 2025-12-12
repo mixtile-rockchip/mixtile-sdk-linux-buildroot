@@ -1,4 +1,4 @@
-From 6cce7c26e1a9babfdd09abace287901da328a13c Mon Sep 17 00:00:00 2001
+From fb2d9242b4c99db6222cafc3108c23e5b53b611e Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 23 Sep 2022 17:24:12 +0800
 Subject: [PATCH 060/105] HACK: Honour cursor-size config
@@ -17,7 +17,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  7 files changed, 74 insertions(+), 7 deletions(-)
 
 diff --git a/frontend/main.c b/frontend/main.c
-index 177db6ad..ae1af431 100644
+index 177db6a..ae1af43 100644
 --- a/frontend/main.c
 +++ b/frontend/main.c
 @@ -4807,6 +4807,8 @@ wet_main(int argc, char *argv[], const struct weston_testsuite_data *test_data)
@@ -30,7 +30,7 @@ index 177db6ad..ae1af431 100644
  	if (argc > 1 && strcmp(argv[1], "--") == 0) {
  		/* remove the '--' entry and move up the rest */
 diff --git a/include/libweston/libweston.h b/include/libweston/libweston.h
-index 576a34cb..d4ec323d 100644
+index ef2e781..b0bf8c9 100644
 --- a/include/libweston/libweston.h
 +++ b/include/libweston/libweston.h
 @@ -916,6 +916,8 @@ struct weston_pointer {
@@ -61,7 +61,7 @@ index 576a34cb..d4ec323d 100644
  		/*
  		 * If src_width != wl_fixed_from_int(-1),
 diff --git a/libweston/backend-drm/drm.c b/libweston/backend-drm/drm.c
-index 10d6ae5c..87c488b3 100644
+index 10d6ae5..87c488b 100644
 --- a/libweston/backend-drm/drm.c
 +++ b/libweston/backend-drm/drm.c
 @@ -5025,6 +5025,11 @@ drm_backend_create(struct weston_compositor *compositor,
@@ -77,7 +77,7 @@ index 10d6ae5c..87c488b3 100644
  	if (!res) {
  		weston_log("Failed to get drmModeRes\n");
 diff --git a/libweston/backend-drm/state-propose.c b/libweston/backend-drm/state-propose.c
-index bd9f8b4c..7df4d6f0 100644
+index bd9f8b4..7df4d6f 100644
 --- a/libweston/backend-drm/state-propose.c
 +++ b/libweston/backend-drm/state-propose.c
 @@ -215,10 +215,8 @@ drm_output_prepare_cursor_paint_node(struct drm_output_state *output_state,
@@ -140,7 +140,7 @@ index bd9f8b4c..7df4d6f0 100644
  	drm_plane_state_put_back(plane_state);
  	return NULL;
 diff --git a/libweston/compositor.c b/libweston/compositor.c
-index 2fa16489..eb95fa36 100644
+index 2fa1648..eb95fa3 100644
 --- a/libweston/compositor.c
 +++ b/libweston/compositor.c
 @@ -2572,7 +2572,7 @@ WESTON_EXPORT_FOR_TESTS void
@@ -153,7 +153,7 @@ index 2fa16489..eb95fa36 100644
  	assert(scale > 0);
  
 diff --git a/libweston/input.c b/libweston/input.c
-index 122d0b72..18575723 100644
+index 122d0b7..1857572 100644
 --- a/libweston/input.c
 +++ b/libweston/input.c
 @@ -2195,6 +2195,8 @@ weston_pointer_move_to(struct weston_pointer *pointer,
@@ -219,7 +219,7 @@ index 122d0b72..18575723 100644
  }
  
 diff --git a/libweston/libweston-internal.h b/libweston/libweston-internal.h
-index 0935da89..0837e0aa 100644
+index 0935da8..0837e0a 100644
 --- a/libweston/libweston-internal.h
 +++ b/libweston/libweston-internal.h
 @@ -653,7 +653,7 @@ void
@@ -232,5 +232,5 @@ index 0935da89..0837e0aa 100644
  /* User authentication for remote backends */
  
 -- 
-2.20.1
+2.39.5
 

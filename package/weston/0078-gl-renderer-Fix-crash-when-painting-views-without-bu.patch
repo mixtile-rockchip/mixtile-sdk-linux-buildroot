@@ -1,4 +1,4 @@
-From 2c2e3366784122ef27cbce2d233142b39ec721ca Mon Sep 17 00:00:00 2001
+From 297d8725835f6a09e46ee05b28dc610987f56e5e Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 5 Dec 2022 16:48:12 +0800
 Subject: [PATCH 078/105] gl-renderer: Fix crash when painting views without
@@ -12,7 +12,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 3 insertions(+)
 
 diff --git a/libweston/renderer-gl/gl-renderer.c b/libweston/renderer-gl/gl-renderer.c
-index 3902719c..6e9ca246 100644
+index 3902719..6e9ca24 100644
 --- a/libweston/renderer-gl/gl-renderer.c
 +++ b/libweston/renderer-gl/gl-renderer.c
 @@ -1622,6 +1622,9 @@ draw_paint_node(struct weston_paint_node *pnode,
@@ -26,5 +26,5 @@ index 3902719c..6e9ca246 100644
  	    !buffer->direct_display)
  		return;
 -- 
-2.20.1
+2.39.5
 

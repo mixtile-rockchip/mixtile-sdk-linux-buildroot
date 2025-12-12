@@ -1,4 +1,4 @@
-From e433e80f28508fe6ef330ed165c56694d39c0d9c Mon Sep 17 00:00:00 2001
+From 26c22bfbd835e7348d1a76b871401a7a06cc8f13 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 6 Dec 2018 18:53:05 +0800
 Subject: [PATCH 018/105] HACK: gl-renderer: Workaround dmabuf import/attach
@@ -14,7 +14,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  2 files changed, 14 insertions(+), 1 deletion(-)
 
 diff --git a/libweston/renderer-gl/gl-renderer-internal.h b/libweston/renderer-gl/gl-renderer-internal.h
-index 938aa30b..703f88be 100644
+index 938aa30..703f88b 100644
 --- a/libweston/renderer-gl/gl-renderer-internal.h
 +++ b/libweston/renderer-gl/gl-renderer-internal.h
 @@ -305,6 +305,8 @@ struct gl_renderer {
@@ -27,7 +27,7 @@ index 938aa30b..703f88be 100644
  
  static inline struct gl_renderer *
 diff --git a/libweston/renderer-gl/gl-renderer.c b/libweston/renderer-gl/gl-renderer.c
-index e960954e..4c836ea1 100644
+index e960954..4c836ea 100644
 --- a/libweston/renderer-gl/gl-renderer.c
 +++ b/libweston/renderer-gl/gl-renderer.c
 @@ -3062,6 +3062,14 @@ import_simple_dmabuf(struct gl_renderer *gr,
@@ -65,5 +65,5 @@ index e960954e..4c836ea1 100644
  	weston_log("EGL client APIs: %s\n", str ? str : "(null)");
  
 -- 
-2.20.1
+2.39.5
 

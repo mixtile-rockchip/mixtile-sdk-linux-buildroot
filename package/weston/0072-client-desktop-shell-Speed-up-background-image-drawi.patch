@@ -1,4 +1,4 @@
-From 03a46d3a7e982df89f5f4b5fc3bbe5b61f721f97 Mon Sep 17 00:00:00 2001
+From 624aec8ef70f9ccc4b574fceeca498a663367ee5 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 12 Dec 2023 10:21:42 +0800
 Subject: [PATCH 072/105] client: desktop-shell: Speed up background image
@@ -12,7 +12,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 13 insertions(+), 16 deletions(-)
 
 diff --git a/clients/desktop-shell.c b/clients/desktop-shell.c
-index fb32632c..30292dfe 100644
+index fb32632..30292df 100644
 --- a/clients/desktop-shell.c
 +++ b/clients/desktop-shell.c
 @@ -893,7 +893,6 @@ background_draw(struct widget *widget, void *data)
@@ -81,5 +81,5 @@ index fb32632c..30292dfe 100644
  
  	cairo_destroy(cr);
 -- 
-2.20.1
+2.39.5
 

@@ -1,4 +1,4 @@
-From 059a0f3fa19b1720b07be148bf2860e2e29d5658 Mon Sep 17 00:00:00 2001
+From 8d269c0d3522a97a8d581e521996229e096f4c40 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 31 May 2024 14:53:16 +0800
 Subject: [PATCH 084/105] HACK: vnc: Support dynamically enabling and disabling
@@ -14,7 +14,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 42 insertions(+), 3 deletions(-)
 
 diff --git a/libweston/backend-vnc/vnc.c b/libweston/backend-vnc/vnc.c
-index 574b6994..1589d283 100644
+index 574b699..1589d28 100644
 --- a/libweston/backend-vnc/vnc.c
 +++ b/libweston/backend-vnc/vnc.c
 @@ -30,6 +30,7 @@
@@ -133,5 +133,5 @@ index 574b6994..1589d283 100644
  
  err_output:
 -- 
-2.20.1
+2.39.5
 

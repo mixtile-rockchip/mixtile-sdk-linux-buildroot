@@ -1,4 +1,4 @@
-From 3d7a7e34320ea17c17d775000f9615350872d776 Mon Sep 17 00:00:00 2001
+From f244ad5f6388c6200ba8fd8d6280e1410121450d Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 19 Aug 2024 12:13:00 +0800
 Subject: [PATCH 095/105] desktop-shell: Fix focus count error after seat
@@ -10,7 +10,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 6 insertions(+)
 
 diff --git a/desktop-shell/shell.c b/desktop-shell/shell.c
-index 75547d75..a34ac37d 100644
+index 84b12d7..d8b6d1d 100644
 --- a/desktop-shell/shell.c
 +++ b/desktop-shell/shell.c
 @@ -1950,6 +1950,12 @@ shell_set_view_fullscreen(struct shell_surface *shsurf)
@@ -27,5 +27,5 @@ index 75547d75..a34ac37d 100644
  	wl_list_remove(&shseat->keyboard_focus_listener.link);
  	wl_list_remove(&shseat->caps_changed_listener.link);
 -- 
-2.20.1
+2.39.5
 
