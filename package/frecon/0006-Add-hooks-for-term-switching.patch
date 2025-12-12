@@ -1,7 +1,7 @@
-From 3517abf47ddeb677c73866197db3917d21ac5f3e Mon Sep 17 00:00:00 2001
+From f10e8fdbf111f32971ca22c1163075819dc2b829 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 10 Jun 2022 11:44:04 +0800
-Subject: [PATCH 06/11] Add hooks for term switching
+Subject: [PATCH 06/13] Add hooks for term switching
 
 term foreground: /etc/frecon/term-switch on
 term background: /etc/frecon/term-switch off
@@ -45,5 +45,5 @@ index c48bdb4..c068d03 100644
  		hotplug_occured = false;
  		term_monitor_hotplug();
 -- 
-2.20.1
+2.39.5
 

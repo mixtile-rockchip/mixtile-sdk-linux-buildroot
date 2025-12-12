@@ -1,7 +1,7 @@
-From c059da177bf549cc212c08bc4d1c526320ff9175 Mon Sep 17 00:00:00 2001
+From e74eea99398ddda6754486123e4e9d8412c0ce35 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 10 Jun 2022 12:16:21 +0800
-Subject: [PATCH 04/11] HACK: Simplify for Rockchip Platform
+Subject: [PATCH 04/13] HACK: Simplify for Rockchip Platform
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---
@@ -365,5 +365,5 @@ index 56f4da5..e5ee1c6 100644
  		hotplug_occured = false;
  		term_monitor_hotplug();
 -- 
-2.20.1
+2.39.5
 

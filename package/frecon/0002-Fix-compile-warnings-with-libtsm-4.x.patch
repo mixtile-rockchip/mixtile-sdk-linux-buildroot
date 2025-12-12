@@ -1,7 +1,7 @@
-From c6f38045398f12151d37f41b86cac89322d1a5b0 Mon Sep 17 00:00:00 2001
+From 6ba778a22c6ef3aded722019f042140c52ac3956 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 10 Jun 2022 16:39:32 +0800
-Subject: [PATCH 02/11] Fix compile warnings with libtsm 4.x
+Subject: [PATCH 02/13] Fix compile warnings with libtsm 4.x
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---
@@ -31,5 +31,5 @@ index c66f088..d843dd1 100644
  {
  	terminal_t* terminal = (terminal_t*)data;
 -- 
-2.20.1
+2.39.5
 

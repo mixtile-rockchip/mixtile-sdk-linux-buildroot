@@ -1,7 +1,7 @@
-From 34e8418e53b2879ad1b0c7d21cc2ed2a3c451458 Mon Sep 17 00:00:00 2001
+From ff4c736c89c7bc6fb33c45348894efeac0f23183 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 13 Sep 2023 10:55:24 +0800
-Subject: [PATCH 10/11] Support enabling features by env
+Subject: [PATCH 10/13] Support enabling features by env
 
 Add support for env FRECON_SHELL, FRECON_VTS and FRECON_VT1.
 
@@ -105,5 +105,5 @@ index 8e51320..200a663 100644
  		LOG(ERROR, "set_current: larger than array size");
  	else
 -- 
-2.20.1
+2.39.5
 

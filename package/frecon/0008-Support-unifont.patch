@@ -1,7 +1,7 @@
-From 1ba76fe263f4667e7709b1d6401d3c3063b2c76a Mon Sep 17 00:00:00 2001
+From 9484534f6119a3f3bad4be19a2ea3051205f96fe Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 10 Jun 2022 18:36:00 +0800
-Subject: [PATCH 08/11] Support unifont
+Subject: [PATCH 08/13] Support unifont
 
 https://ftp.gnu.org/gnu/unifont/unifont-14.0.04/unifont-14.0.04.bdf.gz
 
@@ -1313197,5 +1313197,5 @@ index 0000000..6b919f0
 +unifont-14.0.04.bdf
 \ No newline at end of file
 -- 
-2.20.1
+2.39.5
 

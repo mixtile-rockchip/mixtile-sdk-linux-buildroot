@@ -1,7 +1,7 @@
-From 3b07208b71fb06c796d79c4abc5f55f22b02cd13 Mon Sep 17 00:00:00 2001
+From 3678445c84cdfa59eb3288ee6e6c6cb9ea80ac3c Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 9 Jun 2022 17:00:32 +0800
-Subject: [PATCH 05/11] Support using shell instead of getty
+Subject: [PATCH 05/13] Support using shell instead of getty
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---
@@ -58,5 +58,5 @@ index e5ee1c6..c48bdb4 100644
  static bool in_background = false;
  static bool hotplug_occured = false;
 -- 
-2.20.1
+2.39.5
 

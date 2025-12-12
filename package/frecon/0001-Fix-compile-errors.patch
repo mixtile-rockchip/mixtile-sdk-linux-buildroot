@@ -1,7 +1,7 @@
-From 1fba3823818418d50e5e8397031373c34e7baac8 Mon Sep 17 00:00:00 2001
+From 746b37ef769d790bd4468bf70e4b826d95853332 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 9 Jun 2022 16:15:07 +0800
-Subject: [PATCH 01/11] Fix compile errors
+Subject: [PATCH 01/13] Fix compile errors
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---
@@ -68,5 +68,5 @@ index 77219c2..9bb2599 100644
  	int r;
  
 -- 
-2.20.1
+2.39.5
 

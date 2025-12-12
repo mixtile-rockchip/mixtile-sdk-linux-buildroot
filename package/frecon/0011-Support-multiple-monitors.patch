@@ -1,7 +1,7 @@
-From 027b04dc44b82447ca6c2760e67320831fba726a Mon Sep 17 00:00:00 2001
+From 782ec8735ac185f33d3a9023013775509543f7fd Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 28 Feb 2024 18:05:41 +0800
-Subject: [PATCH 11/11] Support multiple monitors
+Subject: [PATCH 11/13] Support multiple monitors
 
 Tested on RK3588 EVB with:
 1/ FRECON_OUTPUT_CONFIG=fit:270:1280x800,DSI-1=:90: frecon
@@ -1648,5 +1648,5 @@ index 5187531..e67bb87 100644
  	if (command_flags.pre_create_vts) {
  		for (unsigned vt = 1;
 -- 
-2.20.1
+2.39.5
 
