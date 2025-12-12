@@ -14,4 +14,5 @@ BR2_PACKAGE_LOCKFILE_PROGS=y
 # BR2_PACKAGE_ROCKCHIP_ALSA_CONFIG is reset to default
 # BR2_PACKAGE_USBMOUNT is reset to default
 BR2_STRIP_EXCLUDE_FILES="rk_demo librkadk.so libgraphic_lsf.so librockit.so librkaudio.so librkdemuxer.so librkmuxer.so"
+BR2_TIME_BITS_64=y
 BR2_TARGET_GENERIC_HOSTNAME="rk3308_32"
