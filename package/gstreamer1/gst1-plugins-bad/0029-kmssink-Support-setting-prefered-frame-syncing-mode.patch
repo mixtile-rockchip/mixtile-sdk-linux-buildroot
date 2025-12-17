@@ -1,4 +1,4 @@
-From e86c8d21c021f0a9e8d3fa86b01c733d658b5311 Mon Sep 17 00:00:00 2001
+From b21089b2921cbf41a2e07c8f51da5230e10c7641 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 25 Feb 2022 17:48:58 +0800
 Subject: [PATCH 29/43] kmssink: Support setting prefered frame syncing mode
@@ -241,5 +241,5 @@ index 21e998d..bb553c4 100644
  
  struct _GstKMSSinkClass {
 -- 
-2.20.1
+2.39.5
 

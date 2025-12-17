@@ -1,4 +1,4 @@
-From c650a9036c13b357fd43a074164377c8087945a0 Mon Sep 17 00:00:00 2001
+From 7c94fe9beabf1e10f3b188bbc36ac5d4b8636ad3 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 15 Sep 2022 18:01:12 +0800
 Subject: [PATCH 30/43] kmssink: Support scaling in modesetting
@@ -318,5 +318,5 @@ index bb553c4..0a08637 100644
    GstStructure *connector_props;
    GstStructure *plane_props;
 -- 
-2.20.1
+2.39.5
 

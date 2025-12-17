@@ -1,4 +1,4 @@
-From 8f374dc61c32bd5871944db4cc3876929db9752c Mon Sep 17 00:00:00 2001
+From 6da9fc22f7e7aa8c793c0c3e3885261946c3e12d Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 12 Nov 2021 11:14:37 +0800
 Subject: [PATCH 20/43] waylandsink: Support NV12_10LE40 NV16_10LE40 and
@@ -462,7 +462,7 @@ index 877223b..7155e00 100644
  #endif
  
 diff --git a/gst-libs/gst/wayland/gstwlwindow.c b/gst-libs/gst/wayland/gstwlwindow.c
-index ad515af..ba17d9f 100644
+index e6f98a7..0cde0be 100644
 --- a/gst-libs/gst/wayland/gstwlwindow.c
 +++ b/gst-libs/gst/wayland/gstwlwindow.c
 @@ -67,6 +67,9 @@ typedef struct _GstWlWindowPrivate
@@ -505,7 +505,7 @@ index ad515af..ba17d9f 100644
  void
  gst_wl_window_ensure_fill_mode (GstWlWindow * self,
      GstWlWindowFillMode fill_mode)
-@@ -557,16 +583,28 @@ gst_wl_window_resize_video_surface (GstWlWindow * self, gboolean commit)
+@@ -555,16 +581,28 @@ gst_wl_window_resize_video_surface (GstWlWindow * self, gboolean commit)
    gint64 video_x = 0, video_y = 0;
    gint64 video_width = priv->video_width;
    gint64 video_height = priv->video_height;
@@ -535,8 +535,8 @@ index ad515af..ba17d9f 100644
 +      src.y = video_y;
        src.w = scaled_width;
        src.h = video_height;
-       wp_src_width = priv->video_width;
-@@ -576,6 +614,8 @@ gst_wl_window_resize_video_surface (GstWlWindow * self, gboolean commit)
+       break;
+@@ -572,6 +610,8 @@ gst_wl_window_resize_video_surface (GstWlWindow * self, gboolean commit)
      case WL_OUTPUT_TRANSFORM_270:
      case WL_OUTPUT_TRANSFORM_FLIPPED_90:
      case WL_OUTPUT_TRANSFORM_FLIPPED_270:
@@ -544,8 +544,8 @@ index ad515af..ba17d9f 100644
 +      src.y = video_x;
        src.w = video_height;
        src.h = scaled_width;
-       wp_src_width = priv->video_height;
-@@ -712,6 +752,8 @@ gst_wl_window_commit_buffer (GstWlWindow * self, GstWlBuffer * buffer)
+       swapped = TRUE;
+@@ -706,6 +746,8 @@ gst_wl_window_commit_buffer (GstWlWindow * self, GstWlBuffer * buffer)
      wl_subsurface_set_sync (priv->video_subsurface);
      gst_wl_window_resize_video_surface (self, FALSE);
      gst_wl_window_set_opaque (self, info);
@@ -570,5 +570,5 @@ index 432da60..bdb7306 100644
  void gst_wl_window_ensure_fill_mode (GstWlWindow * self,
          GstWlWindowFillMode fill_mode);
 -- 
-2.20.1
+2.39.5
 

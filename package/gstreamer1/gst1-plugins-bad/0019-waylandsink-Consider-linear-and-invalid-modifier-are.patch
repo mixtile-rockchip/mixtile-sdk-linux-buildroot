@@ -1,4 +1,4 @@
-From ef6e0d33940dc755fb50b5fe3777852e71c42308 Mon Sep 17 00:00:00 2001
+From 904620672215b293654a91b6a5b03f2f03aef8af Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 16 Oct 2024 08:38:51 +0800
 Subject: [PATCH 19/43] waylandsink: Consider linear and invalid modifier are
@@ -38,5 +38,5 @@ index f3fe548..d446e3e 100644
      if (last_format == 0) {
        GST_INFO ("===== All DMA Formats With Modifiers =====");
 -- 
-2.20.1
+2.39.5
 

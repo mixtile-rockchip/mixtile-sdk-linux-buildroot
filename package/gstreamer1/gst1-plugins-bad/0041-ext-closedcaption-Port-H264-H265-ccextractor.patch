@@ -1,4 +1,4 @@
-From bf19d7a7fbf5187c760f059b0503b2bb2d1e0498 Mon Sep 17 00:00:00 2001
+From 9467097cd4683bb2c308378ca1631fb403422706 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Wed, 7 May 2025 18:05:43 +0800
 Subject: [PATCH 41/43] ext: closedcaption: Port H264/H265 ccextractor
@@ -1051,5 +1051,5 @@ index 6b7df1c..b561025 100644
      install_dir : plugins_install_dir,
    )
 -- 
-2.20.1
+2.39.5
 

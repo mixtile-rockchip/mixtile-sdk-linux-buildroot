@@ -1,4 +1,4 @@
-From c5d73a01ecdd4ff770852102e8a8a15c3d24d6ca Mon Sep 17 00:00:00 2001
+From 5a7da6d8f2f8ea1f5f06bea146c762e25d19103a Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 15 Sep 2022 18:18:07 +0800
 Subject: [PATCH 31/43] kmssink: Support fullscreen prop
@@ -86,5 +86,5 @@ index 0a08637..43ae49a 100644
  };
  
 -- 
-2.20.1
+2.39.5
 

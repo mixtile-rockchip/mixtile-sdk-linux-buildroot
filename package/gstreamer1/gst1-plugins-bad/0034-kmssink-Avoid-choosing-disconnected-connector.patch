@@ -1,4 +1,4 @@
-From 18ae181eb0acf3950c980d1fb936861f95ffdbbb Mon Sep 17 00:00:00 2001
+From aa1edc18c4f99e8f25b12d799b742f297d14abe9 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 29 Feb 2024 15:18:46 +0800
 Subject: [PATCH 34/43] kmssink: Avoid choosing disconnected connector
@@ -26,5 +26,5 @@ index 9e7ab4c..9a215af 100644
    crtc = find_crtc_for_connector (fd, res, conn, NULL);
    if (crtc) {
 -- 
-2.20.1
+2.39.5
 

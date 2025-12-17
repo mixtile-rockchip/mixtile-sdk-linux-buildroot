@@ -194,5 +194,5 @@ index 4cd85ac..c4e8fc0 100644
  GST_WL_API
  const GstVideoRectangle *gst_wl_window_get_render_rectangle (GstWlWindow * self);
 -- 
-2.20.1
+2.39.5
 

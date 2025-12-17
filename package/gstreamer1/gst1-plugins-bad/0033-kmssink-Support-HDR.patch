@@ -1,4 +1,4 @@
-From 8b4cac4775823dfd0de11f1d93e365d0a5df0509 Mon Sep 17 00:00:00 2001
+From ad30cc0d4dffc81296fcb8134cf2637b8441cc2d Mon Sep 17 00:00:00 2001
 From: Jiajian Wu <jair.wu@rock-chips.com>
 Date: Mon, 3 Jul 2023 15:26:53 +0800
 Subject: [PATCH 33/43] kmssink: Support HDR
@@ -403,5 +403,5 @@ index 43ae49a..4cbdd9e 100644
    GstVideoContentLightLevel hdr_cll;
  #endif
 -- 
-2.20.1
+2.39.5
 

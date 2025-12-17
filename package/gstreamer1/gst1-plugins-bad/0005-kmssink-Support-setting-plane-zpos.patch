@@ -138,5 +138,5 @@ index 317f789..4e18bec 100644
    /* crtc data */
    guint16 hdisplay, vdisplay;
 -- 
-2.20.1
+2.39.5
 

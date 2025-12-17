@@ -1,4 +1,4 @@
-From 01a73a55e8d302b1d1400b799a349396906dac00 Mon Sep 17 00:00:00 2001
+From c43884f33fc535f4ec9373c3d9f4fa04a6d8ee84 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 30 May 2024 17:24:59 +0800
 Subject: [PATCH 39/43] kmssink: Allow out of screen size
@@ -30,5 +30,5 @@ index 5f29fe1..52d45e8 100644
      GST_WARNING_OBJECT (self, "video is out of display range");
      goto sync_frame;
 -- 
-2.20.1
+2.39.5
 

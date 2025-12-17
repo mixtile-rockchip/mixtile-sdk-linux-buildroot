@@ -49,5 +49,5 @@ index f05192b..c12dfa6 100644
      case GST_STATE_CHANGE_NULL_TO_READY:
        if (!gst_camera_bin_create_elements (camera)) {
 -- 
-2.20.1
+2.39.5
 

@@ -1,4 +1,4 @@
-From 3c9393a08933b1b846c0cf9e02f6a735d106a319 Mon Sep 17 00:00:00 2001
+From 5b0ca5ebf8b9b303d2657faccaab12f3594a0508 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 18 Jan 2022 12:20:10 +0800
 Subject: [PATCH 22/43] kmssink: Avoid double-closing shared gem handle
@@ -35,5 +35,5 @@ index 303bc61..4a50564 100644
      if (err)
        GST_WARNING_OBJECT (allocator,
 -- 
-2.20.1
+2.39.5
 

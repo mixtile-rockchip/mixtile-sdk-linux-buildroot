@@ -26,5 +26,5 @@ index 0008ed6..efe0474 100644
    priv = gst_wl_window_get_instance_private (self);
    if (fullscreen)
 -- 
-2.20.1
+2.39.5
 

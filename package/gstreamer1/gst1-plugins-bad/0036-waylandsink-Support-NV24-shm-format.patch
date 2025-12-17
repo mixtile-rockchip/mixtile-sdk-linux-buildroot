@@ -1,4 +1,4 @@
-From 9674a23e5e4df07e594de69d20e4c296784be1c6 Mon Sep 17 00:00:00 2001
+From 78038de95392673343da3d8085212c5ce2187b3d Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 29 Mar 2024 17:29:09 +0800
 Subject: [PATCH 36/43] waylandsink: Support NV24 shm format
@@ -44,5 +44,5 @@ index 7155e00..b1d6866 100644
  #endif
  
 -- 
-2.20.1
+2.39.5
 

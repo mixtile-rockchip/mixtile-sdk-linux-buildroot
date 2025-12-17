@@ -1,4 +1,4 @@
-From 4b963fe48e6bd8efc41aa8177cf9b7df2f81a593 Mon Sep 17 00:00:00 2001
+From 4edc9ce516073e9edfbaf97358d75befd7bbb648 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Tue, 8 Jun 2021 09:09:38 +0800
 Subject: [PATCH 17/43] waylandsink: Use create_immed to create dmabuf
@@ -120,5 +120,5 @@ index ac53e06..3f4c468 100644
    return data.wbuf;
  }
 -- 
-2.20.1
+2.39.5
 

@@ -1,4 +1,4 @@
-From 8d1bba8b11293a5843514c3ed0497f3bb2c92589 Mon Sep 17 00:00:00 2001
+From d31f5879fe02d41de8d581149b9e6731cbb7d1be Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 4 Aug 2025 13:12:48 +0800
 Subject: [PATCH 43/43] kmssink: Support RFBC
@@ -226,5 +226,5 @@ index 500405a..8d470ef 100644
  guint32        gst_drm_format_from_video (GstVideoFormat fmt);
  guint32        gst_drm_bpp_from_drm (guint32 drmfmt);
 -- 
-2.20.1
+2.39.5
 

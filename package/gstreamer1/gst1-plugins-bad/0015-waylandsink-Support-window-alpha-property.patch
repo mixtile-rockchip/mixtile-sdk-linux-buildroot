@@ -160,5 +160,5 @@ index 65f3c4f..f67be70 100644
  void gst_wl_window_ensure_layer (GstWlWindow * self,
          GstWlWindowLayer layer);
 -- 
-2.20.1
+2.39.5
 

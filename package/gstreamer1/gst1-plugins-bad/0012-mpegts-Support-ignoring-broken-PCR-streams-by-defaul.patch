@@ -34,5 +34,5 @@ index a841658..857f715 100644
        g_param_spec_boolean ("ignore-pcr", "Ignore PCR stream for timing",
            "Ignore PCR stream for timing", DEFAULT_IGNORE_PCR,
 -- 
-2.20.1
+2.39.5
 

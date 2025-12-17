@@ -1,4 +1,4 @@
-From 0633696e58a90396c6a80a6ba5ce6813813af352 Mon Sep 17 00:00:00 2001
+From 9d94f55bd11ac478d2b6705a8e0a3ee468ce4a6c Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Fri, 12 Apr 2024 17:14:40 +0800
 Subject: [PATCH 38/43] HACK: kmssink: Use rockchip driver
@@ -35,5 +35,5 @@ index 79ff373..5f29fe1 100644
  
    for (i = 0; i < G_N_ELEMENTS (drivers); i++) {
 -- 
-2.20.1
+2.39.5
 

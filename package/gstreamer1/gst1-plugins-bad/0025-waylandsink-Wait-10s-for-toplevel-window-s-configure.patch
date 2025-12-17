@@ -1,4 +1,4 @@
-From 2b9c9fdfc23412317b59524155e463de27c4448d Mon Sep 17 00:00:00 2001
+From d5214af2efec00d161181b51239cc3aafc5bf315 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Thu, 7 Jul 2022 14:43:31 +0800
 Subject: [PATCH 25/43] waylandsink: Wait 10s for toplevel window's configure
@@ -12,7 +12,7 @@ Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/gst-libs/gst/wayland/gstwlwindow.c b/gst-libs/gst/wayland/gstwlwindow.c
-index 9c368ac..589fbc2 100644
+index 38ee6d6..f866ce6 100644
 --- a/gst-libs/gst/wayland/gstwlwindow.c
 +++ b/gst-libs/gst/wayland/gstwlwindow.c
 @@ -454,7 +454,7 @@ gst_wl_window_new_toplevel (GstWlDisplay * display, const GstVideoInfo * info,
@@ -25,5 +25,5 @@ index 9c368ac..589fbc2 100644
        if (!g_cond_wait_until (&priv->configure_cond, &priv->configure_mutex,
                timeout)) {
 -- 
-2.20.1
+2.39.5
 

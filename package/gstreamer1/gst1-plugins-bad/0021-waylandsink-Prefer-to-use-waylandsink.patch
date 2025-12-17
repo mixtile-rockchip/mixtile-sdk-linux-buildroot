@@ -1,4 +1,4 @@
-From e598d0557698ab294250673d62c738d9d103de91 Mon Sep 17 00:00:00 2001
+From 436eba344b31d838d0083855cf98f18416478c98 Mon Sep 17 00:00:00 2001
 From: Jeffy Chen <jeffy.chen@rock-chips.com>
 Date: Mon, 27 Dec 2021 21:37:06 +0800
 Subject: [PATCH 21/43] waylandsink: Prefer to use waylandsink
@@ -7,14 +7,24 @@ Increase rank to primary.
 
 Signed-off-by: Jeffy Chen <jeffy.chen@rock-chips.com>
 ---
- ext/wayland/gstwaylandsink.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ ext/wayland/gstwaylandsink.c            | 33 ++++++++++++++++---------
+ gst-libs/gst/wayland/gstwldisplay.c     | 19 ++++++++------
+ gst-libs/gst/wayland/gstwllinuxdmabuf.c | 25 ++++++-------------
+ 3 files changed, 41 insertions(+), 36 deletions(-)
 
 diff --git a/ext/wayland/gstwaylandsink.c b/ext/wayland/gstwaylandsink.c
-index db0a415..c204d4b 100644
+index db0a415..877f33d 100644
 --- a/ext/wayland/gstwaylandsink.c
 +++ b/ext/wayland/gstwaylandsink.c
-@@ -115,7 +115,7 @@ static void gst_wayland_sink_expose (GstVideoOverlay * overlay);
+@@ -48,6 +48,7 @@
+ 
+ #include <gst/allocators/allocators.h>
+ #include <gst/video/videooverlay.h>
++#include <gst/video/video-info-dma.h>
+ 
+ /* signals */
+ enum
+@@ -115,7 +116,7 @@ static void gst_wayland_sink_expose (GstVideoOverlay * overlay);
  G_DEFINE_TYPE_WITH_CODE (GstWaylandSink, gst_wayland_sink, GST_TYPE_VIDEO_SINK,
      G_IMPLEMENT_INTERFACE (GST_TYPE_VIDEO_OVERLAY,
          gst_wayland_sink_videooverlay_init));
@@ -23,6 +33,157 @@ index db0a415..c204d4b 100644
      GST_TYPE_WAYLAND_SINK);
  
  #define GST_TYPE_WL_WINDOW_LAYER (gst_wl_window_layer_get_type ())
+@@ -927,13 +928,23 @@ gst_wayland_sink_set_caps (GstBaseSink * bsink, GstCaps * caps)
+       gst_video_info_dma_drm_init (&self->drm_info);
+   }
+ 
+-  /* parse AFBC from caps */
++  /* HACK: parse AFBC from caps */
+   s = gst_caps_get_structure (caps, 0);
+-  if (gst_structure_get_int (s, "arm-afbc", &value)) {
+-    if (value)
+-      GST_VIDEO_INFO_SET_AFBC (&self->video_info);
+-    else
+-      GST_VIDEO_INFO_UNSET_AFBC (&self->video_info);
++  if (gst_structure_get_int (s, "arm-afbc", &value) && value) {
++    self->drm_info.drm_modifier = DRM_AFBC_MODIFIER;
++
++    /* HACK: Mali uses these formats instead */
++    switch (self->drm_info.drm_fourcc) {
++    case DRM_FORMAT_NV12:
++      self->drm_info.drm_fourcc = DRM_FORMAT_YUV420_8BIT;
++      break;
++    case DRM_FORMAT_NV15:
++      self->drm_info.drm_fourcc = DRM_FORMAT_YUV420_10BIT;
++      break;
++    case DRM_FORMAT_NV16:
++      self->drm_info.drm_fourcc = DRM_FORMAT_YUYV;
++      break;
++    }
+   }
+ 
+   self->video_info_changed = TRUE;
+@@ -1200,8 +1211,8 @@ gst_wayland_sink_show_frame (GstVideoSink * vsink, GstBuffer * buffer)
+   }
+ 
+ handle_shm:
+-  if (!wbuf && GST_VIDEO_INFO_IS_AFBC (&self->video_info))
+-    goto no_afbc;
++  if (!wbuf && self->drm_info.drm_modifier != DRM_FORMAT_MOD_LINEAR)
++    goto no_modifier;
+ 
+   if (!wbuf && gst_wl_display_check_format_for_shm (self->display,
+           &self->video_info)) {
+@@ -1314,9 +1325,9 @@ no_wl_buffer:
+     ret = GST_FLOW_ERROR;
+     goto done;
+   }
+-no_afbc:
++no_modifier:
+   {
+-    GST_ERROR_OBJECT (self, "could not import AFBC");
++    GST_ERROR_OBJECT (self, "could not import buffer with modifier");
+     ret = GST_FLOW_ERROR;
+     goto done;
+   }
+diff --git a/gst-libs/gst/wayland/gstwldisplay.c b/gst-libs/gst/wayland/gstwldisplay.c
+index ac5cf7a..56b92b4 100644
+--- a/gst-libs/gst/wayland/gstwldisplay.c
++++ b/gst-libs/gst/wayland/gstwldisplay.c
+@@ -205,6 +205,8 @@ dmabuf_modifier (void *data, struct zwp_linux_dmabuf_v1 *zwp_linux_dmabuf,
+ {
+   GstWlDisplay *self = data;
+   guint64 modifier = (guint64) modifier_hi << 32 | modifier_lo;
++
++#if 0 // HACK: Allow all formats
+   static uint32_t last_format = 0;
+ 
+   GstWlDisplayPrivate *priv = gst_wl_display_get_instance_private (self);
+@@ -213,7 +215,6 @@ dmabuf_modifier (void *data, struct zwp_linux_dmabuf_v1 *zwp_linux_dmabuf,
+     GstVideoFormat gst_format = gst_wl_dmabuf_format_to_video_format (format);
+     const guint32 fourcc = gst_video_dma_drm_fourcc_from_format (gst_format);
+ 
+-#if 0
+     /*
+      * Ignore unsupported formats along with implicit modifiers. Implicit
+      * modifiers have been source of garbled output for many many years and it
+@@ -221,13 +222,6 @@ dmabuf_modifier (void *data, struct zwp_linux_dmabuf_v1 *zwp_linux_dmabuf,
+      */
+     if (fourcc == DRM_FORMAT_INVALID || modifier == DRM_FORMAT_MOD_INVALID)
+       return;
+-#else
+-    if (fourcc == DRM_FORMAT_INVALID)
+-      return;
+-
+-    if (modifier == DRM_FORMAT_MOD_INVALID)
+-      modifier = DRM_FORMAT_MOD_LINEAR;
+-#endif
+ 
+     if (last_format == 0) {
+       GST_INFO ("===== All DMA Formats With Modifiers =====");
+@@ -246,6 +240,15 @@ dmabuf_modifier (void *data, struct zwp_linux_dmabuf_v1 *zwp_linux_dmabuf,
+     g_array_append_val (priv->dmabuf_formats, format);
+     g_array_append_val (priv->dmabuf_modifiers, modifier);
+   }
++#else
++  GstWlDisplayPrivate *priv = gst_wl_display_get_instance_private (self);
++
++  if (modifier == DRM_FORMAT_MOD_INVALID)
++    modifier = DRM_FORMAT_MOD_LINEAR;
++
++  g_array_append_val (priv->dmabuf_formats, format);
++  g_array_append_val (priv->dmabuf_modifiers, modifier);
++#endif
+ }
+ 
+ static const struct zwp_linux_dmabuf_v1_listener dmabuf_listener = {
+diff --git a/gst-libs/gst/wayland/gstwllinuxdmabuf.c b/gst-libs/gst/wayland/gstwllinuxdmabuf.c
+index 0272b27..ede32dc 100644
+--- a/gst-libs/gst/wayland/gstwllinuxdmabuf.c
++++ b/gst-libs/gst/wayland/gstwllinuxdmabuf.c
+@@ -84,9 +84,6 @@ gst_wl_linux_dmabuf_construct_wl_buffer (GstBuffer * buf,
+     goto out;
+   }
+ 
+-  if (GST_VIDEO_INFO_IS_AFBC (&info))
+-    modifier = DRM_AFBC_MODIFIER;
+-
+   vmeta = gst_buffer_get_video_meta (buf);
+   if (vmeta) {
+     width = vmeta->width;
+@@ -107,24 +104,18 @@ gst_wl_linux_dmabuf_construct_wl_buffer (GstBuffer * buf,
+       " (%d x %d), DRM fourcc %" GST_FOURCC_FORMAT, gst_buffer_get_size (buf),
+       width, height, GST_FOURCC_ARGS (fourcc));
+ 
+-  if (GST_VIDEO_INFO_IS_AFBC (&info)) {
+-    /* Mali uses these formats instead */
+-    if (fourcc == DRM_FORMAT_NV12) {
+-      fourcc = DRM_FORMAT_YUV420_8BIT;
+-      nplanes = 1;
+-      stride_scale = 1.5;
+-    } else if (fourcc == DRM_FORMAT_NV15) {
+-      fourcc = DRM_FORMAT_YUV420_10BIT;
++  if (nplanes != 1) {
++    /* HACK: Mali uses these formats instead */
++    switch (fourcc) {
++    case DRM_FORMAT_YUV420_8BIT:
++    case DRM_FORMAT_YUV420_10BIT:
+       nplanes = 1;
+       stride_scale = 1.5;
+-    } else if (fourcc == DRM_FORMAT_NV16) {
+-      fourcc = DRM_FORMAT_YUYV;
++      break;
++    case DRM_FORMAT_YUYV:
+       nplanes = 1;
+       stride_scale = 2;
+-    } else {
+-      GST_ERROR_OBJECT (mem->allocator, "unsupported format for AFBC");
+-      data.wbuf = NULL;
+-      goto out;
++      break;
+     }
+   }
+ 
 -- 
-2.20.1
+2.39.5
 
