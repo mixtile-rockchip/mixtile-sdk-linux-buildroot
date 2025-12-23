@@ -3,7 +3,7 @@ SAMPLES_SITE_METHOD = local
 SAMPLES_LICENSE = ROCKCHIP
 SAMPLES_LICENSE_FILES = LICENSE
 
-SAMPLES_DEPENDENCIES = camera-engine-rkaiq wpa_supplicant freetype common_algorithm iva
+SAMPLES_DEPENDENCIES = camera-engine-rkaiq wpa_supplicant freetype common_algorithm iva rockit
 
 ifeq ($(BR2_PACKAGE_RK3588),y)
     RK_MEDIA_CHIP=rk3588
