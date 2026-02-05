@@ -36,6 +36,7 @@ NCURSES_CONF_OPTS = \
 	$(if $(BR2_PACKAGE_NCURSES_TARGET_PROGS),,--without-progs) \
 	--without-manpages \
 	--with-default-terminfo-dir=/etc/terminfo \
+	--with-termlib \
 	--with-terminfo-dirs="/etc/terminfo:/lib/terminfo:/usr/share/terminfo"
 
 ifeq ($(BR2_STATIC_LIBS),y)
