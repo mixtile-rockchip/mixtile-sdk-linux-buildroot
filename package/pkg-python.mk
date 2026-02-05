@@ -405,6 +405,7 @@ define $(2)_INSTALL_TARGET_CMDS
 endef
 endif
 
+$(2)_INSTALL_STAGING = YES
 #
 # Staging installation step. Only define it if not already defined by
 # the package .mk file.
