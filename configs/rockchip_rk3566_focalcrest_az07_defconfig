@@ -11,6 +11,7 @@
 #include "tools/common.config"
 #include "tools/test.config"
 #include "gui/weston.config"
+# BR2_PACKAGE_RKSCRIPT_IODOMAIN_NOTICE is not set
 BR2_PACKAGE_CA_CERTIFICATES=y
 BR2_PACKAGE_PRODUCTIONTOOL=y
 BR2_ROOTFS_POST_BUILD_SCRIPT+="board/rockchip/focalcrest/post-build.sh"
