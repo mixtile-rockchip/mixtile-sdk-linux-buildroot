@@ -259,6 +259,18 @@ LICENSE_FILES_DIR_TARGET = $(LEGAL_INFO_DIR)/licenses
 LICENSE_FILES_DIR_HOST = $(LEGAL_INFO_DIR)/host-licenses
 LEGAL_MANIFEST_CSV_TARGET = $(LEGAL_INFO_DIR)/manifest.csv
 LEGAL_MANIFEST_CSV_HOST = $(LEGAL_INFO_DIR)/host-manifest.csv
+LEGAL_SBOM_CSV = $(LEGAL_INFO_DIR)/sbom.csv
+LEGAL_SBOM_SPDX_JSON = $(LEGAL_INFO_DIR)/sbom.spdx.json
+LEGAL_SBOM_PACKAGE_INFO = $(TOPDIR)/support/legal-info/sbom_package_info.yaml
+LEGAL_SBOM_SDK_ROOT ?= $(shell \
+	if [ -d "$(TOPDIR)/../kernel" ] || [ -d "$(TOPDIR)/../rkbin" ]; then \
+		cd "$(TOPDIR)/.." && pwd; \
+	else \
+		cd "$(TOPDIR)" && pwd; \
+	fi)
+LEGAL_SBOM_PRODUCT_NAME ?= $(patsubst rockchip_%,%,$(notdir $(BASE_DIR)))
+LEGAL_SBOM_DOCUMENT_NAME ?= $(LEGAL_SBOM_PRODUCT_NAME) Buildroot SDK SBOM
+LEGAL_SBOM_NAMESPACE_PREFIX ?= https://spdx.rockchip.com/documents
 LEGAL_WARNINGS = $(LEGAL_INFO_DIR)/.warnings
 LEGAL_REPORT = $(LEGAL_INFO_DIR)/README
 
@@ -917,8 +929,8 @@ legal-info-clean:
 legal-info-prepare: $(LEGAL_INFO_DIR)
 	@$(call MESSAGE,"Buildroot $(BR2_VERSION_FULL) Collecting legal info")
 	@$(call legal-license-file,HOST,buildroot,buildroot,COPYING,COPYING,support/legal-info/buildroot.hash)
-	@$(call legal-manifest,TARGET,PACKAGE,VERSION,LICENSE,LICENSE FILES,SOURCE ARCHIVE,SOURCE SITE,DEPENDENCIES WITH LICENSES)
-	@$(call legal-manifest,HOST,PACKAGE,VERSION,LICENSE,LICENSE FILES,SOURCE ARCHIVE,SOURCE SITE,DEPENDENCIES WITH LICENSES)
+	@echo '"PACKAGE","VERSION","LICENSE","LICENSE FILES","SOURCE ARCHIVE","SOURCE SITE","DEPENDENCIES WITH LICENSES"' >$(LEGAL_MANIFEST_CSV_TARGET)
+	@echo '"PACKAGE","VERSION","LICENSE","LICENSE FILES","SOURCE ARCHIVE","SOURCE SITE","DEPENDENCIES WITH LICENSES"' >$(LEGAL_MANIFEST_CSV_HOST)
 	@$(call legal-manifest,HOST,buildroot,$(BR2_VERSION_FULL),GPL-2.0+,COPYING,not saved,not saved)
 	@$(call legal-warning,the Buildroot source code has not been saved)
 	@cp $(BR2_CONFIG) $(LEGAL_INFO_DIR)/buildroot.config
@@ -936,7 +948,27 @@ legal-info: legal-info-clean legal-info-prepare $(foreach p,$(PACKAGES),$(p)-all
 		find * -type f -exec sha256sum {} + | LC_ALL=C sort -k2 \
 			>.legal-info.sha256; \
 		mv .legal-info.sha256 legal-info.sha256)
-	@echo "Legal info produced in $(LEGAL_INFO_DIR)"
+	@set -e; \
+		python3 $(TOPDIR)/support/legal-info/enhance_sbom_csv.py \
+		$(LEGAL_MANIFEST_CSV_TARGET) $(LEGAL_SBOM_CSV) \
+		--host-manifest $(LEGAL_MANIFEST_CSV_HOST) \
+		--allow-missing-product-artifacts \
+		--legal-info-dir $(LEGAL_INFO_DIR) \
+		--sdk-root $(LEGAL_SBOM_SDK_ROOT) \
+		--product-name "$(LEGAL_SBOM_PRODUCT_NAME)" \
+		--package-info $(LEGAL_SBOM_PACKAGE_INFO); \
+		echo "SBOM CSV produced in $(LEGAL_SBOM_CSV)"; \
+	python3 $(TOPDIR)/support/legal-info/csv_to_spdx_v2.py \
+		$(LEGAL_SBOM_CSV) $(LEGAL_SBOM_SPDX_JSON) \
+		--document-name "$(LEGAL_SBOM_DOCUMENT_NAME)" \
+		--creator "Rockchip Electronics Co., Ltd." \
+		--spdx-version 2.3 \
+		--document-namespace-prefix $(LEGAL_SBOM_NAMESPACE_PREFIX) \
+		--package-info $(LEGAL_SBOM_PACKAGE_INFO) \
+		--legal-info-dir $(LEGAL_INFO_DIR) \
+		--sdk-root $(LEGAL_SBOM_SDK_ROOT); \
+		echo "SPDX JSON produced in $(LEGAL_SBOM_SPDX_JSON)"; \
+		echo "Legal info produced in $(LEGAL_INFO_DIR)"
 
 .PHONY: show-targets
 show-targets:
