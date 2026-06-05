@@ -57,6 +57,9 @@ BOARD_VARIANT=""
 BURNIN_TRIGGER_MODE=""
 BURNIN_TRIGGER_GPIO=""
 BURNIN_TRIGGER_DESC=""
+BURNIN_GPIO_PULL_REG=""
+BURNIN_GPIO_PIN_OFFSET=""
+DEVMEM_BIN="${DEVMEM_BIN:-devmem}"
 
 RESOLVED_STRESS_NG_BIN=""
 RESOLVED_MEMTESTER_BIN=""
@@ -310,6 +313,10 @@ detect_board_variant() {
         printf 'az07\n'
         return 0
     fi
+    if printf '%s\n' "$compatible_strings" | grep -Eiq 'az08'; then
+        printf 'az08\n'
+        return 0
+    fi
     if printf '%s\n' "$compatible_strings" | grep -Eiq 'az04b|acva3'; then
         printf 'az04b\n'
         return 0
@@ -333,6 +340,13 @@ configure_board_profile() {
             BURNIN_TRIGGER_GPIO="32"
             BURNIN_TRIGGER_DESC="GPIO32 low"
             ;;
+        az08)
+            BURNIN_TRIGGER_MODE="gpio_low"
+            BURNIN_TRIGGER_GPIO="97"
+            BURNIN_TRIGGER_DESC="GPIO97 low"
+            BURNIN_GPIO_PULL_REG="0x26046130"
+            BURNIN_GPIO_PIN_OFFSET="2"
+            ;;
         az04b)
             BURNIN_TRIGGER_MODE="gpio_flip"
             BURNIN_TRIGGER_GPIO="38"
@@ -345,6 +359,42 @@ configure_board_profile() {
     esac
 
     xlog "INFO" "Board variant resolved to $BOARD_VARIANT"
+}
+
+apply_burnin_gpio_pull_up() {
+    local reg="${BURNIN_GPIO_PULL_REG:-}"
+    local offset="${BURNIN_GPIO_PIN_OFFSET:-}"
+    local devmem_bin=""
+    local val=""
+    local mask=""
+    local pull_up_bits=""
+
+    [[ -n "$reg" ]] || return 0
+
+    devmem_bin="$(command -v "$DEVMEM_BIN" 2>/dev/null || true)"
+    if [[ -z "$devmem_bin" ]]; then
+        xlog "WARN" "devmem not found, skip GPIO pull-up setup"
+        return 1
+    fi
+
+    val="$("$devmem_bin" "$reg" 32 2>/dev/null)" || {
+        xlog "WARN" "Failed to read GPIO pull register $reg"
+        return 1
+    }
+
+    mask=$(( 0x3 << offset ))
+    pull_up_bits=$(( 0x3 << offset ))
+
+    # pull_type 1: 11 = pull-up. Upper 16 bits = write-enable mask.
+    val=$(( (val & 0xFFFF & ~mask) | pull_up_bits | (mask << 16) ))
+
+    "$devmem_bin" "$reg" 32 "$val" 2>/dev/null || {
+        xlog "WARN" "Failed to write GPIO pull register $reg"
+        return 1
+    }
+
+    xlog "INFO" "Applied pull-up via register $reg offset $offset for burn-in GPIO"
+    return 0
 }
 
 export_gpio_if_needed() {
@@ -1434,6 +1484,7 @@ main() {
 
     if [[ ! -b "$SD_DEV" || ! -b "$partition" ]]; then
         xlog "WARN" "No SD card detected. Checking for $BURNIN_TRIGGER_DESC for burn-in test."
+        apply_burnin_gpio_pull_up
         if check_burnin_trigger; then
             xlog "INFO" "Burn-in trigger matched, entering burn-in test."
             if run_burn_in_test; then
