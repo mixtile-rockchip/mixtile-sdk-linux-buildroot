@@ -28,6 +28,12 @@ define UMTPRD_FIXUP_USB_PATH
 endef
 UMTPRD_POST_PATCH_HOOKS += UMTPRD_FIXUP_USB_PATH
 
+define UMTPRD_ENABLE_USB_SS
+	sed -i -e "s~//\(#define CONFIG_USB_SS_SUPPORT 1\)~\1~" \
+		$(@D)/inc/buildconf.h || true
+endef
+UMTPRD_POST_PATCH_HOOKS += UMTPRD_ENABLE_USB_SS
+
 define UMTPRD_BUILD_CMDS
 	$(TARGET_CONFIGURE_OPTS) $(MAKE) $(UMTPRD_MAKE_OPTS) -C $(@D)
 endef
