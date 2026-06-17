@@ -38,12 +38,8 @@ else
 LIBINPUT_CONF_OPTS += -Dlua-plugins=disabled
 endif
 
-ifeq ($(BR2_PACKAGE_MTDEV),y)
 LIBINPUT_CONF_OPTS += -Dmtdev=true
 LIBINPUT_DEPENDENCIES += mtdev
-else
-LIBINPUT_CONF_OPTS += -Dmtdev=false
-endif
 
 ifeq ($(BR2_PACKAGE_LIBINPUT_PYTHON_TOOLS),)
 LIBINPUT_PYTHON_TOOLS = libinput-analyze-per-slot-delta \
