@@ -44,6 +44,7 @@ ifeq ($(BR2_PACKAGE_RECOVERY_NO_UI),y)
 RECOVERY_NEW_MAKE_ENV += RecoveryNoUi=true
 else
 RECOVERY_NEW_CFLAGS += -I$(STAGING_DIR)/usr/include/libdrm
+RECOVERY_NEW_EXTRA_LDLIBS += -lm
 endif
 
 ifeq ($(BR2_PACKAGE_RECOVERY_SOURCE_URL),y)
