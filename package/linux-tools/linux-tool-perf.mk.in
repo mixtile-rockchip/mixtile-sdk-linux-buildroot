@@ -161,6 +161,14 @@ define PERF_DISABLE_DOCUMENTATION
 endef
 LINUX_TOOLS_POST_PATCH_HOOKS += PERF_DISABLE_DOCUMENTATION
 
+# bpftool bootstrap is built with the host compiler but inherits LDFLAGS
+# from perf (e.g. -lunwind-aarch64). Clear LDFLAGS for the bpftool build.
+define PERF_FIX_BPFTOOL_LDFLAGS
+	$(SED) 's/\$$(Q)CFLAGS= \$$(MAKE) -C ..\/bpf\/bpftool/$$(Q)CFLAGS= LDFLAGS= $$(MAKE) -C ..\/bpf\/bpftool/' \
+		$(LINUX_DIR)/tools/perf/Makefile.perf
+endef
+LINUX_TOOLS_POST_PATCH_HOOKS += PERF_FIX_BPFTOOL_LDFLAGS
+
 # O must be redefined here to overwrite the one used by Buildroot for
 # out of tree build. We build perf in $(LINUX_DIR)/tools/perf/ and not just
 # $(LINUX_DIR) so that it isn't built in the root directory of the kernel
