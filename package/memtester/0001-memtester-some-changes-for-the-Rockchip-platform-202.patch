@@ -112,17 +112,18 @@ index 0000000..a352b1f
 +index 0000000..315abd1
 +--- /dev/null
 ++++ b/cache.c
-+@@ -0,0 +1,29 @@
++@@ -0,0 +1,30 @@
 ++// SPDX-License-Identifier: GPL-2.0
 ++/*
 ++ * (C) Copyright 2019 Rockchip Electronics Co., Ltd.
 ++ */
 ++
+++#define _GNU_SOURCE
 ++#include <stdio.h>
 ++#include "types.h"
 ++#include "cache.h"
 ++#include <sys/syscall.h>
-++
+++#include <unistd.h>
 ++
 ++void dcacheflush(ul start, ul end)
 ++{
@@ -1862,17 +1863,18 @@ new file mode 100644
 index 0000000..10e363c
 --- /dev/null
 +++ b/cache.c
-@@ -0,0 +1,29 @@
+@@ -0,0 +1,30 @@
 +// SPDX-License-Identifier: GPL-2.0
 +/*
 + * (C) Copyright 2019 Rockchip Electronics Co., Ltd.
 + */
 +
++#define _GNU_SOURCE
 +#include <stdio.h>
 +#include "types.h"
 +#include "cache.h"
 +#include <sys/syscall.h>
-+
++#include <unistd.h>
 +
 +void dcacheflush(ul start, ul end)
 +{
