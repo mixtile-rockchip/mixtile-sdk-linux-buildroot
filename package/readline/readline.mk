@@ -14,7 +14,8 @@ READLINE_CONF_ENV = bash_cv_func_sigsetjmp=yes \
 READLINE_CONF_OPTS = \
 	--disable-install-examples \
 	--with-curses \
-	--with-shared-termcap-library
+	--with-shared-termcap-library \
+	--enable-static
 READLINE_LICENSE = GPL-3.0+
 READLINE_LICENSE_FILES = COPYING
 READLINE_CPE_ID_VENDOR = gnu
