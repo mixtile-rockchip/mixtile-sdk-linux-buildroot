@@ -1,0 +1,16 @@
+#include "base/base.config"
+#include "bus/pci.config"
+#include "chips/rk3588_aarch64.config"
+#include "fs/exfat.config"
+#include "fs/vfat.config"
+#include "gpu/mali.config"
+#include "multimedia/audio.config"
+#include "wifibt/bt.config"
+#include "wifibt/wireless.config"
+#include "tools/benchmark.config"
+#include "tools/common.config"
+#include "tools/test.config"
+BR2_PACKAGE_FIO=y
+BR2_PACKAGE_GREP=y
+BR2_PACKAGE_CA_CERTIFICATES=y
+BR2_PACKAGE_UTIL_LINUX_BINARIES=y
