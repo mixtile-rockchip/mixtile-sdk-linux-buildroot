@@ -1,0 +1,38 @@
+# Bind each touchscreen to the screen it is physically bolted to.
+#
+# WHY VID:PID AND NOT THE PORT PATH
+# libinput exports the udev property WL_OUTPUT as
+# libinput_device_get_output_name(); weston's drm-backend.so calls that and
+# associates the input device with the output of that name. With no WL_OUTPUT it
+# falls back to "the first enabled output", which with two screens is arbitrary -
+# and a touch on panel B then lands on screen A.
+#
+# The obvious key would be ID_PATH (the physical USB port), but the fixture's hub
+# carries the U disk, the OTG loopback cable AND both touch panels, and their
+# positions are NOT fixed. Anything keyed on ID_PATH silently binds the wrong
+# panel the moment something is re-plugged. That is not hypothetical: an earlier
+# revision of this file keyed on ID_PATH ...usb-0:1.3:1.0, the OTG loopback cable
+# later took that port, the rule then matched the *other* panel, and the two
+# screens ended up inverted.
+#
+# What makes VID:PID viable here is that the two panels are different models:
+#   27c0:0859  wch.cn TouchScreen       -> DP-1      (serial 9LQ0172005164)
+#   2575:c300  Weida Hi-Tech CoolTouch  -> HDMI-A-1  (no serial descriptor)
+#
+# LIMIT: if two panels of the SAME model are ever fitted, VID:PID stops
+# discriminating. The wch part reports a serial, so ENV{ID_SERIAL_SHORT} could
+# separate two of those. The Weida part has no serial descriptor at all, so two
+# Weidas cannot be told apart by any stable attribute - in that case the fixture
+# would have to fix their ports and this file would go back to ID_PATH.
+#
+# ID_INPUT_TOUCHSCREEN=="1" also filters out the wch module's second HID
+# interface (3-1.3:1.2, shows up as its own eventN): that endpoint is
+# mouse emulation, not a touchscreen, and must not be bound to an output.
+#
+# VERIFY AFTER BOOT
+#   grep "associating input device" /var/log/weston.log
+# Both touch lines must end in "(DP-1 by udev)" and "(HDMI-A-1 by udev)".
+# "(none by udev)" means the rule did not match.
+
+SUBSYSTEM=="input", KERNEL=="event*", ENV{ID_INPUT_TOUCHSCREEN}=="1", ENV{ID_VENDOR_ID}=="27c0", ENV{ID_MODEL_ID}=="0859", ENV{WL_OUTPUT}="DP-1"
+SUBSYSTEM=="input", KERNEL=="event*", ENV{ID_INPUT_TOUCHSCREEN}=="1", ENV{ID_VENDOR_ID}=="2575", ENV{ID_MODEL_ID}=="c300", ENV{WL_OUTPUT}="HDMI-A-1"
