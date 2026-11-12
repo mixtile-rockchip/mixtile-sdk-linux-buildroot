@@ -64,6 +64,11 @@ config BR2_PACKAGE_LINUX_FIRMWARE_IBT
 	  Firmware files for Intel 3160/7260/7265/8260/8265 Wireless
 	  bluetooth support.
 
+config BR2_PACKAGE_LINUX_FIRMWARE_IBT_AX210
+	bool "Intel AX210 Bluetooth"
+	help
+	  Firmware files for the Intel Wi-Fi 6E AX210 Bluetooth.
+
 config BR2_PACKAGE_LINUX_FIRMWARE_MEDIATEK_MT7650
 	bool "MediaTek MT7650"
 	help
@@ -293,6 +298,11 @@ config BR2_PACKAGE_LINUX_FIRMWARE_IWLWIFI_6E
 	help
 	  Firmware files for the Intel Wi-Fi 6 and Wi-Fi 6E devices
 	  supported by the iwlwifi kernel driver.
+
+config BR2_PACKAGE_LINUX_FIRMWARE_IWLWIFI_TY
+	bool "Intel iwlwifi AX210"
+	help
+	  Firmware files for the Intel Wi-Fi 6E AX210.
 
 config BR2_PACKAGE_LINUX_FIRMWARE_IWLWIFI_QUZ
 	bool "Intel iwlwifi QuZ"
