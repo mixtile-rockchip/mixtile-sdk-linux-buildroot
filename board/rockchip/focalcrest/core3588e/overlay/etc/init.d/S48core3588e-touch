@@ -1,0 +1,19 @@
+#!/bin/sh
+
+# Core 3588E V2 binds its touch panels without the V1 udev rule.
+
+[ -r /proc/device-tree/model ] || exit 0
+
+model="$(cat /proc/device-tree/model)"
+case "$model" in
+*V2*) ;;
+*) exit 0 ;;
+esac
+
+rule=/etc/udev/rules.d/99-touch-output.rules
+[ -e "$rule" ] || exit 0
+
+rm -f "$rule"
+udevadm control --reload-rules
+udevadm trigger --subsystem-match=input
+udevadm settle --timeout=10
