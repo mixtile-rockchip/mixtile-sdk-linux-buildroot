@@ -1459,7 +1459,7 @@ fan_power_set() {
 }
 
 run_fan_control_loop() {
-    local max_t=0 t zone fan_on=1 state=on
+    local max_t=0 t zone fan_on=1
 
     while true; do
         max_t=0
@@ -1471,16 +1471,15 @@ run_fan_control_loop() {
             if (( fan_on == 0 )); then
                 fan_power_set 1
                 fan_on=1
+                xlog "INFO" "fan pwr=on max_temp=$(format_temp_c "$max_t")"
             fi
         elif (( max_t < FAN_PWR_TARGET_LOW )); then
             if (( fan_on == 1 )); then
                 fan_power_set 0
                 fan_on=0
+                xlog "INFO" "fan pwr=off max_temp=$(format_temp_c "$max_t")"
             fi
         fi
-        state=off
-        (( fan_on == 1 )) && state=on
-        xlog "INFO" "fan pwr=${state} max_temp=$(format_temp_c "$max_t")"
         sleep "$FAN_PWR_CONTROL_INTERVAL"
     done
 }
